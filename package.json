@@ -1,0 +1,20 @@
+{
+  "name": "bed-it02-team1-assignment",
+  "version": "1.0.0",
+  "description": "BED Assignment GitHub Remote Repository",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-async-errors": "^3.1.1",
+    "nodemon": "^3.1.0",
+    "path": "^0.12.7"
+  }
+}
