@@ -1,0 +1,28 @@
+/* Custom CSS for styling list items */
+#credits-list {
+  list-style: none;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.credits-item {
+  margin-bottom: 20px;
+}
+
+.credits-item:before {
+  content: "\2022"; /* Bullet point */
+  color: #ff7f50; /* Custom bullet point color */
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.credits-item-anchor {
+  color: #333; /* Link color */
+  text-decoration: none;
+}
+
+.credits-item-anchor:hover {
+  text-decoration: underline; /* Underline on hover */
+}
