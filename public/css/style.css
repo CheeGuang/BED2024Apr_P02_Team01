@@ -14,10 +14,16 @@
 
 html {
   width: 100vw !important;
+  overflow-x: hidden;
 }
 
 body {
   font-family: "Inter", sans-serif;
+  background-color: var(--body-color);
+  color: var(--font-color);
+  font-family: "Inter", sans-serif;
+  width: 100vw !important;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -49,8 +55,28 @@ p {
   font-weight: 400;
 }
 
-body {
-  background-color: var(--body-color);
-  color: var(--font-color);
-  font-family: "Inter", sans-serif;
+/* Scroll Bar Beautifier */
+/* Define custom scrollbar colors */
+:root {
+  --scrollbar-thumb-color: #888; /* Color of the scrollbar thumb */
+  --scrollbar-track-color: #f0f0f0; /* Color of the scrollbar track */
+}
+
+/* Style the scrollbar */
+/* WebKit */
+::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(
+    --scrollbar-thumb-color
+  ); /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Border radius of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(
+    --scrollbar-track-color
+  ); /* Color of the scrollbar track */
 }
