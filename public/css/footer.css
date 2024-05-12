@@ -2,6 +2,7 @@ footer a {
   color: var(--bs-heading-color);
   text-decoration: none;
   font-weight: 400;
+  width: 100% !important;
 }
 
 footer a:hover {
@@ -19,6 +20,7 @@ footer h5 {
 
 #footer {
   border-top: solid thin #cec9c9;
+  width: 100% !important;
 }
 
 .text-muted {
