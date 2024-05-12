@@ -1,0 +1,7 @@
+.navbar {
+  background: var(--body-color);
+
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); /* Adjust the shadow properties as needed */
+  justify-content: space-between;
+  width: 100vw !important;
+}

@@ -1,0 +1,30 @@
+footer a {
+  color: var(--bs-heading-color);
+  text-decoration: none;
+  font-weight: 400;
+}
+
+footer a:hover {
+  color: #1a1818;
+}
+
+footer h5 {
+  font-weight: 500;
+  margin-bottom: 7px;
+}
+
+.bd-footer {
+  background-color: #fafafa !important;
+}
+
+#footer {
+  border-top: solid thin #cec9c9;
+}
+
+.text-muted {
+  margin-bottom: 7px;
+}
+
+#text-muted-text {
+  line-height: 130%;
+}

@@ -1,0 +1,56 @@
+:root {
+  --primary-color: #ff8a00;
+  --body-color: #fafafa;
+  --font-color: #1c1917;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100vw !important;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+h1 {
+  font-size: clamp(20px, 5vw, 40px);
+  font-weight: 900;
+  color: var(-primary-color);
+}
+
+h2,
+h3,
+h4 {
+  font-weight: 700;
+}
+
+h2 {
+  font-size: clamp(16px, 2vw, 35px);
+}
+
+h3 {
+  font-size: clamp(16px, 1.5vw, 32px);
+}
+
+h4,
+p {
+  font-size: clamp(15px, 1.3vw, 30px);
+}
+
+p {
+  font-weight: 400;
+}
+
+body {
+  background-color: var(--body-color);
+  color: var(--font-color);
+  font-family: "Inter", sans-serif;
+}
