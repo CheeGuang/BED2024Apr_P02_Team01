@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- INSERT PAGE'S CSS HERE \/-->
-    <link rel="stylesheet" href="./css/credit.css" />
+    <link rel="stylesheet" href="./css/bookAppointment.css" />
     <!-- END OF PAGE'S CSS /\-->
 
     <link rel="stylesheet" href="./css/footer.css" defer />
@@ -54,6 +54,10 @@
     <!-- Linking JS -->
     <script src="./js/script.js" defer></script>
     <script src="./js/navbarFooter.js" defer></script>
+
+    <!-- INSERT PAGE'S JS HERE \/-->
+    <script src="./js/bookAppointment.js" defer></script>
+    <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
     <link
@@ -71,51 +75,65 @@
       <div class="row justify-content-center">
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
-          <h1>Credits:</h1>
-          <ul id="credits-list">
-            <li class="credits-item">
-              <a
-                href="https://www.youtube.com/watch?v=kNhhpA_RXg4"
-                target="_blank"
-                class="credits-item-anchor"
-                >YouTube video - "How to Embed Whereby into Your Website Embed |
-                Video Call"</a
+          <h1>Book Your Appointment Now</h1>
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Select Option:</label><br />
+              <input
+                type="radio"
+                id="now"
+                name="appointmentOption"
+                value="now"
+                checked
+                required
+              />
+              <label for="now" class="select-option">Visit Doctor Now</label
+              ><br />
+              <input
+                type="radio"
+                id="appointment"
+                name="appointmentOption"
+                value="appointment"
+                required
+              />
+              <label for="appointment">Schedule an Appointment</label>
+            </div>
+            <div class="appointment-schedule">
+              <div class="mb-3">
+                <label for="appointment-date" class="form-label"
+                  >Select Date:</label
+                >
+                <input type="date" class="form-control" id="appointment-date" />
+                <small class="form-text text-muted"
+                  >Within 1 week from today</small
+                >
+              </div>
+              <div class="mb-3">
+                <label for="appointment-time" class="form-label"
+                  >Time of Appointment (SGT)</label
+                >
+                <input type="time" class="form-control" id="appointment-time" />
+                <small class="form-text text-muted"
+                  >At least 15 mins from now</small
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="illness-description" class="form-label"
+                >Description of Illness:</label
               >
-            </li>
-            <li class="credits-item">
-              <a
-                href="https://www.youtube.com/watch?v=jUaPr1lz_WY"
-                target="_blank"
-                class="credits-item-anchor"
-                >YouTube video - "Static Files with Express HTML, CSS,
-                JavaScript #2"</a
+              <textarea
+                class="form-control"
+                id="illness-description"
+                rows="3"
+                required
+              ></textarea>
+              <small class="form-text text-muted"
+                >E.g. fever, headache, flu</small
               >
-            </li>
-            <li class="credits-item">
-              <a
-                href="https://whereby.com/"
-                target="_blank"
-                class="credits-item-anchor"
-                >Whereby - Video Conferencing Platform</a
-              >
-            </li>
-            <li class="credits-item">
-              <a
-                href="https://openai.com/"
-                target="_blank"
-                class="credits-item-anchor"
-                >OpenAI - Artificial Intelligence Research Organization</a
-              >
-            </li>
-            <li class="credits-item">
-              <a
-                href="https://stackoverflow.com/"
-                target="_blank"
-                class="credits-item-anchor"
-                >Stack Overflow - Programming Q&A Community</a
-              >
-            </li>
-          </ul>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
           <!-- END OF CONTENT -->
         </div>
       </div>
