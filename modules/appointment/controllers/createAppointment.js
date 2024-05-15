@@ -24,11 +24,18 @@ const createAppointment = async (req, res) => {
     // Convert end date time from Singapore Time to the desired timezone
     const endDateTimeUTC = moment.tz(formattedEndDate, "Asia/Singapore").utc();
 
-    // Ensute that End Date Time of meeting is no earlier than 15 minutes from now
-    const fifteenMinutesFromNow = moment().add(15, "minutes");
+    // Ensure that End Date Time of meeting is no earlier than 59 minutes from now
+    const oneHourFromNow = moment().add(59, "minutes");
 
-    if (endDateTimeUTC.isBefore(fifteenMinutesFromNow)) {
-      throw new Error("End time is less than 15 minutes from now.");
+    if (endDateTimeUTC.isBefore(oneHourFromNow)) {
+      throw new Error("End time must be at least 1 hour away from now.");
+    }
+
+    // Ensure that End Date Time of meeting is within one week from now
+    const oneWeekFromNow = moment().add(7, "days");
+
+    if (endDateTimeUTC.isAfter(oneWeekFromNow)) {
+      throw new Error("End time must be within 1 week from now.");
     }
 
     // Request data for creating appointment
