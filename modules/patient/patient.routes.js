@@ -3,22 +3,21 @@
 const express = require("express");
 
 // ========== Controllers ==========
-// Initialising getTopic
-const getTopic = require("./controllers/getTopic");
-// Initialising getSpecialisedTopic
-const getSpecialisedTopic = require("./controllers/getSpecialisedTopic");
+// Initialising dbConfig file
+const patientController = require("./controllers/patientController");
 
 // ========== Set-up ==========
-// Initialising topicRoutes
-const topicRoutes = express.Router();
+// Initialising patientRoutes
+const patientRoutes = express.Router();
 
 // ========== Routes ==========
-// GET Topic
-topicRoutes.get("/", getTopic);
-// To call this controller: http://localhost:8000/api/topic/
-// GET Specialised Topic
-topicRoutes.get("/specialised", getSpecialisedTopic);
-// To call this controller: http://localhost:8000/api/topic/specialised
+// Define routes for the Patient
+patientRoutes.get("/", patientController.getAllPatients);
+patientRoutes.post("/", patientController.createPatient); // POST for creating patients (can handle JSON data)
+patientRoutes.get("/search", patientController.searchPatients);
+patientRoutes.get("/:id", patientController.getPatientById);
+patientRoutes.put("/:id", patientController.updatePatient); // PUT for updating patients
+patientRoutes.delete("/:id", patientController.deletePatient); // DELETE for deleting patients
 
 // ========== Export ==========
-module.exports = topicRoutes;
+module.exports = patientRoutes;

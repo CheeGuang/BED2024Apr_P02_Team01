@@ -3,8 +3,8 @@
 const express = require("express");
 
 // ========== Controllers ==========
-// Initialising getAppointmentLink
-const getAppointmentLink = require("./controllers/getAppointmentLink");
+// Initialising appointmentController
+const appointmentController = require("./controllers/appointmentController");
 // Initialising createAppointment
 const createAppointment = require("./controllers/createAppointment");
 
@@ -14,9 +14,12 @@ const appointmentRoutes = express.Router();
 
 // ========== Routes ==========
 // GET Appointment Link
-appointmentRoutes.get("/", getAppointmentLink);
 // POST Appointment Link
+appointmentRoutes.get("/", appointmentController.getAllAppointments);
 appointmentRoutes.post("/create", createAppointment);
+appointmentRoutes.get("/:id", appointmentController.getAppointmentById);
+appointmentRoutes.put("/:id", appointmentController.updateAppointment); // PUT for updating appointments
+appointmentRoutes.delete("/:id", appointmentController.deleteAppointment); // DELETE for deleting appointments
 
 // ========== Export Route ==========
 module.exports = appointmentRoutes;
