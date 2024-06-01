@@ -44,12 +44,20 @@
     <link rel="stylesheet" href="./css/normalize.css" />
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/navbar.css" />
-    <link rel="stylesheet" href="./css/index.css" />
+
+    <!-- INSERT PAGE'S CSS HERE \/-->
+    <link rel="stylesheet" href="./css/patientHomePage.css" />
+    <!-- END OF PAGE'S CSS /\-->
+
     <link rel="stylesheet" href="./css/footer.css" defer />
 
     <!-- Linking JS -->
     <script src="./js/script.js" defer></script>
     <script src="./js/navbarFooter.js" defer></script>
+
+    <!-- INSERT PAGE'S JS HERE \/-->
+    <script src="#" defer></script>
+    <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
     <link
@@ -57,6 +65,49 @@
       type="image/x-icon"
       href="./images/SyncHealthLogo-Small.png"
     />
+
+    <style>
+      .service-btn {
+        width: 100%;
+        height: 150px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+      @media (min-width: 768px) {
+        .service-btn {
+          width: 48%;
+          height: 150px;
+          margin: 10px;
+        }
+      }
+      .btn-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        transition: transform 0.2s;
+        color: black;
+      }
+      .btn-block i {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 2rem;
+      }
+      .btn-block:hover {
+        transform: scale(1.05);
+      }
+      .btn-block div {
+        font-size: 1rem;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -68,64 +119,58 @@
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
           <div class="text-center my-5">
-            <h1>
-              Healthcare, For Every Family<br />From the Comfort of Your Home
-            </h1>
+            <h2>Welcome, Olivia Seah!</h2>
           </div>
           <div class="container">
             <div class="row justify-content-center">
-              <div class="col-12 col-md-4 mb-3 service-btn">
+              <div class="col-12 col-md-6 mb-3 service-btn">
                 <a
-                  href="#"
+                  href="patientViewAppointment.html"
                   class="btn btn-block"
                   style="background-color: #ffd1c1"
                 >
-                  <i class="fas fa-video"></i> Online Appointment
+                  <i class="fas fa-calendar-alt"></i>
+                  <div>Appointment</div>
+                  <small
+                    >View/book a slot for teleconsultation with doctors on
+                    duty<br />*Teleconsult starts from $20</small
+                  >
                 </a>
               </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
+              <div class="col-12 col-md-6 mb-3 service-btn">
                 <a
                   href="#"
                   class="btn btn-block"
                   style="background-color: #fff1cd"
                 >
-                  <i class="fas fa-phone"></i> Emergency Care<br />+65 9876 5432
+                  <i class="fas fa-video"></i>
+                  <div>Join Appointment</div>
+                  <small>Join video consultation with Doctor</small>
                 </a>
               </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
-                <a
-                  href="#"
-                  class="btn btn-block"
-                  style="background-color: #f3e8ff"
-                >
-                  <i class="fas fa-user"></i> Patient Portal
-                </a>
-              </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
-                <a
-                  href="#"
-                  class="btn btn-block"
-                  style="background-color: #ede8fc"
-                >
-                  <i class="fas fa-file-invoice"></i> Bill Payment
-                </a>
-              </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
+              <div class="col-12 col-md-6 mb-3 service-btn">
                 <a
                   href="#"
                   class="btn btn-block"
                   style="background-color: #ffe0e0"
                 >
-                  <i class="fas fa-user-md"></i> Doctors On Duty
+                  <i class="fas fa-wallet"></i>
+                  <div>E-wallet</div>
+                  <small>View and top-up e-wallet</small>
                 </a>
               </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
+              <div class="col-12 col-md-6 mb-3 service-btn">
                 <a
                   href="#"
                   class="btn btn-block"
                   style="background-color: #cdeff7"
                 >
-                  <i class="fas fa-prescription-bottle-alt"></i> Retail Pharmacy
+                  <i class="fas fa-shopping-cart"></i>
+                  <div>Retail Pharmacy</div>
+                  <small
+                    >Browse and purchase medical supplies from your home and get
+                    it delivered straight to your doorstep</small
+                  >
                 </a>
               </div>
             </div>

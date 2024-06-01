@@ -1,6 +1,6 @@
 .service-btn {
   width: 100%;
-  height: 120px;
+  height: 150px;
   margin: 10px 0;
   display: flex;
   align-items: center;
@@ -9,13 +9,16 @@
 }
 @media (min-width: 768px) {
   .service-btn {
-    width: 30%;
-    height: 120px;
+    width: 48%;
+    height: 150px;
     margin: 10px;
   }
 }
 .btn-block {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   padding: 20px;
@@ -31,4 +34,7 @@
 }
 .btn-block:hover {
   transform: scale(1.05);
+}
+.btn-block div {
+  font-size: 1rem;
 }
