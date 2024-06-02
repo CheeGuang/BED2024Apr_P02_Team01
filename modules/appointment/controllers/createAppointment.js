@@ -5,6 +5,12 @@ const path = require("path");
 const axios = require("cross-fetch");
 // Initialising Moment Time Package for handling date/time manipulation
 const moment = require("moment-timezone");
+// Initialising MSSQL Package for database interaction
+const sql = require("mssql");
+// Database Configuration
+const dbConfig = require("../../../dbConfig");
+// Appointment Model Configuration
+const Appointment = require("../../../models/appointment");
 
 // ========== API Key ==========
 const API_KEY = process.env.appointmentAPIKey;
@@ -72,13 +78,29 @@ const createAppointment = async (req, res) => {
     if (!roomData.roomUrl || !roomData.hostRoomUrl)
       throw new Error("Unable to create Room.");
 
-    // Handling Response
-    res.status(200).json({
-      status: "Success",
-      message: "Expense added successfully",
-      roomURL: roomData.roomUrl,
-      hostRoomUrl: roomData.hostRoomUrl,
-    });
+    // Post room data into Appointment Table in SQL Database
+    const newAppointmentData = {
+      PatientID: "1",
+      endDateTime: formattedEndDate, // Use the formatted Singapore date-time string
+      PatientURL: roomData.roomUrl,
+      HostRoomURL: roomData.hostRoomUrl,
+    };
+
+    try {
+      const createdAppointment = await Appointment.createAppointment(
+        newAppointmentData
+      );
+      // Handling Response
+      res.status(200).json({
+        status: "Success",
+        message: "Appointment added successfully",
+        roomURL: createdAppointment.roomUrl,
+        hostRoomUrl: createdAppointment.hostRoomUrl,
+      });
+    } catch (error) {
+      console.error("Error saving appointment to database:", error);
+      res.status(500).send("Error creating appointment in the database");
+    }
   } catch (error) {
     console.error("Error creating appointment:", error);
     res.status(500).json({ status: "Failed!", error: error.message });

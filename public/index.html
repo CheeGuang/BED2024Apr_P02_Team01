@@ -32,8 +32,10 @@
     ></script>
 
     <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Quicksand:wght@300..700&display=swap"
       rel="stylesheet"
     />
 
@@ -57,6 +59,49 @@
       type="image/x-icon"
       href="./images/SyncHealthLogo-Small.png"
     />
+
+    <style>
+      .service-btn {
+        width: 100%;
+        height: 150px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+      @media (min-width: 768px) {
+        .service-btn {
+          width: 48%;
+          height: 150px;
+          margin: 10px;
+        }
+      }
+      .btn-block {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        transition: transform 0.2s;
+        color: black;
+      }
+      .btn-block i {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 2rem;
+      }
+      .btn-block:hover {
+        transform: scale(1.05);
+      }
+      .btn-block div {
+        font-size: 1rem;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -74,58 +119,22 @@
           </div>
           <div class="container">
             <div class="row justify-content-center">
-              <div class="col-12 col-md-4 mb-3 service-btn">
+              <div class="col-12 col-md-5 mb-3 service-btn">
                 <a
-                  href="#"
+                  href="./patientHomePage.html"
                   class="btn btn-block"
-                  style="background-color: #ffd1c1"
-                >
-                  <i class="fas fa-video"></i> Online Appointment
-                </a>
-              </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
-                <a
-                  href="#"
-                  class="btn btn-block"
-                  style="background-color: #fff1cd"
-                >
-                  <i class="fas fa-phone"></i> Emergency Care<br />+65 9876 5432
-                </a>
-              </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
-                <a
-                  href="#"
-                  class="btn btn-block"
-                  style="background-color: #f3e8ff"
+                  style="background-color: #cdeff7"
                 >
                   <i class="fas fa-user"></i> Patient Portal
                 </a>
               </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
+              <div class="col-12 col-md-5 mb-3 service-btn">
                 <a
-                  href="#"
-                  class="btn btn-block"
-                  style="background-color: #ede8fc"
-                >
-                  <i class="fas fa-file-invoice"></i> Bill Payment
-                </a>
-              </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
-                <a
-                  href="#"
+                  href="./doctorHomePage.html"
                   class="btn btn-block"
                   style="background-color: #ffe0e0"
                 >
-                  <i class="fas fa-user-md"></i> Doctors On Duty
-                </a>
-              </div>
-              <div class="col-12 col-md-4 mb-3 service-btn">
-                <a
-                  href="#"
-                  class="btn btn-block"
-                  style="background-color: #cdeff7"
-                >
-                  <i class="fas fa-prescription-bottle-alt"></i> Retail Pharmacy
+                  <i class="fas fa-user-md"></i> Doctor Portal
                 </a>
               </div>
             </div>

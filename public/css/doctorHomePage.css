@@ -1,0 +1,40 @@
+.service-btn {
+  width: 100%;
+  height: 150px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+@media (min-width: 768px) {
+  .service-btn {
+    width: 48%;
+    height: 150px;
+    margin: 10px;
+  }
+}
+.btn-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 220px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  transition: transform 0.2s;
+  color: black;
+}
+.btn-block i {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+.btn-block:hover {
+  transform: scale(1.05);
+}
+.btn-block div {
+  font-size: 1rem;
+}

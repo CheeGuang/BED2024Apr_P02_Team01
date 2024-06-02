@@ -1,5 +1,17 @@
-// Fetch and insert the footer HTML using JavaScript
-fetch("navbar.html")
+// Determine the current page's name
+const pageName = window.location.pathname.split("/").pop();
+
+// Fetch and insert the appropriate navbar HTML using JavaScript
+let navbarFile;
+if (pageName.includes("doctor")) {
+  navbarFile = "doctorNavBar.html";
+} else if (pageName.includes("patient")) {
+  navbarFile = "patientNavBar.html";
+} else {
+  navbarFile = "navbar.html";
+}
+
+fetch(navbarFile)
   .then((response) => response.text())
   .then((data) => {
     document.getElementById("navbar-container").innerHTML = data;

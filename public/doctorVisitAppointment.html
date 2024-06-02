@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- INSERT PAGE'S CSS HERE \/-->
-    <link rel="stylesheet" href="./css/credit.css" />
+    <link rel="stylesheet" href="#" />
     <!-- END OF PAGE'S CSS /\-->
 
     <link rel="stylesheet" href="./css/footer.css" defer />
@@ -57,12 +57,22 @@
     <script src="./js/script.js" defer></script>
     <script src="./js/navbarFooter.js" defer></script>
 
+    <!-- INSERT PAGE'S JS HERE \/-->
+    <!-- <script src="#" defer></script> -->
+    <!-- END OF PAGE'S JS /\-->
+
     <!-- Add a favicon to the tab bar -->
     <link
       rel="icon"
       type="image/x-icon"
       href="./images/SyncHealthLogo-Small.png"
     />
+
+    <!-- Add Whereby Tag -->
+    <script
+      src="https://cdn.srv.whereby.com/embed/v2-embed.js"
+      type="module"
+    ></script>
   </head>
   <body>
     <header>
@@ -73,51 +83,11 @@
       <div class="row justify-content-center">
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
-          <h1>Credits:</h1>
-          <ul id="credits-list">
-            <li class="credits-item">
-              <a
-                href="https://www.youtube.com/watch?v=kNhhpA_RXg4"
-                target="_blank"
-                class="credits-item-anchor"
-                >YouTube video - "How to Embed Whereby into Your Website Embed |
-                Video Call"</a
-              >
-            </li>
-            <li class="credits-item">
-              <a
-                href="https://www.youtube.com/watch?v=jUaPr1lz_WY"
-                target="_blank"
-                class="credits-item-anchor"
-                >YouTube video - "Static Files with Express HTML, CSS,
-                JavaScript #2"</a
-              >
-            </li>
-            <li class="credits-item">
-              <a
-                href="https://whereby.com/"
-                target="_blank"
-                class="credits-item-anchor"
-                >Whereby - Video Conferencing Platform</a
-              >
-            </li>
-            <li class="credits-item">
-              <a
-                href="https://openai.com/"
-                target="_blank"
-                class="credits-item-anchor"
-                >OpenAI - Artificial Intelligence Research Organization</a
-              >
-            </li>
-            <li class="credits-item">
-              <a
-                href="https://stackoverflow.com/"
-                target="_blank"
-                class="credits-item-anchor"
-                >Stack Overflow - Programming Q&A Community</a
-              >
-            </li>
-          </ul>
+          <iframe
+            src="https://sync-health.whereby.com/0aa28bdc-56a5-4ecb-b08a-17a7487f033c?roomKey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZWV0aW5nSWQiOiI4NjkwNTEwOSIsInJvb21SZWZlcmVuY2UiOnsicm9vbU5hbWUiOiIvMGFhMjhiZGMtNTZhNS00ZWNiLWIwOGEtMTdhNzQ4N2YwMzNjIiwib3JnYW5pemF0aW9uSWQiOiIyMzIxMzIifSwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50cy5zcnYud2hlcmVieS5jb20iLCJpYXQiOjE3MTcyNjg3MzcsInJvb21LZXlUeXBlIjoibWVldGluZ0hvc3QifQ.atn2XEkltMCEyvxOnGwuwnxYqjiVdIk0vxg2YYCogkE"
+            allow="camera; microphone; fullscreen; speaker; display-capture; compute-pressure"
+            style="height: 700px; width: 100%"
+          ></iframe>
           <!-- END OF CONTENT -->
         </div>
       </div>
