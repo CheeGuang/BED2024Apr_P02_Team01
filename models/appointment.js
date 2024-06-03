@@ -162,6 +162,22 @@ class Appointment {
     return this.getAppointmentById(AppointmentID);
   }
 
+  static async updateDoctorId(AppointmentID, DoctorID) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Appointment SET DoctorID = @DoctorID WHERE AppointmentID = @AppointmentID`;
+
+    const request = connection.request();
+    request.input("AppointmentID", AppointmentID);
+    request.input("DoctorID", DoctorID);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getAppointmentById(AppointmentID);
+  }
+
   static async deleteAppointment(AppointmentID) {
     const connection = await sql.connect(dbConfig);
 

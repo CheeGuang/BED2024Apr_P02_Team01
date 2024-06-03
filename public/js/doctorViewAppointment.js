@@ -25,36 +25,52 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Function to create appointment card
-  function createAppointmentCard(appointment, type, startDateTime) {
+  function createAppointmentCard(appointment, category) {
     let cardClass = "";
-    if (type === "today") {
+    let buttonsHTML = "";
+    if (category === "today") {
       cardClass = "card-today";
-    } else if (type === "upcoming") {
+      buttonsHTML = `
+            <div class="btn-container">
+              <button class="btn btn-dark btn-custom cancel-btn">Cancel</button>
+              <button class="btn btn-dark btn-custom join-meeting-btn" data-appointment-id="${appointment.AppointmentID}">Join Meeting</button>
+            </div>
+          `;
+    } else if (category === "upcoming") {
       cardClass = "card-upcoming";
-    } else if (type === "history") {
+      buttonsHTML = `
+            <div class="btn-container">
+              <button class="btn btn-dark btn-custom cancel-btn">Cancel</button>
+            </div>
+          `;
+    } else if (category === "history") {
       cardClass = "card-history";
+      buttonsHTML = `
+            <div class="btn-container">
+              <button class="btn btn-dark btn-custom download-mc-btn">
+                <i class="fas fa-download"></i> Download MC
+              </button>
+            </div>
+          `;
     }
 
     return `
-            <div class="card card-custom card-equal-height ${cardClass}">
-                <div class="card-body">
-                    <div class="icon-container">
-                        <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                        <strong>${formatDate(appointment.endDateTime)}</strong>
-                    </div>
-                    <span class="date-time">Time: ${formatTime(
-                      startDateTime
-                    )}</span>
-                    <span class="card-text">Description: ${truncateText(
-                      appointment.IllnessDescription,
-                      14
-                    )}</span>
-                    <div class="btn-container">
-                        <button class="btn btn-dark btn-custom">Cancel</button>
-                        <button class="btn btn-dark btn-custom">Check In</button>
-                    </div>
-                </div>
+          <div class="card card-custom card-equal-height ${cardClass}" data-appointment-id="${appointment.AppointmentID}">
+            <div class="card-body">
+              <div class="icon-container">
+                <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                <strong>${formatDate(appointment.endDateTime)}</strong>
+              </div>
+              <span class="date-time">Time: ${formatTime(
+                appointment.StartDateTime
+              )}</span>
+              <span class="card-text">Description: ${truncateText(
+                appointment.IllnessDescription,
+                14
+              )}</span>
+              ${buttonsHTML}
             </div>
+          </div>
         `;
   }
 
@@ -78,29 +94,25 @@ document.addEventListener("DOMContentLoaded", function () {
       const now = new Date();
 
       data.forEach((appointment) => {
+        // Calculate StartDateTime as EndDateTime - 1hr
         const endDateTime = new Date(appointment.endDateTime);
-        const startDateTime = new Date(endDateTime);
-        startDateTime.setHours(endDateTime.getHours() - 1);
+        const startDateTime = new Date(endDateTime.getTime() - 60 * 60 * 1000);
+        appointment.StartDateTime = startDateTime;
 
-        if (endDateTime < now) {
-          if (endDateTime.toDateString() === now.toDateString()) {
-            todayAppointmentsContainer.innerHTML += createAppointmentCard(
-              appointment,
-              "today",
-              startDateTime
-            );
-          } else {
-            historyAppointmentsContainer.innerHTML += createAppointmentCard(
-              appointment,
-              "history",
-              startDateTime
-            );
-          }
+        if (startDateTime < now && endDateTime < now) {
+          historyAppointmentsContainer.innerHTML += createAppointmentCard(
+            appointment,
+            "history"
+          );
+        } else if (startDateTime.toDateString() === now.toDateString()) {
+          todayAppointmentsContainer.innerHTML += createAppointmentCard(
+            appointment,
+            "today"
+          );
         } else {
           upcomingAppointmentsContainer.innerHTML += createAppointmentCard(
             appointment,
-            "upcoming",
-            startDateTime
+            "upcoming"
           );
         }
       });
@@ -117,6 +129,22 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!historyAppointmentsContainer.innerHTML) {
         historyAppointmentsContainer.innerHTML = "<span>No Appointments</span>";
       }
+
+      document.querySelectorAll(".join-meeting-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          const appointmentID = this.getAttribute("data-appointment-id");
+          fetch(`http://localhost:8000/api/appointment/${appointmentID}`)
+            .then((response) => response.json())
+            .then((appointment) => {
+              window.location.href = `doctorVisitAppointment.html?hostRoomURL=${encodeURIComponent(
+                appointment.HostRoomURL
+              )}`;
+            })
+            .catch((error) =>
+              console.error("Error fetching appointment details:", error)
+            );
+        });
+      });
     })
     .catch((error) => console.error("Error fetching appointments:", error));
 });

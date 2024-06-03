@@ -30,6 +30,10 @@ appointmentRoutes.get(
 appointmentRoutes.get("/unassigned", getUnassignedAppointments);
 appointmentRoutes.get("/:id", appointmentController.getAppointmentById);
 appointmentRoutes.put("/:id", appointmentController.updateAppointment); // PUT for updating appointments
+appointmentRoutes.put(
+  "/:id/updateDoctorId",
+  appointmentController.updateDoctorId
+); // PUT for updating doctor ID
 appointmentRoutes.delete("/:id", appointmentController.deleteAppointment); // DELETE for deleting appointments
 
 // ========== Export Route ==========

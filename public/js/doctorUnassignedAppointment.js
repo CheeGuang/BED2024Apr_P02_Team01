@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Set Local Storage DoctorID as 1
+  localStorage.setItem("DoctorID", 1);
+
   // Fetch unassigned appointments
   fetch("http://localhost:8000/api/appointment/unassigned/")
     .then((response) => response.json())
@@ -29,22 +32,61 @@ document.addEventListener("DOMContentLoaded", function () {
           });
 
           const appointmentCard = `
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <div class="card card-custom card-history card-equal-height">
-                  <div class="card-body">
-                    <div class="icon-container">
-                      <i class="fas fa-calendar-alt"></i>
-                      <strong>${formattedDate}</strong>
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3" data-appointment-id="${appointment.AppointmentID}">
+                  <div class="card card-custom card-history card-equal-height">
+                    <div class="card-body">
+                      <div class="icon-container">
+                        <i class="fas fa-calendar-alt"></i>
+                        <strong>${formattedDate}</strong>
+                      </div>
+                      <span class="date-time">Time: ${formattedStartTime}</span>
+                      <span class="card-text">Patient: ${appointment.PatientID}</span>
+                      <span class="card-text">Description: ${appointment.IllnessDescription}</span>
+                      <a href="#" class="btn btn-dark btn-custom btn-take-up">Take Up</a>
                     </div>
-                    <span class="date-time">Time: ${formattedStartTime}</span>
-                    <span class="card-text">Patient: ${appointment.PatientID}</span>
-                    <span class="card-text">Description: ${appointment.IllnessDescription}</span>
-                    <a href="#" class="btn btn-dark btn-custom btn-take-up">Take Up</a>
                   </div>
                 </div>
-              </div>
-            `;
+              `;
           appointmentContainer.innerHTML += appointmentCard;
+        });
+
+        document.querySelectorAll(".btn-take-up").forEach((button) => {
+          button.addEventListener("click", function (event) {
+            event.preventDefault();
+            const card = this.closest("[data-appointment-id]");
+            const appointmentId = card.getAttribute("data-appointment-id");
+            const doctorId = localStorage.getItem("DoctorID");
+
+            showLoading();
+
+            fetch(
+              `http://localhost:8000/api/appointment/${appointmentId}/updateDoctorId`,
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ DoctorID: doctorId }),
+              }
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                hideLoading();
+                if (data && data.AppointmentID) {
+                  showNotification("Doctor ID updated successfully", "success");
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2500);
+                } else {
+                  showNotification("Failed to update Doctor ID", "error");
+                }
+              })
+              .catch((error) => {
+                hideLoading();
+                showNotification("Error updating Doctor ID", "error");
+                console.error("Error:", error);
+              });
+          });
         });
       }
     })
@@ -55,4 +97,34 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       appointmentContainer.innerHTML = "<p>Error loading appointments.</p>";
     });
+
+  function showLoading() {
+    const loadingElement = document.createElement("div");
+    loadingElement.classList.add("loading");
+    loadingElement.innerHTML = `
+        <div class="loading-spinner"></div>
+      `;
+    document.body.appendChild(loadingElement);
+  }
+
+  function hideLoading() {
+    const loadingElement = document.querySelector(".loading");
+    if (loadingElement) {
+      loadingElement.remove();
+    }
+  }
+
+  function showNotification(message, type) {
+    const notification = document.createElement("div");
+    notification.classList.add("notification", type);
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.style.opacity = "0";
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    }, 2500); // Display for 2.5 seconds
+  }
 });
