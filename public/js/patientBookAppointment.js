@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
+    // Show the loading interface
+    showLoading();
+
     // Get values from the form inputs
     const selectedOption = document.querySelector(
       'input[name="appointmentOption"]:checked'
@@ -72,16 +75,57 @@ document.addEventListener("DOMContentLoaded", function () {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ endDate: formattedEndDate }),
+      body: JSON.stringify({
+        endDate: formattedEndDate,
+        illnessDescription: illnessDescription,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        hideLoading();
+        showNotification("Appointment successfully booked!", "success");
+        setTimeout(() => {
+          window.location.href = "patientViewAppointment.html";
+        }, 3000);
       })
       .catch((error) => {
         console.error("Error:", error);
+        hideLoading();
+        showNotification(
+          "Failed to book appointment. Please try again.",
+          "error"
+        );
       });
   });
+
+  // Function to show notification
+  function showNotification(message, type) {
+    hideLoading(); // Ensure loading is hidden before showing notification
+    const notification = document.createElement("div");
+    notification.className = `notification ${type}`;
+    notification.innerText = message;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+      notification.remove();
+    }, 3000);
+  }
+
+  // Function to show loading interface
+  function showLoading() {
+    const loading = document.createElement("div");
+    loading.className = "loading";
+    loading.innerHTML = `<div class="loading-spinner"></div>`;
+    document.body.appendChild(loading);
+  }
+
+  // Function to hide loading interface
+  function hideLoading() {
+    const loading = document.querySelector(".loading");
+    if (loading) {
+      loading.remove();
+    }
+  }
 
   // Function to set the minimum and maximum date and time for the date and time inputs
   function setMinMaxDateTime() {

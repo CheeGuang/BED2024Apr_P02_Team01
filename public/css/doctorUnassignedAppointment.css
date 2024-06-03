@@ -1,6 +1,7 @@
 .btn-custom {
   height: 40px;
-  width: 48%;
+  width: 100%;
+  margin-top: 10px;
 }
 .card-title {
   font-size: 1.25rem;
@@ -13,19 +14,14 @@
   margin-top: 20px;
 }
 .card-custom {
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  height: 180px !important;
-  margin-bottom: 30px;
-}
-.card-today {
-  background-color: #fcf8e3;
-}
-.card-upcoming {
-  background-color: #f2dede;
-}
-.card-history {
   background-color: #eeeeee;
+  border: 1px solid #e9ecef;
+  height: auto;
+  line-height: 2.5em;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .card-equal-height {
   display: flex;
@@ -37,17 +33,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-.btn-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-.btn-custom {
-  margin-right: 0.5rem;
-}
-.btn-custom:last-child {
-  margin-right: 0;
 }
 .row-equal > .col-4 {
   display: flex;
@@ -62,15 +47,10 @@
   margin-right: 0.5rem;
   font-size: 1.5rem;
 }
-.header-section {
-  margin-bottom: 1.5rem;
-}
-.header-section h4 {
-  margin-bottom: 1rem;
-}
 .icon-container {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 .icon-container i {
   margin-right: 0.5rem;

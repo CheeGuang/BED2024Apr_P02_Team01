@@ -32,8 +32,10 @@
     ></script>
 
     <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Quicksand:wght@300..700&display=swap"
       rel="stylesheet"
     />
 
@@ -46,7 +48,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- INSERT PAGE'S CSS HERE \/-->
-    <link rel="stylesheet" href="./css/bookAppointment.css" />
+    <link rel="stylesheet" href="./css/patientBookAppointment.css" />
     <!-- END OF PAGE'S CSS /\-->
 
     <link rel="stylesheet" href="./css/footer.css" defer />
@@ -56,7 +58,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- INSERT PAGE'S JS HERE \/-->
-    <script src="./js/bookAppointment.js" defer></script>
+    <script src="./js/patientBookAppointment.js" defer></script>
     <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
@@ -75,7 +77,12 @@
       <div class="row justify-content-center">
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
-          <h1>Book Your Appointment Now</h1>
+          <div class="d-flex align-items-center mb-4">
+            <a href="patientViewAppointment.html" class="me-3"
+              ><i class="fas fa-arrow-left"></i
+            ></a>
+            <h1>Book Your Appointment Now</h1>
+          </div>
           <form>
             <div class="mb-3">
               <label class="form-label">Select Option:</label><br />
@@ -132,7 +139,9 @@
                 >E.g. fever, headache, flu</small
               >
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary btn-dark-blue">
+              Submit
+            </button>
           </form>
           <!-- END OF CONTENT -->
         </div>
@@ -144,5 +153,9 @@
         class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
       ></div>
     </footer>
+    <!-- Notification Container -->
+    <div class="notification-container"></div>
+    <!-- Loading Interface -->
+    <div class="loading" style="display: none"></div>
   </body>
 </html>

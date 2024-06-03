@@ -32,8 +32,10 @@
     ></script>
 
     <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Quicksand:wght@300..700&display=swap"
       rel="stylesheet"
     />
 
@@ -56,7 +58,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- INSERT PAGE'S JS HERE \/-->
-    <script src="#" defer></script>
+    <script src="./js/patientViewAppointment.js" defer></script>
     <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
@@ -84,65 +86,34 @@
                   </a>
                 </button>
                 <div>
-                  <h3 class="mb-0">Olivia Seah</h3>
-                  <small>TXXXXX2A</small>
+                  <h1 class="mb-0">My Appointments</h1>
                 </div>
               </div>
               <div class="col-6 text-end">
-                <button type="button" class="btn btn-primary-custom btn-lg">
-                  Make New Appointment
-                </button>
+                <a href="patientBookAppointment.html">
+                  <button type="button" class="btn btn-dark-blue btn-lg">
+                    Make New Appointment
+                  </button>
+                </a>
               </div>
             </div>
             <div class="row row-equal mt-3 flex-column flex-md-row">
               <div class="col-12 col-md-4 header-section mb-3 mb-md-0">
                 <h4>Today</h4>
-                <div class="card card-custom card-today card-equal-height">
-                  <div class="card-body">
-                    <div class="icon-container">
-                      <i class="fas fa-calendar-alt"></i>
-                      <strong>16 May 2024</strong>
-                    </div>
-                    <span class="date-time">03:00 PM</span>
-                    <div class="btn-container">
-                      <button class="btn btn-dark btn-custom">Cancel</button>
-                      <button class="btn btn-dark btn-custom">Check In</button>
-                    </div>
-                  </div>
+                <div id="today-appointments">
+                  <span>No Appointments</span>
                 </div>
               </div>
               <div class="col-12 col-md-4 header-section mb-3 mb-md-0">
                 <h4>Upcoming</h4>
-                <div class="card card-custom card-upcoming card-equal-height">
-                  <div class="card-body">
-                    <div class="icon-container">
-                      <i class="fas fa-calendar-alt"></i>
-                      <strong>20 May 2024</strong>
-                    </div>
-                    <span class="date-time">03:30 PM</span>
-                    <div class="btn-container">
-                      <button class="btn btn-dark btn-custom">Cancel</button>
-                      <button class="btn btn-dark btn-custom">
-                        Reschedule
-                      </button>
-                    </div>
-                  </div>
+                <div id="upcoming-appointments">
+                  <span>No Appointments</span>
                 </div>
               </div>
               <div class="col-12 col-md-4 header-section">
                 <h4>History</h4>
-                <div class="card card-custom card-history card-equal-height">
-                  <div class="card-body">
-                    <div class="icon-container">
-                      <i class="fas fa-calendar-alt"></i>
-                      <strong>20 March 2024</strong>
-                    </div>
-                    <span class="date-time">03:30 PM</span>
-                    <a href="#" class="btn btn-dark btn-custom btn-download">
-                      <i class="fas fa-download"></i>
-                      Download MC
-                    </a>
-                  </div>
+                <div id="history-appointments">
+                  <span>No Appointments</span>
                 </div>
               </div>
             </div>
