@@ -9,7 +9,7 @@
 }
 @media (min-width: 768px) {
   .service-btn {
-    width: 98%;
+    width: 48%;
     height: 150px;
     margin: 10px;
   }
@@ -20,7 +20,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 220px;
+  height: 150px;
   padding: 20px;
   text-align: center;
   border-radius: 10px;

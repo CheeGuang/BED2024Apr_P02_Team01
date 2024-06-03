@@ -1,0 +1,144 @@
+.btn-custom {
+  height: 40px;
+  width: 48%;
+}
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.back-button {
+  background-color: transparent;
+  border: none;
+  margin-top: 20px;
+}
+.card-custom {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  height: 180px !important;
+  margin-bottom: 30px;
+}
+.card-today {
+  background-color: #fcf8e3;
+}
+.card-upcoming {
+  background-color: #f2dede;
+}
+.card-history {
+  background-color: #eeeeee;
+}
+.card-equal-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.btn-custom {
+  margin-right: 0.5rem;
+}
+.btn-custom:last-child {
+  margin-right: 0;
+}
+.row-equal > .col-4 {
+  display: flex;
+  flex-direction: column;
+}
+.card-header-icon {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.card-header-icon i {
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+}
+.header-section {
+  margin-bottom: 1.5rem;
+}
+.header-section h4 {
+  margin-bottom: 1rem;
+}
+.icon-container {
+  display: flex;
+  align-items: center;
+}
+.icon-container i {
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+}
+.icon-container strong {
+  font-size: larger;
+  font-weight: 600;
+}
+.btn-download {
+  width: 100%;
+  height: 40px;
+}
+.btn-download i {
+  margin-right: 0.5rem;
+}
+.fa-arrow-left {
+  color: #1a252f;
+}
+.appointment-schedule {
+  display: none;
+}
+.select-option {
+  margin-bottom: 8px;
+}
+.fa-arrow-left {
+  margin-bottom: 20px;
+  color: var(--font-color);
+}
+.notification {
+  position: fixed;
+  top: 70px; /* Adjust based on your header height */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s;
+}
+.notification.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+.notification.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+.loading-spinner {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #555555; /* Dark grey */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

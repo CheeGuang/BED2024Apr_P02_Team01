@@ -20,6 +20,30 @@ class Appointment {
     this.IllnessDescription = IllnessDescription;
   }
 
+  static async getAllAppointments() {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM Appointment`;
+
+    const request = connection.request();
+    const result = await request.query(sqlQuery);
+
+    connection.close();
+
+    return result.recordset.map(
+      (row) =>
+        new Appointment(
+          row.AppointmentID,
+          row.PatientID,
+          row.DoctorID,
+          row.endDateTime,
+          row.PatientURL,
+          row.HostRoomURL,
+          row.IllnessDescription
+        )
+    );
+  }
+
   static async getAppointmentById(AppointmentID) {
     const connection = await sql.connect(dbConfig);
 
@@ -55,6 +79,43 @@ class Appointment {
     connection.close();
 
     return result.recordsets[0];
+  }
+
+  static async getAppointmentsByDoctorId(DoctorID) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM Appointment WHERE DoctorID = @DoctorID`;
+    const request = connection.request();
+    request.input("DoctorID", DoctorID);
+    const result = await request.query(sqlQuery);
+
+    connection.close();
+
+    return result.recordsets[0];
+  }
+
+  static async getUnassignedAppointments() {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM Appointment WHERE DoctorID IS NULL`;
+
+    const request = connection.request();
+    const result = await request.query(sqlQuery);
+
+    connection.close();
+
+    return result.recordset.map(
+      (row) =>
+        new Appointment(
+          row.AppointmentID,
+          row.PatientID,
+          row.DoctorID,
+          row.endDateTime,
+          row.PatientURL,
+          row.HostRoomURL,
+          row.IllnessDescription
+        )
+    );
   }
 
   static async createAppointment(newAppointmentData) {
