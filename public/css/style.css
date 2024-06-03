@@ -58,6 +58,9 @@ p {
   font-weight: 400;
 }
 
+strong {
+  font-weight: 700;
+}
 .btn-dark-blue {
   background-color: #3e5060;
   border-color: #3e5060;

@@ -57,7 +57,7 @@ CREATE TABLE Appointment (
     endDateTime DATETIME,
     PatientURL NVARCHAR(1000),
     HostRoomURL NVARCHAR(1000),
-    illnessDescription NVARCHAR(255),
+    IllnessDescription NVARCHAR(255),
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
     FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID)
 );

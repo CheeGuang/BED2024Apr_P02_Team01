@@ -58,7 +58,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- INSERT PAGE'S JS HERE \/-->
-    <!-- <script src="#" defer></script> -->
+    <script src="./js/patientViewAppointment.js" defer></script>
     <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
@@ -101,52 +101,20 @@
             <div class="row row-equal mt-3 flex-column flex-md-row">
               <div class="col-12 col-md-4 header-section mb-3 mb-md-0">
                 <h4>Today</h4>
-                <div class="card card-custom card-today card-equal-height">
-                  <div class="card-body">
-                    <div class="icon-container">
-                      <i class="fas fa-calendar-alt"></i>
-                      <strong>16 May 2024</strong>
-                    </div>
-                    <span class="date-time">03:00 PM</span>
-                    <div class="btn-container">
-                      <button class="btn btn-dark btn-custom">Cancel</button>
-                      <button class="btn btn-dark btn-custom">Check In</button>
-                    </div>
-                  </div>
+                <div id="today-appointments">
+                  <span>No Appointments</span>
                 </div>
               </div>
               <div class="col-12 col-md-4 header-section mb-3 mb-md-0">
                 <h4>Upcoming</h4>
-                <div class="card card-custom card-upcoming card-equal-height">
-                  <div class="card-body">
-                    <div class="icon-container">
-                      <i class="fas fa-calendar-alt"></i>
-                      <strong>20 May 2024</strong>
-                    </div>
-                    <span class="date-time">03:30 PM</span>
-                    <div class="btn-container">
-                      <button class="btn btn-dark btn-custom">Cancel</button>
-                      <button class="btn btn-dark btn-custom">
-                        Reschedule
-                      </button>
-                    </div>
-                  </div>
+                <div id="upcoming-appointments">
+                  <span>No Appointments</span>
                 </div>
               </div>
               <div class="col-12 col-md-4 header-section">
                 <h4>History</h4>
-                <div class="card card-custom card-history card-equal-height">
-                  <div class="card-body">
-                    <div class="icon-container">
-                      <i class="fas fa-calendar-alt"></i>
-                      <strong>20 March 2024</strong>
-                    </div>
-                    <span class="date-time">03:30 PM</span>
-                    <a href="#" class="btn btn-dark btn-custom btn-download">
-                      <i class="fas fa-download"></i>
-                      Download MC
-                    </a>
-                  </div>
+                <div id="history-appointments">
+                  <span>No Appointments</span>
                 </div>
               </div>
             </div>

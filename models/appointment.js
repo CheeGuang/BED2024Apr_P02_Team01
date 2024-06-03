@@ -9,7 +9,7 @@ class Appointment {
     endDateTime,
     PatientURL,
     HostRoomURL,
-    illnessDescription
+    IllnessDescription
   ) {
     this.AppointmentID = AppointmentID;
     this.PatientID = PatientID;
@@ -17,31 +17,7 @@ class Appointment {
     this.endDateTime = endDateTime;
     this.PatientURL = PatientURL;
     this.HostRoomURL = HostRoomURL;
-    this.illnessDescription = illnessDescription;
-  }
-
-  static async getAllAppointments() {
-    const connection = await sql.connect(dbConfig);
-
-    const sqlQuery = `SELECT * FROM Appointment`;
-
-    const request = connection.request();
-    const result = await request.query(sqlQuery);
-
-    connection.close();
-
-    return result.recordset.map(
-      (row) =>
-        new Appointment(
-          row.AppointmentID,
-          row.PatientID,
-          row.DoctorID,
-          row.endDateTime,
-          row.PatientURL,
-          row.HostRoomURL,
-          row.illnessDescription
-        )
-    );
+    this.IllnessDescription = IllnessDescription;
   }
 
   static async getAppointmentById(AppointmentID) {
@@ -63,15 +39,28 @@ class Appointment {
           result.recordset[0].endDateTime,
           result.recordset[0].PatientURL,
           result.recordset[0].HostRoomURL,
-          result.recordset[0].illnessDescription
+          result.recordset[0].IllnessDescription
         )
       : null;
+  }
+
+  static async getAppointmentsByPatientId(PatientID) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM Appointment WHERE PatientID = @PatientID`;
+    const request = connection.request();
+    request.input("PatientID", PatientID);
+    const result = await request.query(sqlQuery);
+
+    connection.close();
+
+    return result.recordsets[0];
   }
 
   static async createAppointment(newAppointmentData) {
     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = `INSERT INTO Appointment (PatientID, DoctorID, endDateTime, PatientURL, HostRoomURL, illnessDescription) VALUES (@PatientID, @DoctorID, @endDateTime, @PatientURL, @HostRoomURL, @illnessDescription); SELECT SCOPE_IDENTITY() AS AppointmentID;`;
+    const sqlQuery = `INSERT INTO Appointment (PatientID, DoctorID, endDateTime, PatientURL, HostRoomURL, IllnessDescription) VALUES (@PatientID, @DoctorID, @endDateTime, @PatientURL, @HostRoomURL, @IllnessDescription); SELECT SCOPE_IDENTITY() AS AppointmentID;`;
 
     const request = connection.request();
     request.input("PatientID", newAppointmentData.PatientID);
@@ -79,7 +68,7 @@ class Appointment {
     request.input("endDateTime", newAppointmentData.endDateTime);
     request.input("PatientURL", newAppointmentData.PatientURL);
     request.input("HostRoomURL", newAppointmentData.HostRoomURL);
-    request.input("illnessDescription", newAppointmentData.illnessDescription);
+    request.input("IllnessDescription", newAppointmentData.IllnessDescription);
 
     const result = await request.query(sqlQuery);
 
@@ -91,7 +80,7 @@ class Appointment {
   static async updateAppointment(AppointmentID, newAppointmentData) {
     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = `UPDATE Appointment SET PatientID = @PatientID, DoctorID = @DoctorID, endDateTime = @endDateTime, PatientURL = @PatientURL, HostRoomURL = @HostRoomURL, illnessDescription = @illnessDescription WHERE AppointmentID = @AppointmentID`;
+    const sqlQuery = `UPDATE Appointment SET PatientID = @PatientID, DoctorID = @DoctorID, endDateTime = @endDateTime, PatientURL = @PatientURL, HostRoomURL = @HostRoomURL, IllnessDescription = @IllnessDescription WHERE AppointmentID = @AppointmentID`;
 
     const request = connection.request();
     request.input("AppointmentID", AppointmentID);
@@ -101,8 +90,8 @@ class Appointment {
     request.input("PatientURL", newAppointmentData.PatientURL || null);
     request.input("HostRoomURL", newAppointmentData.HostRoomURL || null);
     request.input(
-      "illnessDescription",
-      newAppointmentData.illnessDescription || null
+      "IllnessDescription",
+      newAppointmentData.IllnessDescription || null
     );
 
     await request.query(sqlQuery);

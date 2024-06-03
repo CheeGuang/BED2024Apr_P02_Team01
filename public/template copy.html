@@ -32,10 +32,8 @@
     ></script>
 
     <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Quicksand:wght@300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
 
@@ -58,7 +56,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- INSERT PAGE'S JS HERE \/-->
-    <!-- <script src="#" defer></script> -->
+    <script src="#" defer></script>
     <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
@@ -83,9 +81,6 @@
           width: 48%;
           height: 150px;
           margin: 10px;
-        }
-        #appointment-btn {
-          width: 98%;
         }
       }
       .btn-block {
@@ -128,17 +123,17 @@
           </div>
           <div class="container">
             <div class="row justify-content-center">
-              <div id="appointment-btn" class="col-12 mb-3 service-btn">
+              <div class="col-12 col-md-6 mb-3 service-btn">
                 <a
-                  href="patientViewAppointment.html"
+                  href="#"
                   class="btn btn-block"
                   style="background-color: #ffd1c1"
                 >
                   <i class="fas fa-calendar-alt"></i>
-                  <div><strong>Appointment</strong></div>
+                  <div>Appointment</div>
                   <small
                     >View/book a slot for teleconsultation with doctors on
-                    duty</small
+                    duty<br />*Teleconsult starts from $20</small
                   >
                 </a>
               </div>
@@ -146,13 +141,11 @@
                 <a
                   href="#"
                   class="btn btn-block"
-                  style="background-color: #cdeff7"
+                  style="background-color: #fff1cd"
                 >
-                  <i class="fas fa-shopping-cart"></i>
-                  <div><strong>ePharmacy</strong></div>
-                  <small
-                    >Shop medical supplies online, delivered to your door</small
-                  >
+                  <i class="fas fa-video"></i>
+                  <div>Join Appointment</div>
+                  <small>Join video consultation with Doctor</small>
                 </a>
               </div>
               <div class="col-12 col-md-6 mb-3 service-btn">
@@ -162,8 +155,22 @@
                   style="background-color: #ffe0e0"
                 >
                   <i class="fas fa-wallet"></i>
-                  <div><strong>eWallet</strong></div>
-                  <small>View and top-up eWallet</small>
+                  <div>E-wallet</div>
+                  <small>View and top-up e-wallet</small>
+                </a>
+              </div>
+              <div class="col-12 col-md-6 mb-3 service-btn">
+                <a
+                  href="#"
+                  class="btn btn-block"
+                  style="background-color: #cdeff7"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                  <div>Retail Pharmacy</div>
+                  <small
+                    >Browse and purchase medical supplies from your home and get
+                    it delivered straight to your doorstep</small
+                  >
                 </a>
               </div>
             </div>

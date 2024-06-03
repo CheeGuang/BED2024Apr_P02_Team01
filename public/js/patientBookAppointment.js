@@ -75,7 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ endDate: formattedEndDate }),
+      body: JSON.stringify({
+        endDate: formattedEndDate,
+        illnessDescription: illnessDescription,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -127,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to set the minimum and maximum date and time for the date and time inputs
   function setMinMaxDateTime() {
     const now = new Date();
-    now.setMinutes(now.getMinutes() + 1455); // Set the minutes 15 minutes ahead
+    now.setMinutes(now.getMinutes() + 15); // Set the minutes 15 minutes ahead
     const minDate = now.toISOString().split("T")[0];
     const minTime = now.toTimeString().split(" ")[0].substring(0, 5);
 

@@ -10,11 +10,13 @@
 .back-button {
   background-color: transparent;
   border: none;
+  margin-top: 20px;
 }
 .card-custom {
   background-color: #f8f9fa;
   border: 1px solid #e9ecef;
   height: 180px !important;
+  margin-bottom: 30px;
 }
 .card-today {
   background-color: #fcf8e3;
@@ -88,4 +90,62 @@
 }
 .fa-arrow-left {
   color: #1a252f;
+}
+.appointment-schedule {
+  display: none;
+}
+
+.select-option {
+  margin-bottom: 8px;
+}
+.fa-arrow-left {
+  margin-bottom: 20px;
+  color: var(--font-color);
+}
+.notification {
+  position: fixed;
+  top: 70px; /* Adjust based on your header height */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s;
+}
+
+.notification.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+.loading-spinner {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #555555; /* Dark grey */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

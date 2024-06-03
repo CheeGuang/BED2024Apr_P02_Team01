@@ -1,19 +1,24 @@
 const Appointment = require("../../../models/appointment.js");
 
-const getAllAppointments = async (req, res) => {
-  try {
-    const appointments = await Appointment.getAllAppointments();
-    res.json(appointments);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error retrieving appointments");
-  }
-};
-
 const getAppointmentById = async (req, res) => {
   const appointmentId = parseInt(req.params.id);
   try {
     const appointment = await Appointment.getAppointmentById(appointmentId);
+    if (!appointment) {
+      return res.status(404).send("Appointment not found");
+    }
+    res.json(appointment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving appointment");
+  }
+};
+
+const getAppointmentsByPatientId = async (req, res) => {
+  console.log("getAppointmentsByPatientId() Called at Controller");
+  const patientId = parseInt(req.params.id);
+  try {
+    const appointment = await Appointment.getAppointmentsByPatientId(patientId);
     if (!appointment) {
       return res.status(404).send("Appointment not found");
     }
@@ -72,8 +77,8 @@ const deleteAppointment = async (req, res) => {
 };
 
 module.exports = {
-  getAllAppointments,
   createAppointment,
+  getAppointmentsByPatientId,
   getAppointmentById,
   updateAppointment,
   deleteAppointment,
