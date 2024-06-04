@@ -48,29 +48,22 @@ document.addEventListener("DOMContentLoaded", function () {
       "illness-description"
     ).value;
 
-    console.log("Selected Option:", selectedOption);
+    let endDate;
+
     if (selectedOption === "appointment") {
-      console.log("Appointment Date:", appointmentDate);
-      console.log("Appointment Time:", appointmentTime);
-
       // Calculate the end date and time for the appointment
-      let endDate = new Date(`${appointmentDate}T${appointmentTime}:00`);
+      endDate = new Date(`${appointmentDate}T${appointmentTime}:00`);
       endDate.setHours(endDate.getHours() + 1); // Add 1 hour to the end date
-      console.log("Appointment End Date", endDate);
-
-      // Convert end date to Singapore Time (SGT)
-      let sgtDate = new Date(endDate.getTime() + 8 * 60 * 60 * 1000);
-      var formattedEndDate = sgtDate.toISOString().slice(0, 16); // Format to "YYYY-MM-DDTHH:MM"
-      console.log("Formatted End Date (SGT):", formattedEndDate);
     } else {
       // If "Visit Doctor Now" is selected, set the end date to one hour from now
-      let endDate = new Date();
+      endDate = new Date();
       endDate.setHours(endDate.getHours() + 1);
-      console.log("Appointment End Date", endDate);
-      let sgtDate = new Date(endDate.getTime() + 8 * 60 * 60 * 1000);
-      var formattedEndDate = sgtDate.toISOString().slice(0, 16); // Format to "YYYY-MM-DDTHH:MM"
     }
-    console.log("Description of Illness:", illnessDescription);
+
+    // Convert end date to Singapore Time (SGT)
+    const sgtOffset = 8 * 60 * 60 * 1000;
+    const sgtDate = new Date(endDate.getTime() + sgtOffset);
+    const formattedEndDate = sgtDate.toISOString().slice(0, 16); // Format to "YYYY-MM-DDTHH:MM"
 
     // Make the POST request to the API
     fetch(`${baseUrl}/api/appointment/create`, {
@@ -134,17 +127,21 @@ document.addEventListener("DOMContentLoaded", function () {
   function setMinMaxDateTime() {
     const now = new Date();
     now.setMinutes(now.getMinutes() + 15); // Set the minutes 15 minutes ahead
-    const minDate = now.toISOString().split("T")[0];
-    const minTime = now.toTimeString().split(" ")[0].substring(0, 5);
+    const sgtOffset = 8 * 60 * 60 * 1000;
+    const nowSGT = new Date(now.getTime() + sgtOffset);
+
+    const minDate = nowSGT.toISOString().split("T")[0];
+    const minTime = nowSGT.toTimeString().split(" ")[0].substring(0, 5);
 
     appointmentDateInput.setAttribute("min", minDate);
 
-    // Set maximum date to 7 days from now
-    var maxDate = new Date();
+    // Set maximum date to 7 days from now in SGT
+    let maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + 7);
-    maxDate = maxDate.toISOString().split("T")[0];
+    const maxDateSGT = new Date(maxDate.getTime() + sgtOffset);
+    const formattedMaxDateSGT = maxDateSGT.toISOString().split("T")[0];
 
-    appointmentDateInput.setAttribute("max", maxDate);
+    appointmentDateInput.setAttribute("max", formattedMaxDateSGT);
 
     const dateInput = appointmentDateInput;
     const timeInput = appointmentTimeInput;
