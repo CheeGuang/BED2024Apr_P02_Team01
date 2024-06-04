@@ -127,21 +127,17 @@ document.addEventListener("DOMContentLoaded", function () {
   function setMinMaxDateTime() {
     const now = new Date();
     now.setMinutes(now.getMinutes() + 15); // Set the minutes 15 minutes ahead
-    const sgtOffset = 8 * 60 * 60 * 1000;
-    const nowSGT = new Date(now.getTime() + sgtOffset);
-
-    const minDate = nowSGT.toISOString().split("T")[0];
-    const minTime = nowSGT.toTimeString().split(" ")[0].substring(0, 5);
+    const minDate = now.toISOString().split("T")[0];
+    const minTime = now.toTimeString().split(" ")[0].substring(0, 5);
 
     appointmentDateInput.setAttribute("min", minDate);
 
-    // Set maximum date to 7 days from now in SGT
+    // Set maximum date to 7 days from now
     let maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + 7);
-    const maxDateSGT = new Date(maxDate.getTime() + sgtOffset);
-    const formattedMaxDateSGT = maxDateSGT.toISOString().split("T")[0];
+    maxDate = maxDate.toISOString().split("T")[0];
 
-    appointmentDateInput.setAttribute("max", formattedMaxDateSGT);
+    appointmentDateInput.setAttribute("max", maxDate);
 
     const dateInput = appointmentDateInput;
     const timeInput = appointmentTimeInput;

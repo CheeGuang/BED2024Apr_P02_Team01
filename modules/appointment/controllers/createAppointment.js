@@ -26,28 +26,25 @@ const createAppointment = async (req, res) => {
 
     console.log(illnessDescription);
     // Parsing and formatting end date time to ensure it's in ISO 8601 format
-    const formattedEndDate = moment(endDate).toISOString();
-
-    // Convert end date time from Singapore Time to the desired timezone
-    const endDateTimeUTC = moment.tz(formattedEndDate, "Asia/Singapore").utc();
+    const formattedEndDate = moment.tz(endDate, "Asia/Singapore").toISOString();
 
     // Ensure that End Date Time of meeting is no earlier than 59 minutes from now
-    const oneHourFromNow = moment().add(59, "minutes");
+    const oneHourFromNow = moment().tz("Asia/Singapore").add(59, "minutes");
 
-    if (endDateTimeUTC.isBefore(oneHourFromNow)) {
+    if (moment(formattedEndDate).isBefore(oneHourFromNow)) {
       throw new Error("End time must be at least 1 hour away from now.");
     }
 
     // Ensure that End Date Time of meeting is within one week from now
-    const oneWeekFromNow = moment().add(7, "days");
+    const oneWeekFromNow = moment().tz("Asia/Singapore").add(7, "days");
 
-    if (endDateTimeUTC.isAfter(oneWeekFromNow)) {
+    if (moment(formattedEndDate).isAfter(oneWeekFromNow)) {
       throw new Error("End time must be within 1 week from now.");
     }
 
     // Request data for creating appointment
     const requestData = {
-      endDate: endDateTimeUTC, // Using converted end date time in UTC format
+      endDate: moment(formattedEndDate).utc().format(), // Using converted end date time in UTC format
       fields: ["hostRoomUrl"],
     };
 
