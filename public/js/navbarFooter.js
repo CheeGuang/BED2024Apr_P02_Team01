@@ -4,9 +4,9 @@ const pageName = window.location.pathname.split("/").pop();
 // Fetch and insert the appropriate navbar HTML using JavaScript
 let navbarFile;
 if (pageName.includes("doctor")) {
-  navbarFile = "doctorNavBar.html";
+  navbarFile = "doctorNavbar.html";
 } else if (pageName.includes("patient")) {
-  navbarFile = "patientNavBar.html";
+  navbarFile = "patientNavbar.html";
 } else {
   navbarFile = "navbar.html";
 }
