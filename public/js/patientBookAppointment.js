@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const appointmentDateInput = document.getElementById("appointment-date");
   const appointmentTimeInput = document.getElementById("appointment-time");
 
+  // Dynamically get the current website's domain
+  const baseUrl = window.location.origin;
+
   // Event listener for the "Schedule an Appointment" radio button
   appointmentRadio.addEventListener("change", function () {
     if (appointmentRadio.checked) {
@@ -70,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Description of Illness:", illnessDescription);
 
     // Make the POST request to the API
-    fetch("http://localhost:8000/api/appointment/create", {
+    fetch(`${baseUrl}/api/appointment/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

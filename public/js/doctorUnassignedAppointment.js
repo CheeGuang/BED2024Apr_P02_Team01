@@ -2,8 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set Local Storage DoctorID as 1
   localStorage.setItem("DoctorID", 1);
 
+  // Dynamically get the current website's domain
+  const baseUrl = window.location.origin;
+
   // Fetch unassigned appointments
-  fetch("http://localhost:8000/api/appointment/unassigned/")
+  fetch(`${baseUrl}/api/appointment/unassigned/`)
     .then((response) => response.json())
     .then((data) => {
       const appointmentContainer = document.getElementById(
@@ -32,21 +35,21 @@ document.addEventListener("DOMContentLoaded", function () {
           });
 
           const appointmentCard = `
-                <div class="col-lg-6 col-md-6 col-sm-12 mb-3" data-appointment-id="${appointment.AppointmentID}">
-                  <div class="card card-custom card-history card-equal-height">
-                    <div class="card-body">
-                      <div class="icon-container">
-                        <i class="fas fa-calendar-alt"></i>
-                        <strong>${formattedDate}</strong>
+                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3" data-appointment-id="${appointment.AppointmentID}">
+                    <div class="card card-custom card-history card-equal-height">
+                      <div class="card-body">
+                        <div class="icon-container">
+                          <i class="fas fa-calendar-alt"></i>
+                          <strong>${formattedDate}</strong>
+                        </div>
+                        <span class="date-time">Time: ${formattedStartTime}</span>
+                        <span class="card-text">Patient: ${appointment.PatientID}</span>
+                        <span class="card-text">Description: ${appointment.IllnessDescription}</span>
+                        <a href="#" class="btn btn-dark btn-custom btn-take-up">Take Up</a>
                       </div>
-                      <span class="date-time">Time: ${formattedStartTime}</span>
-                      <span class="card-text">Patient: ${appointment.PatientID}</span>
-                      <span class="card-text">Description: ${appointment.IllnessDescription}</span>
-                      <a href="#" class="btn btn-dark btn-custom btn-take-up">Take Up</a>
                     </div>
                   </div>
-                </div>
-              `;
+                `;
           appointmentContainer.innerHTML += appointmentCard;
         });
 
@@ -60,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
             showLoading();
 
             fetch(
-              `http://localhost:8000/api/appointment/${appointmentId}/updateDoctorId`,
+              `${baseUrl}/api/appointment/${appointmentId}/updateDoctorId`,
               {
                 method: "PUT",
                 headers: {
@@ -102,8 +105,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const loadingElement = document.createElement("div");
     loadingElement.classList.add("loading");
     loadingElement.innerHTML = `
-        <div class="loading-spinner"></div>
-      `;
+          <div class="loading-spinner"></div>
+        `;
     document.body.appendChild(loadingElement);
   }
 

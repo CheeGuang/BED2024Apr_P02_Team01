@@ -5,8 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Get PatientID from local storage
   const PatientID = localStorage.getItem("PatientID");
 
+  // Dynamically get the current website's domain
+  const baseUrl = window.location.origin;
+
   // Fetch all patient appointments that match PatientID
-  fetch(`http://localhost:8000/api/appointment/getByPatientID/${PatientID}`)
+  fetch(`${baseUrl}/api/appointment/getByPatientID/${PatientID}`)
     .then((response) => response.json())
     .then((data) => {
       // Get the containers
@@ -46,41 +49,41 @@ document.addEventListener("DOMContentLoaded", function () {
           : "NIL";
 
         card.innerHTML = `
-              <div class="card-body">
-                <div class="icon-container">
-                  <i class="fas fa-calendar-alt"></i>
-                  <strong>${formattedDate}</strong>
+                <div class="card-body">
+                  <div class="icon-container">
+                    <i class="fas fa-calendar-alt"></i>
+                    <strong>${formattedDate}</strong>
+                  </div>
+                  <span class="date-time">Time: ${startDateTime}</span>
+                  <span>Description: ${illnessDescription}</span>
+                  <div class="btn-container">
+                    ${
+                      category !== "history"
+                        ? '<button class="btn btn-dark btn-custom cancel-button" data-id="' +
+                          appointment.AppointmentID +
+                          '">Cancel</button>'
+                        : ""
+                    }
+                    ${
+                      category === "today"
+                        ? '<button class="btn btn-dark btn-custom join-meeting-button" data-id="' +
+                          appointment.AppointmentID +
+                          '">Join Meeting</button>'
+                        : ""
+                    }
+                    ${
+                      category === "upcoming"
+                        ? '<button class="btn btn-dark btn-custom">Reschedule</button>'
+                        : ""
+                    }
+                    ${
+                      category === "history"
+                        ? '<a href="#" class="btn btn-dark btn-custom btn-download"><i class="fas fa-download"></i> Download MC</a>'
+                        : ""
+                    }
+                  </div>
                 </div>
-                <span class="date-time">Time: ${startDateTime}</span>
-                <span>Description: ${illnessDescription}</span>
-                <div class="btn-container">
-                  ${
-                    category !== "history"
-                      ? '<button class="btn btn-dark btn-custom cancel-button" data-id="' +
-                        appointment.AppointmentID +
-                        '">Cancel</button>'
-                      : ""
-                  }
-                  ${
-                    category === "today"
-                      ? '<button class="btn btn-dark btn-custom join-meeting-button" data-id="' +
-                        appointment.AppointmentID +
-                        '">Join Meeting</button>'
-                      : ""
-                  }
-                  ${
-                    category === "upcoming"
-                      ? '<button class="btn btn-dark btn-custom">Reschedule</button>'
-                      : ""
-                  }
-                  ${
-                    category === "history"
-                      ? '<a href="#" class="btn btn-dark btn-custom btn-download"><i class="fas fa-download"></i> Download MC</a>'
-                      : ""
-                  }
-                </div>
-              </div>
-            `;
+              `;
         return card;
       };
 
@@ -116,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
           const appointmentID = this.getAttribute("data-id");
           showLoading();
-          fetch(`http://localhost:8000/api/appointment/${appointmentID}`, {
+          fetch(`${baseUrl}/api/appointment/${appointmentID}`, {
             method: "DELETE",
           })
             .then((response) => {
@@ -153,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
           const appointmentID = this.getAttribute("data-id");
           showLoading();
-          fetch(`http://localhost:8000/api/appointment/${appointmentID}`)
+          fetch(`${baseUrl}/api/appointment/${appointmentID}`)
             .then((response) => response.json())
             .then((appointmentData) => {
               hideLoading();
