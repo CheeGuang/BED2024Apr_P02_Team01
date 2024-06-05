@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- INSERT PAGE'S CSS HERE \/-->
-    <link rel="stylesheet" href="#" />
+    <link rel="stylesheet" href="css/patientLogin.css" />
     <!-- END OF PAGE'S CSS /\-->
 
     <link rel="stylesheet" href="./css/footer.css" defer />
@@ -72,12 +72,47 @@
     <header>
       <div id="navbar-container"></div>
     </header>
+    <div id="blueBG"></div>
     <div class="row" style="height: 70px; width: 100vw"></div>
-    <div class="container">
+    <div
+      class="container"
+      style="
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      "
+    >
       <div class="row justify-content-center">
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
-          <h1>Replace With Your Content</h1>
+          <!-- <div id="blueBG"></div> -->
+
+          <form action="/" class="col-12">
+            <section class="loginSect col-5">
+              <h1>Patient's Login</h1>
+
+              <input
+                type="email"
+                name="email"
+                id="emailIp"
+                class="col-6 mt-2"
+                placeholder="Email"
+              />
+
+              <input
+                type="password"
+                name="password"
+                class="col-6 mt-4"
+                id="passwordIp"
+                placeholder="Password"
+              />
+
+              <button type="submit" class="col-6 p-2" id="loginBtnID">
+                Login
+              </button>
+            </section>
+          </form>
           <!-- END OF CONTENT -->
         </div>
       </div>
