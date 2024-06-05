@@ -39,6 +39,9 @@
       rel="stylesheet"
     />
 
+    <!-- Google OAuth -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- Page Name -->
     <title>SyncHealth</title>
 
@@ -72,17 +75,8 @@
     <header>
       <div id="navbar-container"></div>
     </header>
-    <div id="blueBG"></div>
     <div class="row" style="height: 70px; width: 100vw"></div>
-    <div
-      class="container"
-      style="
-        position: absolute;
-        top: 60%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      "
-    >
+    <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
@@ -107,10 +101,33 @@
                 id="passwordIp"
                 placeholder="Password"
               />
-
               <button type="submit" class="col-6 p-2" id="loginBtnID">
                 Login
               </button>
+
+              <!-- Google Button -->
+              <div
+                class="text-center mb-3 mt-4"
+                style="margin-left: 67px; margin-right: 67px"
+              >
+                <div
+                  id="g_id_onload"
+                  data-client_id="669052276058-pjj021iq10hvib472q7bl42db1jclh9s.apps.googleusercontent.com"
+                  data-context="signin"
+                  data-ux_mode="popup"
+                  data-callback="handleCredentialResponse"
+                  data-auto_prompt="false"
+                ></div>
+                <div
+                  class="g_id_signin col-6"
+                  data-type="standard"
+                  data-theme="outline"
+                  data-text="continue_with"
+                  data-size="large"
+                  data-logo_alignment="left"
+                ></div>
+              </div>
+              <!-- Google Button -->
             </section>
           </form>
           <!-- END OF CONTENT -->
