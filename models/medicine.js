@@ -112,6 +112,35 @@ class Medicine {
 
     return result.rowsAffected > 0;
   }
+
+  static async getMedicinesByPatientId(PatientID) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `
+      SELECT m.MedicineID, m.Name, m.Description, m.Price, m.RecommendedDosage, m.Image
+      FROM Medicine m
+      JOIN PatientMedicine pm ON m.MedicineID = pm.MedicineID
+      WHERE pm.PatientID = @PatientID
+    `;
+
+    const request = connection.request();
+    request.input("PatientID", PatientID);
+    const result = await request.query(sqlQuery);
+
+    connection.close();
+
+    return result.recordset.map(
+      (row) =>
+        new Medicine(
+          row.MedicineID,
+          row.Name,
+          row.Description,
+          row.Price,
+          row.RecommendedDosage,
+          row.Image
+        )
+    );
+  }
 }
 
 module.exports = Medicine;

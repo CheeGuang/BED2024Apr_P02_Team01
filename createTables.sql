@@ -2,6 +2,9 @@
 IF OBJECT_ID('dbo.Appointment', 'U') IS NOT NULL
     DROP TABLE dbo.Appointment;
 
+IF OBJECT_ID('dbo.PatientMedicine', 'U') IS NOT NULL
+    DROP TABLE dbo.PatientMedicine;
+
 IF OBJECT_ID('dbo.Medicine', 'U') IS NOT NULL
     DROP TABLE dbo.Medicine;
 
@@ -60,4 +63,13 @@ CREATE TABLE Appointment (
     IllnessDescription NVARCHAR(255),
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
     FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID)
+);
+
+-- Create PatientMedicine junction table
+CREATE TABLE PatientMedicine (
+    PatientMedicineID INT IDENTITY(1,1) PRIMARY KEY,
+    PatientID INT,
+    MedicineID INT,
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+    FOREIGN KEY (MedicineID) REFERENCES Medicine(MedicineID)
 );

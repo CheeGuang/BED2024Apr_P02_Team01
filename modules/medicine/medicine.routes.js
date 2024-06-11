@@ -17,5 +17,10 @@ medicineRoutes.post("/", medicineController.createMedicine); // POST for creatin
 medicineRoutes.get("/:id", medicineController.getMedicineById);
 medicineRoutes.put("/:id", medicineController.updateMedicine); // PUT for updating medicines
 medicineRoutes.delete("/:id", medicineController.deleteMedicine); // DELETE for deleting medicines
+medicineRoutes.get(
+  "/pateint/:patientId",
+  medicineController.getMedicinesByPatientId
+); // GET medicine by patient id
+
 // ========== Export ==========
 module.exports = medicineRoutes;

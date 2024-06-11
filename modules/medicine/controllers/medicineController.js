@@ -24,6 +24,20 @@ const getMedicineById = async (req, res) => {
   }
 };
 
+const getMedicinesByPatientId = async (req, res) => {
+  const patientId = parseInt(req.params.patientId);
+  try {
+    const medicines = await Medicine.getMedicinesByPatientId(patientId);
+    if (medicines.length === 0) {
+      return res.status(404).send("No medicines found for this patient");
+    }
+    res.json(medicines);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving medicines for patient");
+  }
+};
+
 const createMedicine = async (req, res) => {
   const newMedicine = req.body;
   try {
@@ -73,6 +87,7 @@ module.exports = {
   getAllMedicines,
   createMedicine,
   getMedicineById,
+  getMedicinesByPatientId,
   updateMedicine,
   deleteMedicine,
 };
