@@ -29,7 +29,8 @@ function handleCredentialResponse(response) {
 
 window.onload = function () {
   google.accounts.id.initialize({
-    client_id: process.env.googleClientId,
+    client_id:
+      "669052276058-vlo56v1ae21jida2o982ams3rgfimajd.apps.googleusercontent.com",
     callback: handleCredentialResponse,
   });
   google.accounts.id.renderButton(document.getElementById("g_id_signin"), {
