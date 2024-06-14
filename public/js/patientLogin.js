@@ -11,21 +11,13 @@ function handleCredentialResponse(response) {
       if (data.error) {
         console.error("Authentication failed", data.error);
         if (data.error === "User not found. Redirect to sign-up.") {
-          window.location.href = "../patientSignUp.html";
+          localStorage.setItem("googleUser", JSON.stringify(data));
+          // window.location.href = "../patientSignUp.html";
         }
       } else {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem(
-          "profile",
-          JSON.stringify({
-            googleId: data.googleId,
-            email: data.email,
-            givenName: data.givenName,
-            familyName: data.familyName,
-            profilePicture: data.profilePicture,
-          })
-        );
-        window.location.href = "../patientHomePage.html";
+        localStorage.setItem("user", JSON.stringify(data));
+        // Redirect to home or another page
+        // window.location.href = "../patientHomePage.html";
       }
     })
     .catch((error) => {
