@@ -1,7 +1,7 @@
 const Patient = require("../../../models/patient.js");
 
 const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(process.env.googleClientId);
+const client = new OAuth2Client(process.env.googleId);
 
 const googleLogin = async (req, res) => {
   const { token } = req.body;
@@ -9,7 +9,7 @@ const googleLogin = async (req, res) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: process.env.googleClientId,
+      audience: process.env.googleId,
     });
 
     const { sub, email, given_name, family_name, picture } =
@@ -30,13 +30,16 @@ const googleLogin = async (req, res) => {
       profilePicture: picture, // Updated field name
     };
 
-    const user = await Patient.findOrCreateGoogleUser(userData);
+    let user = await Patient.findOrCreateGoogleUser(userData);
 
-    if (user) {
-      res.status(200).json(user);
-    } else {
-      res.status(404).json({ error: "User not found. Redirect to sign-up." });
-    }
+    res.status(200).json({
+      googleId: sub,
+      email,
+      givenName: given_name,
+      familyName: family_name,
+      profilePicture: picture,
+      user,
+    });
   } catch (error) {
     res.status(400).json({ error: "Google authentication failed" });
   }

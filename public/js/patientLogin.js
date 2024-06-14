@@ -1,24 +1,30 @@
 function handleCredentialResponse(response) {
-  const token = response.credential;
-
   fetch("/api/auth/google", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ token }),
+    body: JSON.stringify({ token: response.credential }),
   })
     .then((response) => response.json())
     .then((data) => {
       if (data.error) {
         console.error("Authentication failed", data.error);
         if (data.error === "User not found. Redirect to sign-up.") {
-          localStorage.setItem("googleUser", JSON.stringify(data));
           window.location.href = "../patientSignUp.html";
         }
       } else {
-        localStorage.setItem("user", JSON.stringify(data));
-        // Redirect to home or another page
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem(
+          "profile",
+          JSON.stringify({
+            googleId: data.googleId,
+            email: data.email,
+            givenName: data.givenName,
+            familyName: data.familyName,
+            profilePicture: data.profilePicture,
+          })
+        );
         window.location.href = "../patientHomePage.html";
       }
     })
@@ -29,8 +35,7 @@ function handleCredentialResponse(response) {
 
 window.onload = function () {
   google.accounts.id.initialize({
-    client_id:
-      "669052276058-vlo56v1ae21jida2o982ams3rgfimajd.apps.googleusercontent.com",
+    client_id: process.env.googleId,
     callback: handleCredentialResponse,
   });
   google.accounts.id.renderButton(document.getElementById("g_id_signin"), {
