@@ -2,6 +2,9 @@
 IF OBJECT_ID('dbo.Appointment', 'U') IS NOT NULL
     DROP TABLE dbo.Appointment;
 
+IF OBJECT_ID('dbo.PatientMedicine', 'U') IS NOT NULL
+    DROP TABLE dbo.PatientMedicine;
+
 IF OBJECT_ID('dbo.Medicine', 'U') IS NOT NULL
     DROP TABLE dbo.Medicine;
 
@@ -14,16 +17,18 @@ IF OBJECT_ID('dbo.Patient', 'U') IS NOT NULL
 -- Create Patient table
 CREATE TABLE Patient (
     PatientID INT IDENTITY(1,1) PRIMARY KEY,
-    Name NVARCHAR(100),
     Email NVARCHAR(100) UNIQUE,
-    Password NVARCHAR(100),
     ContactNumber NVARCHAR(15),
     DOB DATE,
     Gender NVARCHAR(10),
     Address NVARCHAR(255),
     eWalletAmount DECIMAL(10, 2),
     resetPasswordCode NVARCHAR(100),
-    PCHI DECIMAL(10, 2) -- Per Capita Household Income
+    PCHI DECIMAL(10, 2), -- Per Capita Household Income
+    googleId NVARCHAR(100) UNIQUE,
+    givenName NVARCHAR(100),
+    familyName NVARCHAR(100),
+    profilePicture NVARCHAR(255)
 );
 
 -- Create Doctor table
@@ -60,4 +65,13 @@ CREATE TABLE Appointment (
     IllnessDescription NVARCHAR(255),
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
     FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID)
+);
+
+-- Create PatientMedicine junction table
+CREATE TABLE PatientMedicine (
+    PatientMedicineID INT IDENTITY(1,1) PRIMARY KEY,
+    PatientID INT,
+    MedicineID INT,
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+    FOREIGN KEY (MedicineID) REFERENCES Medicine(MedicineID)
 );

@@ -200,6 +200,36 @@ class Patient {
       await connection.close();
     }
   }
+
+  static async getAllPatients() {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM Patient`;
+
+    const request = connection.request();
+    const result = await request.query(sqlQuery);
+
+    connection.close();
+
+    return result.recordset.map(
+      (row) =>
+        new Patient(
+          row.PatientID,
+          row.Email,
+          row.ContactNumber,
+          row.DOB,
+          row.Gender,
+          row.Address,
+          row.eWalletAmount,
+          row.resetPasswordCode,
+          row.PCHI,
+          row.googleId,
+          row.givenName,
+          row.familyName,
+          row.profilePicture
+        )
+    );
+  }
 }
 
 module.exports = Patient;

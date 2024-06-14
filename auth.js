@@ -1,11 +1,12 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Patient = require("./models/patient"); // Ensure this path is correct
+require("dotenv").config();
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.googleClientId,
+      clientID: process.env.googleClientSecret,
       clientSecret: process.env.googleClientSecret,
       callbackURL: "/auth/google/callback",
     },
