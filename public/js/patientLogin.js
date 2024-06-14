@@ -11,7 +11,7 @@ function handleCredentialResponse(response) {
       if (data.error) {
         console.error("Authentication failed", data.error);
         if (data.error === "User not found. Redirect to sign-up.") {
-          // window.location.href = "../patientSignUp.html";
+          window.location.href = "../patientSignUp.html";
         }
       } else {
         localStorage.setItem("user", JSON.stringify(data.user));
@@ -25,7 +25,7 @@ function handleCredentialResponse(response) {
             profilePicture: data.profilePicture,
           })
         );
-        // window.location.href = "../patientHomePage.html";
+        window.location.href = "../patientHomePage.html";
       }
     })
     .catch((error) => {
@@ -35,6 +35,7 @@ function handleCredentialResponse(response) {
 
 window.onload = function () {
   google.accounts.id.initialize({
+    client_id: process.env.googleId,
     client_id: process.env.googleId,
     callback: handleCredentialResponse,
   });
