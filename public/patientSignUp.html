@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- INSERT PAGE'S CSS HERE \/-->
-    <link rel="stylesheet" href="css/patientLogin.css" />
+    <link rel="stylesheet" href="css/patientSignUp.css" />
     <!-- END OF PAGE'S CSS /\-->
 
     <link rel="stylesheet" href="./css/footer.css" defer />
@@ -58,7 +58,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- INSERT PAGE'S JS HERE \/-->
-    <!-- <script src="#" defer></script> -->
+    <script src="./js/patientSignUp.js" defer></script>
     <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
@@ -77,36 +77,61 @@
       <div class="row justify-content-center">
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
-          <div class="signup-container">
-            <div class="signup-card">
-              <h2 class="text-center mb-4">Patient Sign-Up</h2>
-              <form id="signUpForm">
-                <div class="form-group">
-                  <label for="email">Email:</label>
-                  <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                  <label for="contactNumber">Contact Number:</label>
-                  <input type="text" class="form-control" id="contactNumber" name="contactNumber" required>
-                </div>
-                <div class="form-group">
-                  <label for="dob">Date of Birth:</label>
-                  <input type="date" class="form-control" id="dob" name="dob" required>
-                </div>
-                <div class="form-group">
-                  <label for="gender">Gender:</label>
-                  <select class="form-control" id="gender" name="gender" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="address">Address:</label>
-                  <input type="text" class="form-control" id="address" name="address" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
-              </form>
-            </div>
+          <div class="signup-card">
+            <h2 class="text-center mb-4">Patient Sign-Up</h2>
+            <form id="signUpForm">
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="contactNumber">Contact Number:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="contactNumber"
+                  name="contactNumber"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dob"
+                  name="dob"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select class="form-control" id="gender" name="gender" required>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="address">Address:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  name="address"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary w-100">
+                Sign Up
+              </button>
+            </form>
+          </div>
           <!-- END OF CONTENT -->
         </div>
       </div>
