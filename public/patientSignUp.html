@@ -39,9 +39,6 @@
       rel="stylesheet"
     />
 
-    <!-- Google OAuth -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
     <!-- Page Name -->
     <title>SyncHealth</title>
 
@@ -80,37 +77,36 @@
       <div class="row justify-content-center">
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
-
-          <div
-            class="container d-flex justify-content-center align-items-center"
-          >
-            <div class="login-card col-md-6">
-              <h2 class="text-center mb-4">Patient Login</h2>
-              <div class="text-center mb-3">
-                <!-- Google Button -->
-                <div class="d-flex justify-content-center align-items-center">
-                  <div
-                    id="g_id_onload"
-                    data-client_id="669052276058-pjj021iq10hvib472q7bl42db1jclh9s.apps.googleusercontent.com"
-                    data-context="signin"
-                    data-ux_mode="popup"
-                    data-callback="handleCredentialResponse"
-                    data-auto_prompt="false"
-                  ></div>
-                  <div
-                    class="g_id_signin"
-                    data-type="standard"
-                    data-theme="outline"
-                    data-text="continue_with"
-                    data-size="large"
-                    data-logo_alignment="left"
-                  ></div>
+          <div class="signup-container">
+            <div class="signup-card">
+              <h2 class="text-center mb-4">Patient Sign-Up</h2>
+              <form id="signUpForm">
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" class="form-control" id="email" name="email" required>
                 </div>
-                <!-- Google Button -->
-              </div>
+                <div class="form-group">
+                  <label for="contactNumber">Contact Number:</label>
+                  <input type="text" class="form-control" id="contactNumber" name="contactNumber" required>
+                </div>
+                <div class="form-group">
+                  <label for="dob">Date of Birth:</label>
+                  <input type="date" class="form-control" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                  <label for="gender">Gender:</label>
+                  <select class="form-control" id="gender" name="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="address">Address:</label>
+                  <input type="text" class="form-control" id="address" name="address" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+              </form>
             </div>
-          </div>
-
           <!-- END OF CONTENT -->
         </div>
       </div>

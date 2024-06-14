@@ -23,6 +23,10 @@ const appointmentRoutes = require("./modules/appointment/appointment.routes");
 const sql = require("mssql");
 // Initialising dbConfig file
 const dbConfig = require("./dbConfig");
+// Initialising express-session
+const session = require("express-session");
+// Initialising passport
+const passport = require("./auth"); // Ensure the correct path
 
 // ========== Set-Up ==========
 // Initiating app
@@ -32,6 +36,20 @@ const port = 8000;
 app.use(express.static("public"));
 // Using JSON
 app.use(express.json());
+// Using Session I
+app.use(
+  session({
+    secret: process.env.sessionSecretKey,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Using Passport
+app.use(passport.initialize());
+// Using Session II
+app.use(passport.session());
+
 // Return index.html at default endpoint
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, ".", "public", "index.html"));
