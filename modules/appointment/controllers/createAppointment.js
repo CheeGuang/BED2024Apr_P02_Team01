@@ -22,7 +22,7 @@ const createAppointment = async (req, res) => {
     const apiUrl = "https://api.whereby.dev/v1/meetings";
 
     // Extracting end date time from the request body
-    const { endDate, illnessDescription } = req.body;
+    const { endDate, illnessDescription, PatientID } = req.body;
 
     console.log(illnessDescription);
     // Parsing and formatting end date time to ensure it's in ISO 8601 format
@@ -77,7 +77,7 @@ const createAppointment = async (req, res) => {
 
     // Post room data into Appointment Table in SQL Database
     const newAppointmentData = {
-      PatientID: "1",
+      PatientID: PatientID,
       endDateTime: formattedEndDate, // Use the formatted Singapore date-time string
       PatientURL: roomData.roomUrl,
       HostRoomURL: roomData.hostRoomUrl,

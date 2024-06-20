@@ -1,5 +1,77 @@
 const Patient = require("../../../models/patient.js");
 
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.googleId);
+
+const googleLogin = async (req, res) => {
+  console.log("googleLogin Function Called");
+  const { token } = req.body;
+  console.log("Received token:", token);
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.googleId,
+    });
+
+    console.log("Ticket verified");
+
+    const { sub, email, given_name, family_name, picture } =
+      ticket.getPayload();
+    console.log("Payload received:", {
+      sub,
+      email,
+      given_name,
+      family_name,
+      picture,
+    });
+
+    const userData = {
+      googleId: sub,
+      Email: email,
+      ContactNumber: null, // Fill in as necessary
+      DOB: null, // Fill in as necessary
+      Gender: null, // Fill in as necessary
+      Address: null, // Fill in as necessary
+      eWalletAmount: 0, // Default value
+      resetPasswordCode: null, // Default value
+      PCHI: null, // Default value
+      givenName: given_name,
+      familyName: family_name,
+      profilePicture: picture, // Updated field name
+    };
+
+    console.log("User data constructed:", userData);
+
+    let user = await Patient.findOrCreateGoogleUser(userData);
+    console.log("User found or created:", user);
+
+    res.status(200).json({
+      googleId: sub,
+      email,
+      givenName: given_name,
+      familyName: family_name,
+      profilePicture: picture,
+      user,
+    });
+    console.log("Response sent successfully");
+  } catch (error) {
+    console.error("Error in Google authentication:", error);
+    res.status(400).json({ error: "Google authentication failed" });
+  }
+};
+
+const createPatient = async (req, res) => {
+  const newPatient = req.body;
+  try {
+    const createdPatient = await Patient.createPatient(newPatient);
+    res.status(201).json(createdPatient);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error creating patient");
+  }
+};
+
 const getAllPatients = async (req, res) => {
   try {
     const patients = await Patient.getAllPatients();
@@ -21,17 +93,6 @@ const getPatientById = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Error retrieving patient");
-  }
-};
-
-const createPatient = async (req, res) => {
-  const newPatient = req.body;
-  try {
-    const createdPatient = await Patient.createPatient(newPatient);
-    res.status(201).json(createdPatient);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error creating patient");
   }
 };
 
@@ -87,4 +148,5 @@ module.exports = {
   updatePatient,
   deletePatient,
   searchPatients,
+  googleLogin,
 };

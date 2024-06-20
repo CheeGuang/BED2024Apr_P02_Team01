@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Get PatientID from local storage
+  const PatientID = localStorage.getItem("PatientID");
+  console.log("Retrieved PatientID from localStorage:", PatientID);
+
   // Get references to the DOM elements
   const appointmentRadio = document.getElementById("appointment");
   const nowRadio = document.getElementById("now");
@@ -74,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
       body: JSON.stringify({
         endDate: formattedEndDate,
         illnessDescription: illnessDescription,
+        PatientID: PatientID,
       }),
     })
       .then((response) => response.json())

@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Set Local Storage DoctorID as 1
-  localStorage.setItem("DoctorID", 1);
-
   // Dynamically get the current website's domain
   const baseUrl = window.location.origin;
 

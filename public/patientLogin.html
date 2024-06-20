@@ -39,6 +39,9 @@
       rel="stylesheet"
     />
 
+    <!-- Google OAuth -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- Page Name -->
     <title>SyncHealth</title>
 
@@ -48,7 +51,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- INSERT PAGE'S CSS HERE \/-->
-    <link rel="stylesheet" href="#" />
+    <link rel="stylesheet" href="css/patientLogin.css" />
     <!-- END OF PAGE'S CSS /\-->
 
     <link rel="stylesheet" href="./css/footer.css" defer />
@@ -58,7 +61,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- INSERT PAGE'S JS HERE \/-->
-    <!-- <script src="#" defer></script> -->
+    <script src="./js/patientLogin.js"></script>
     <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
@@ -77,7 +80,37 @@
       <div class="row justify-content-center">
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
-          <h1>Replace With Your Content</h1>
+
+          <div
+            class="container d-flex justify-content-center align-items-center"
+          >
+            <div class="login-card col-md-6">
+              <h2 class="text-center mb-4">Patient Login</h2>
+              <div class="text-center mb-3">
+                <!-- Google Button -->
+                <div class="d-flex justify-content-center align-items-center">
+                  <div
+                    id="g_id_onload"
+                    data-client_id="669052276058-vlo56v1ae21jida2o982ams3rgfimajd.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-ux_mode="popup"
+                    data-callback="handleCredentialResponse"
+                    data-auto_prompt="false"
+                  ></div>
+                  <div
+                    class="g_id_signin"
+                    data-type="standard"
+                    data-theme="outline"
+                    data-text="continue_with"
+                    data-size="large"
+                    data-logo_alignment="left"
+                  ></div>
+                </div>
+                <!-- Google Button -->
+              </div>
+            </div>
+          </div>
+
           <!-- END OF CONTENT -->
         </div>
       </div>

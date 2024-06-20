@@ -1,4 +1,6 @@
 const Doctor = require("../../../models/doctor.js");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.googleId);
 
 const getAllDoctors = async (req, res) => {
   try {
@@ -39,16 +41,29 @@ const updateDoctor = async (req, res) => {
   const doctorId = parseInt(req.params.id);
   const newDoctorData = req.body;
 
+  console.log("updateDoctor Function Called");
+  console.log("Doctor ID:", doctorId);
+  console.log("New Doctor Data:", newDoctorData);
+
   try {
     const updatedDoctor = await Doctor.updateDoctor(doctorId, newDoctorData);
+    console.log("Updated Doctor:", updatedDoctor);
+
     if (!updatedDoctor) {
+      console.log("Doctor not found");
       return res.status(404).send("Doctor not found");
     }
+
     res.json(updatedDoctor);
+    console.log("Response sent successfully");
   } catch (error) {
-    console.error(error);
+    console.error("Error updating doctor:", error);
     res.status(500).send("Error updating doctor");
   }
+};
+
+module.exports = {
+  updateDoctor,
 };
 
 const deleteDoctor = async (req, res) => {
@@ -66,10 +81,66 @@ const deleteDoctor = async (req, res) => {
   }
 };
 
+const googleLogin = async (req, res) => {
+  console.log("googleLogin Function Called");
+  const { token } = req.body;
+  console.log("Received token:", token);
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.googleId,
+    });
+
+    console.log("Ticket verified");
+
+    const { sub, email, given_name, family_name, picture } =
+      ticket.getPayload();
+    console.log("Payload received:", {
+      sub,
+      email,
+      given_name,
+      family_name,
+      picture,
+    });
+
+    const userData = {
+      googleId: sub,
+      Email: email,
+      ContactNumber: null, // Fill in as necessary
+      DOB: null, // Fill in as necessary
+      Gender: null, // Fill in as necessary
+      Profession: null, // Fill in as necessary
+      resetPasswordCode: null, // Default value
+      givenName: given_name,
+      familyName: family_name,
+      profilePicture: picture, // Updated field name
+    };
+
+    console.log("User data constructed:", userData);
+
+    let user = await Doctor.findOrCreateGoogleUser(userData);
+    console.log("User found or created:", user);
+
+    res.status(200).json({
+      googleId: sub,
+      email,
+      givenName: given_name,
+      familyName: family_name,
+      profilePicture: picture,
+      user,
+    });
+    console.log("Response sent successfully");
+  } catch (error) {
+    console.error("Error in Google authentication:", error);
+    res.status(400).json({ error: "Google authentication failed" });
+  }
+};
 module.exports = {
   getAllDoctors,
   createDoctor,
   getDoctorById,
   updateDoctor,
   deleteDoctor,
+  googleLogin,
 };
