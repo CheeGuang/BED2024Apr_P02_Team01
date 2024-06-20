@@ -1,0 +1,11 @@
+.login-card {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  background-color: #ffffff;
+}
+.g_id_signin {
+  display: flex;
+  justify-content: center;
+}

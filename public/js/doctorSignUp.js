@@ -1,10 +1,10 @@
-// Retrieve patientDetails from localStorage
-const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+// Retrieve doctorDetails from localStorage
+const doctorDetails = JSON.parse(localStorage.getItem("doctorDetails"));
 
 // Set welcome message
 document.getElementById(
   "welcomeMessage"
-).textContent = `Welcome, ${patientDetails.givenName}. Please provide the following details:`;
+).textContent = `Welcome, ${doctorDetails.givenName}. Please provide the following details:`;
 
 document
   .getElementById("signUpForm")
@@ -18,7 +18,7 @@ document
     const pchi = document.getElementById("pchi").value;
     const errorMessage = document.getElementById("errorMessage");
 
-    const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+    const doctorDetails = JSON.parse(localStorage.getItem("doctorDetails"));
 
     // Clear previous error messages
     errorMessage.classList.add("d-none");
@@ -48,7 +48,7 @@ document
     }
 
     const newPatientData = {
-      Email: patientDetails.Email,
+      Email: doctorDetails.Email,
       ContactNumber: contactNumber,
       DOB: dob,
       Gender: gender,
@@ -56,13 +56,13 @@ document
       eWalletAmount: 0, // Default value
       resetPasswordCode: null, // Default value
       PCHI: pchi, // PCHI value
-      googleId: patientDetails.googleId,
-      givenName: patientDetails.givenName,
-      familyName: patientDetails.familyName,
-      profilePicture: patientDetails.profilePicture, // Updated field name
+      googleId: doctorDetails.googleId,
+      givenName: doctorDetails.givenName,
+      familyName: doctorDetails.familyName,
+      profilePicture: doctorDetails.profilePicture, // Updated field name
     };
 
-    fetch(`/api/patient/${patientDetails.PatientID}`, {
+    fetch(`/api/patient/${doctorDetails.PatientID}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ document
         if (data.error) {
           console.error("Error updating patient", data.error);
         } else {
-          localStorage.setItem("patientDetails", JSON.stringify(data));
+          localStorage.setItem("doctorDetails", JSON.stringify(data));
           localStorage.setItem("PatientID", data.PatientID);
           window.location.href = "../patientHomePage.html"; // Redirect to home page or another page after sign-up
         }
