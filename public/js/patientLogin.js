@@ -10,14 +10,16 @@ function handleCredentialResponse(response) {
     .then((data) => {
       if (data.error) {
         console.error("Authentication failed", data.error);
-        if (data.error === "User not found. Redirect to sign-up.") {
-          localStorage.setItem("googleUser", JSON.stringify(data));
-          window.location.href = "../patientSignUp.html";
-        }
       } else {
-        localStorage.setItem("user", JSON.stringify(data));
-        // Redirect to home or another page
-        window.location.href = "../patientHomePage.html";
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        if (!data.user.address) {
+          // Redirect to sign up if address is null or undefined
+          window.location.href = "../patientSignUp.html";
+        } else {
+          // Redirect to home page if address is not null
+          window.location.href = "../patientHomePage.html";
+        }
       }
     })
     .catch((error) => {
