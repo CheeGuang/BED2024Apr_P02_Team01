@@ -37,20 +37,35 @@ const createDoctor = async (req, res) => {
   }
 };
 
+const Doctor = require("../../../models/doctor.js");
+
 const updateDoctor = async (req, res) => {
   const doctorId = parseInt(req.params.id);
   const newDoctorData = req.body;
 
+  console.log("updateDoctor Function Called");
+  console.log("Doctor ID:", doctorId);
+  console.log("New Doctor Data:", newDoctorData);
+
   try {
     const updatedDoctor = await Doctor.updateDoctor(doctorId, newDoctorData);
+    console.log("Updated Doctor:", updatedDoctor);
+
     if (!updatedDoctor) {
+      console.log("Doctor not found");
       return res.status(404).send("Doctor not found");
     }
+
     res.json(updatedDoctor);
+    console.log("Response sent successfully");
   } catch (error) {
-    console.error(error);
+    console.error("Error updating doctor:", error);
     res.status(500).send("Error updating doctor");
   }
+};
+
+module.exports = {
+  updateDoctor,
 };
 
 const deleteDoctor = async (req, res) => {
