@@ -1,14 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOMContentLoaded event triggered");
+
   // Get PatientID from local storage
   const PatientID = localStorage.getItem("PatientID");
+  console.log("Retrieved PatientID from localStorage:", PatientID);
 
   // Dynamically get the current website's domain
   const baseUrl = window.location.origin;
+  console.log("Base URL:", baseUrl);
 
   // Fetch all patient appointments that match PatientID
   fetch(`${baseUrl}/api/appointment/getByPatientID/${PatientID}`)
     .then((response) => response.json())
     .then((data) => {
+      console.log("Fetched appointment data:", data);
+
       // Get the containers
       const todayContainer = document.getElementById("today-appointments");
       const upcomingContainer = document.getElementById(
@@ -23,9 +29,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Get the current date and time
       const now = new Date();
+      console.log("Current date and time:", now);
 
       // Function to create a card
       const createCard = (appointment, category) => {
+        console.log(`Creating card for category: ${category}`, appointment);
+
         const card = document.createElement("div");
         card.className = `card card-custom card-${category} card-equal-height`;
 
@@ -90,12 +99,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const endDateTime = new Date(appointment.endDateTime);
         const startDateTime = new Date(endDateTime.getTime() - 60 * 60 * 1000);
         appointment.StartDateTime = startDateTime;
+        console.log("Calculated StartDateTime:", startDateTime);
 
         if (startDateTime < now && endDateTime < now) {
+          console.log("Appointment categorized as history");
           historyContainer.appendChild(createCard(appointment, "history"));
         } else if (startDateTime.toDateString() === now.toDateString()) {
+          console.log("Appointment categorized as today");
           todayContainer.appendChild(createCard(appointment, "today"));
         } else {
+          console.log("Appointment categorized as upcoming");
           upcomingContainer.appendChild(createCard(appointment, "upcoming"));
         }
       });
@@ -115,12 +128,17 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll(".cancel-button").forEach((button) => {
         button.addEventListener("click", function () {
           const appointmentID = this.getAttribute("data-id");
+          console.log(
+            "Cancel button clicked for appointmentID:",
+            appointmentID
+          );
           showLoading();
           fetch(`${baseUrl}/api/appointment/${appointmentID}`, {
             method: "DELETE",
           })
             .then((response) => {
               if (response.ok) {
+                console.log("Appointment successfully canceled");
                 hideLoading();
                 showNotification(
                   "Appointment successfully canceled!",
@@ -130,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   window.location.reload();
                 }, 3000);
               } else {
+                console.error("Failed to cancel appointment");
                 hideLoading();
                 showNotification(
                   "Failed to cancel appointment. Please try again.",
@@ -152,15 +171,24 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll(".join-meeting-button").forEach((button) => {
         button.addEventListener("click", function () {
           const appointmentID = this.getAttribute("data-id");
+          console.log(
+            "Join meeting button clicked for appointmentID:",
+            appointmentID
+          );
           showLoading();
           fetch(`${baseUrl}/api/appointment/${appointmentID}`)
             .then((response) => response.json())
             .then((appointmentData) => {
               hideLoading();
               if (appointmentData.PatientURL) {
+                console.log(
+                  "PatientURL found, joining meeting:",
+                  appointmentData.PatientURL
+                );
                 localStorage.setItem("patientURL", appointmentData.PatientURL);
                 window.location.href = "patientVisitAppointment.html";
               } else {
+                console.error("Failed to join meeting. URL not found.");
                 showNotification(
                   "Failed to join meeting. URL not found.",
                   "error"
@@ -178,7 +206,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       });
     })
-    .catch((error) => console.error("Error:", error));
+    .catch((error) => {
+      console.error("Error fetching appointments:", error);
+    });
 
   // Function to show notification
   function showNotification(message, type) {
@@ -187,8 +217,10 @@ document.addEventListener("DOMContentLoaded", function () {
     notification.className = `notification ${type}`;
     notification.innerText = message;
     document.body.appendChild(notification);
+    console.log("Notification shown:", message, type);
     setTimeout(() => {
       notification.remove();
+      console.log("Notification removed");
     }, 3000);
   }
 
@@ -198,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loading.className = "loading";
     loading.innerHTML = `<div class="loading-spinner"></div>`;
     document.body.appendChild(loading);
+    console.log("Loading spinner shown");
   }
 
   // Function to hide loading interface
@@ -205,6 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const loading = document.querySelector(".loading");
     if (loading) {
       loading.remove();
+      console.log("Loading spinner hidden");
     }
   }
 });
