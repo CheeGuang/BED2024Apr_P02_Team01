@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (user && user.givenName) {
+  const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+  if (patientDetails && patientDetails.givenName) {
     document.getElementById(
       "welcomeMessage"
-    ).textContent = `Welcome, ${user.givenName}!`;
+    ).textContent = `Welcome, ${patientDetails.givenName}!`;
   }
 });
