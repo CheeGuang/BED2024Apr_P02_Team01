@@ -74,7 +74,7 @@ app.use("/api/doctor", doctorRoutes);
 app.use("/api/medicine", medicineRoutes);
 
 // Authenticate Routes Route
-app.use("/api/authenticate", authenticateRoutes);
+app.use("/api/auth", authenticateRoutes);
 
 // End of all routes
 app.all("*", (req, res, next) => {

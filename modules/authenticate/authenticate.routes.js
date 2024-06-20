@@ -17,12 +17,12 @@ const authenticateRoutes = express.Router();
 // ========== Routes ==========
 // Define routes for the Authenticate
 authenticateRoutes.get(
-  "/auth/google",
+  "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 authenticateRoutes.get(
-  "/auth/google/callback",
+  "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
     if (!req.user) {
