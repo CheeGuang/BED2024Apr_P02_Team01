@@ -35,9 +35,7 @@ CREATE TABLE Patient (
 -- Create Doctor table
 CREATE TABLE Doctor (
     DoctorID INT IDENTITY(1,1) PRIMARY KEY,
-    Name NVARCHAR(100),
     Email NVARCHAR(100) UNIQUE,
-    Password NVARCHAR(100),
     ContactNumber NVARCHAR(15),
     DOB DATE,
     Gender NVARCHAR(10),

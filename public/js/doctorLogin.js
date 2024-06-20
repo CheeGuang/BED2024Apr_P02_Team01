@@ -16,7 +16,7 @@ function handleCredentialResponse(response) {
           JSON.stringify(data.doctorDetails)
         );
 
-        if (!data.doctorDetails.Address) {
+        if (!data.doctorDetails.ContactNumber) {
           // Redirect to sign up if address is null or undefined
           window.location.href = "../doctorSignUp.html";
         } else {
