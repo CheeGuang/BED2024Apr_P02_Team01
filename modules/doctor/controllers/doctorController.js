@@ -123,7 +123,6 @@ const googleLogin = async (req, res) => {
     res.status(400).json({ error: "Google authentication failed" });
   }
 };
-
 module.exports = {
   getAllDoctors,
   createDoctor,
