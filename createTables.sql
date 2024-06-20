@@ -28,7 +28,8 @@ CREATE TABLE Patient (
     googleId NVARCHAR(100) UNIQUE,
     givenName NVARCHAR(100),
     familyName NVARCHAR(100),
-    profilePicture NVARCHAR(255)
+    profilePicture NVARCHAR(255),
+    Cart NVARCHAR(MAX) -- New attribute for cart
 );
 
 -- Create Doctor table
@@ -41,7 +42,11 @@ CREATE TABLE Doctor (
     DOB DATE,
     Gender NVARCHAR(10),
     Profession NVARCHAR(100),
-    resetPasswordCode NVARCHAR(100)
+    resetPasswordCode NVARCHAR(100),
+    googleId NVARCHAR(100) UNIQUE, -- New attribute for Google ID
+    givenName NVARCHAR(100), -- New attribute for Google given name
+    familyName NVARCHAR(100), -- New attribute for Google family name
+    profilePicture NVARCHAR(255) -- New attribute for Google profile picture
 );
 
 -- Create Medicine table

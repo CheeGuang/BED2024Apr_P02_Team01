@@ -4,12 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Ownership Verification -->
-    <meta
-      name="google-site-verification"
-      content="d2_qi_7JJuLlqM-m5MiGvf_a2yXjse2yF3qygItovD0"
-    />
-
     <!-- Bootstrap Link -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -37,9 +31,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <!-- Google API  -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -55,12 +46,20 @@
     <link rel="stylesheet" href="./css/normalize.css" />
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/navbar.css" />
-    <link rel="stylesheet" href="./css/index.css" />
+
+    <!-- INSERT PAGE'S CSS HERE \/-->
+    <link rel="stylesheet" href="css/doctorSignUp.css" />
+    <!-- END OF PAGE'S CSS /\-->
+
     <link rel="stylesheet" href="./css/footer.css" defer />
 
     <!-- Linking JS -->
     <script src="./js/script.js" defer></script>
     <script src="./js/navbarFooter.js" defer></script>
+
+    <!-- INSERT PAGE'S JS HERE \/-->
+    <script src="./js/doctorSignUp.js" defer></script>
+    <!-- END OF PAGE'S JS /\-->
 
     <!-- Add a favicon to the tab bar -->
     <link
@@ -68,49 +67,6 @@
       type="image/x-icon"
       href="./images/SyncHealthLogo-Small.png"
     />
-
-    <style>
-      .service-btn {
-        width: 100%;
-        height: 150px;
-        margin: 10px 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-      }
-      @media (min-width: 768px) {
-        .service-btn {
-          width: 48%;
-          height: 150px;
-          margin: 10px;
-        }
-      }
-      .btn-block {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        padding: 20px;
-        text-align: center;
-        border-radius: 10px;
-        transition: transform 0.2s;
-        color: black;
-      }
-      .btn-block i {
-        display: block;
-        margin-bottom: 10px;
-        font-size: 2rem;
-      }
-      .btn-block:hover {
-        transform: scale(1.05);
-      }
-      .btn-block div {
-        font-size: 1rem;
-      }
-    </style>
   </head>
   <body>
     <header>
@@ -121,32 +77,65 @@
       <div class="row justify-content-center">
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
-          <div class="text-center my-5">
-            <h1>
-              Healthcare, For Every Family<br />From the Comfort of Your Home
-            </h1>
-          </div>
-          <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-12 col-md-5 mb-3 service-btn">
-                <a
-                  href="./patientLogin.html"
-                  class="btn btn-block"
-                  style="background-color: #cdeff7"
-                >
-                  <i class="fas fa-user"></i> <strong>Patient Portal</strong>
-                </a>
+          <div class="signup-card">
+            <h2 id="welcomeMessage" class="text-center mb-4"></h2>
+            <form id="signUpForm">
+              <div class="form-group">
+                <label for="contactNumber">Contact Number*:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="contactNumber"
+                  name="contactNumber"
+                  required
+                />
               </div>
-              <div class="col-12 col-md-5 mb-3 service-btn">
-                <a
-                  href="./doctorLogin.html"
-                  class="btn btn-block"
-                  style="background-color: #ffe0e0"
-                >
-                  <i class="fas fa-user-md"></i><strong>Doctor Portal</strong>
-                </a>
+              <div class="form-group">
+                <label for="dob">Date of Birth*:</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dob"
+                  name="dob"
+                  required
+                />
               </div>
-            </div>
+              <div class="form-group">
+                <label for="gender">Gender*:</label>
+                <select class="form-control" id="gender" name="gender" required>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="address">Address*:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  name="address"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="pchi">Household Monthly Income Per Person*:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pchi"
+                  name="pchi"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >To be eligible, the household monthly income per person
+                  should be $1200 or less.
+                </small>
+              </div>
+              <div id="errorMessage" class="alert alert-danger d-none"></div>
+              <button type="submit" class="btn btn-primary w-100">
+                Sign Up
+              </button>
+            </form>
           </div>
           <!-- END OF CONTENT -->
         </div>

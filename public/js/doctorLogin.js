@@ -1,5 +1,5 @@
 function handleCredentialResponse(response) {
-  fetch("/api/patient/googleLogin", {
+  fetch("/api/doctor/googleLogin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,16 +12,16 @@ function handleCredentialResponse(response) {
         console.error("Authentication failed", data.error);
       } else {
         localStorage.setItem(
-          "patientDetails",
-          JSON.stringify(data.patientDetails)
+          "doctorDetails",
+          JSON.stringify(data.doctorDetails)
         );
 
-        if (!data.patientDetails.Address) {
+        if (!data.doctorDetails.Address) {
           // Redirect to sign up if address is null or undefined
-          window.location.href = "../patientSignUp.html";
+          window.location.href = "../doctorSignUp.html";
         } else {
           // Redirect to home page if address is not null
-          window.location.href = "../patientHomePage.html";
+          window.location.href = "../doctorHomePage.html";
         }
       }
     })
