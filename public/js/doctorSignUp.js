@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
           } else {
             console.log("Doctor data updated successfully", data);
             localStorage.setItem("doctorDetails", JSON.stringify(data));
+            localStorage.setItem("DoctorID", data.DoctorID);
             window.location.href = "../doctorHomePage.html"; // Redirect to home page after sign-up
           }
         })

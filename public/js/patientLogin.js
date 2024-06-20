@@ -11,9 +11,12 @@ function handleCredentialResponse(response) {
       if (data.error) {
         console.error("Authentication failed", data.error);
       } else {
-        localStorage.setItem("patientDetails", JSON.stringify(data.user));
+        localStorage.setItem(
+          "patientDetails",
+          JSON.stringify(data.patientDetails)
+        );
 
-        if (!data.user.Address) {
+        if (!data.patientDetails.Address) {
           // Redirect to sign up if address is null or undefined
           window.location.href = "../patientSignUp.html";
         } else {
