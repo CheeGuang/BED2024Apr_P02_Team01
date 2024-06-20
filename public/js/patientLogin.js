@@ -18,14 +18,8 @@ function handleCredentialResponse(response) {
       if (data.error) {
         console.error("Authentication failed", data.error);
       } else {
-        console.log(
-          "Authentication successful, patient details:",
-          data.patientDetails
-        );
-        localStorage.setItem(
-          "patientDetails",
-          JSON.stringify(data.patientDetails)
-        );
+        console.log("Authentication successful, patient details:", data.user);
+        localStorage.setItem("patientDetails", JSON.stringify(data.user));
 
         if (!data.patientDetails.Address) {
           console.log(
