@@ -78,7 +78,7 @@
         <div class="col-md-12">
           <!-- INSERT CONTENT HERE -->
           <div class="signup-card">
-            <h2 id="welcomeMessage" class="text-center mb-4"></h2>
+            <h2 id="welcomeMessage" class="text-center mb-4">Welcome!</h2>
             <form id="signUpForm">
               <div class="form-group">
                 <label for="contactNumber">Contact Number*:</label>
@@ -89,6 +89,9 @@
                   name="contactNumber"
                   required
                 />
+                <small class="form-text text-muted"
+                  >8 digit number starting with 8 or 9.
+                </small>
               </div>
               <div class="form-group">
                 <label for="dob">Date of Birth*:</label>
@@ -99,6 +102,9 @@
                   name="dob"
                   required
                 />
+                <small class="form-text text-muted"
+                  >Any day before today.
+                </small>
               </div>
               <div class="form-group">
                 <label for="gender">Gender*:</label>
@@ -116,20 +122,6 @@
                   name="address"
                   required
                 />
-              </div>
-              <div class="form-group">
-                <label for="pchi">Household Monthly Income Per Person*:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="pchi"
-                  name="pchi"
-                  required
-                />
-                <small class="form-text text-muted"
-                  >To be eligible, the household monthly income per person
-                  should be $1200 or less.
-                </small>
               </div>
               <div id="errorMessage" class="alert alert-danger d-none"></div>
               <button type="submit" class="btn btn-primary w-100">
