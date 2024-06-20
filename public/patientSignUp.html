@@ -81,17 +81,7 @@
             <h2 class="text-center mb-4">Patient Sign-Up</h2>
             <form id="signUpForm">
               <div class="form-group">
-                <label for="email">Email:</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="contactNumber">Contact Number:</label>
+                <label for="contactNumber">Contact Number*:</label>
                 <input
                   type="text"
                   class="form-control"
@@ -101,7 +91,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="dob">Date of Birth:</label>
+                <label for="dob">Date of Birth*:</label>
                 <input
                   type="date"
                   class="form-control"
@@ -111,14 +101,14 @@
                 />
               </div>
               <div class="form-group">
-                <label for="gender">Gender:</label>
+                <label for="gender">Gender*:</label>
                 <select class="form-control" id="gender" name="gender" required>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="address">Address:</label>
+                <label for="address">Address*:</label>
                 <input
                   type="text"
                   class="form-control"
@@ -127,6 +117,21 @@
                   required
                 />
               </div>
+              <div class="form-group">
+                <label for="pchi">Household Monthly Income Per Person*:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pchi"
+                  name="pchi"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >To be eligible, the household monthly income per person
+                  should be $1200 or less.
+                </small>
+              </div>
+              <div id="errorMessage" class="alert alert-danger d-none"></div>
               <button type="submit" class="btn btn-primary w-100">
                 Sign Up
               </button>
