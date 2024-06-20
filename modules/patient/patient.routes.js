@@ -16,7 +16,7 @@ patientRoutes.get("/", patientController.getAllPatients);
 patientRoutes.get("/search", patientController.searchPatients);
 patientRoutes.post("/", patientController.createPatient); // Add route for creating a patient
 
-patientRoutes.post("/auth/google", patientController.googleLogin);
+patientRoutes.post("/googleLogin", patientController.googleLogin);
 
 patientRoutes.get("/:id", patientController.getPatientById);
 patientRoutes.put("/:id", patientController.updatePatient); // PUT for updating patients

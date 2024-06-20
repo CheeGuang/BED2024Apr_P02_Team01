@@ -1,5 +1,5 @@
 function handleCredentialResponse(response) {
-  fetch("/api/auth/google", {
+  fetch("/api/googleLogin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
