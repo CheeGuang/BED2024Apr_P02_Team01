@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOMContentLoaded event triggered");
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  console.log("User data from localStorage:", user);
+  const doctorDetails = JSON.parse(localStorage.getItem("doctorDetails"));
+  console.log("User data from localStorage:", doctorDetails);
 
-  if (user && user.givenName) {
+  if (doctorDetails && doctorDetails.givenName) {
     document.getElementById(
       "welcomeMessage"
-    ).textContent = `Welcome, Dr. ${user.givenName} ${user.familyName}!`;
+    ).textContent = `Welcome, Dr. ${doctorDetails.givenName} ${doctorDetails.familyName}!`;
   }
 
   document
@@ -61,18 +61,18 @@ document.addEventListener("DOMContentLoaded", function () {
         DOB: dob,
         Gender: gender,
         Address: address,
-        Email: user.Email,
-        googleId: user.googleId,
-        givenName: user.givenName,
-        familyName: user.familyName,
-        profilePicture: user.profilePicture,
+        Email: doctorDetails.Email,
+        googleId: doctorDetails.googleId,
+        givenName: doctorDetails.givenName,
+        familyName: doctorDetails.familyName,
+        profilePicture: doctorDetails.profilePicture,
         resetPasswordCode: null, // Default value
       };
 
       console.log("New doctor data object:", newDoctorData);
 
       // Send data to server
-      fetch(`/api/doctor/${user.DoctorID}`, {
+      fetch(`/api/doctor/${doctorDetails.DoctorID}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error updating doctor", data.error);
           } else {
             console.log("Doctor data updated successfully", data);
-            localStorage.setItem("user", JSON.stringify(data));
+            localStorage.setItem("doctorDetails", JSON.stringify(data));
             window.location.href = "../doctorHomePage.html"; // Redirect to home page after sign-up
           }
         })
