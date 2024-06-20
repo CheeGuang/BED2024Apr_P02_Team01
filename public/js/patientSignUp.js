@@ -1,3 +1,11 @@
+// Retrieve user from localStorage
+const user = JSON.parse(localStorage.getItem("user"));
+
+// Set welcome message
+document.getElementById(
+  "welcomeMessage"
+).textContent = `Welcome, ${user.givenName}. Please provide the following details:`;
+
 document
   .getElementById("signUpForm")
   .addEventListener("submit", function (event) {
@@ -10,7 +18,7 @@ document
     const pchi = document.getElementById("pchi").value;
     const errorMessage = document.getElementById("errorMessage");
 
-    const googleUser = JSON.parse(localStorage.getItem("googleUser"));
+    const user = JSON.parse(localStorage.getItem("user"));
 
     // Clear previous error messages
     errorMessage.classList.add("d-none");
@@ -40,7 +48,7 @@ document
     }
 
     const newPatientData = {
-      Email: googleUser.email,
+      Email: user.Email,
       ContactNumber: contactNumber,
       DOB: dob,
       Gender: gender,
@@ -48,10 +56,10 @@ document
       eWalletAmount: 0, // Default value
       resetPasswordCode: null, // Default value
       PCHI: pchi, // PCHI value
-      googleId: googleUser.googleId,
-      givenName: googleUser.givenName,
-      familyName: googleUser.familyName,
-      profilePicture: googleUser.profilePicture, // Updated field name
+      googleId: user.googleId,
+      givenName: user.givenName,
+      familyName: user.familyName,
+      profilePicture: user.profilePicture, // Updated field name
     };
 
     fetch("/api/patient/", {
