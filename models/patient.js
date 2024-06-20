@@ -33,18 +33,24 @@ class Patient {
   }
 
   static async findOrCreateGoogleUser(googleUserData) {
+    console.log("findOrCreateGoogleUser called with data:", googleUserData);
+
     const connection = await sql.connect(dbConfig);
+    console.log("Database connection established");
 
     const findQuery = `SELECT * FROM Patient WHERE googleId = @googleId`;
     const request = connection.request();
     request.input("googleId", googleUserData.googleId);
     let result = await request.query(findQuery);
+    console.log("Find query executed, result:", result);
 
     if (result.recordset.length > 0) {
+      console.log("User found:", result.recordset[0]);
       connection.close();
       return result.recordset[0];
     }
 
+    console.log("User not found, creating new user");
     const createQuery = `INSERT INTO Patient (Email, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI, googleId, givenName, familyName, profilePicture) 
                          VALUES (@Email, @ContactNumber, @DOB, @Gender, @Address, @eWalletAmount, @resetPasswordCode, @PCHI, @googleId, @givenName, @familyName, @profilePicture); 
                          SELECT SCOPE_IDENTITY() AS PatientID;`;
@@ -63,9 +69,12 @@ class Patient {
     request.input("profilePicture", googleUserData.profilePicture);
 
     result = await request.query(createQuery);
+    console.log("Create query executed, result:", result);
     connection.close();
 
-    return this.getPatientById(result.recordset[0].PatientID);
+    const newPatient = await this.getPatientById(result.recordset[0].PatientID);
+    console.log("New user created and retrieved:", newPatient);
+    return newPatient;
   }
 
   static async getPatientById(id) {

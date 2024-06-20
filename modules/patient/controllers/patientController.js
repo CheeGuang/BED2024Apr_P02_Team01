@@ -6,6 +6,7 @@ const client = new OAuth2Client(process.env.googleId);
 const googleLogin = async (req, res) => {
   console.log("googleLogin Function Called");
   const { token } = req.body;
+  console.log("Received token:", token);
 
   try {
     const ticket = await client.verifyIdToken({
@@ -13,8 +14,17 @@ const googleLogin = async (req, res) => {
       audience: process.env.googleId,
     });
 
+    console.log("Ticket verified");
+
     const { sub, email, given_name, family_name, picture } =
       ticket.getPayload();
+    console.log("Payload received:", {
+      sub,
+      email,
+      given_name,
+      family_name,
+      picture,
+    });
 
     const userData = {
       googleId: sub,
@@ -31,7 +41,10 @@ const googleLogin = async (req, res) => {
       profilePicture: picture, // Updated field name
     };
 
+    console.log("User data constructed:", userData);
+
     let user = await Patient.findOrCreateGoogleUser(userData);
+    console.log("User found or created:", user);
 
     res.status(200).json({
       googleId: sub,
@@ -41,7 +54,9 @@ const googleLogin = async (req, res) => {
       profilePicture: picture,
       user,
     });
+    console.log("Response sent successfully");
   } catch (error) {
+    console.error("Error in Google authentication:", error);
     res.status(400).json({ error: "Google authentication failed" });
   }
 };
