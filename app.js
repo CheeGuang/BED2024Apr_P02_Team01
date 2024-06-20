@@ -19,8 +19,6 @@ const doctorRoutes = require("./modules/doctor/doctor.routes");
 const medicineRoutes = require("./modules/medicine/medicine.routes");
 // Initialising appointmentRoutes
 const appointmentRoutes = require("./modules/appointment/appointment.routes");
-// Initialising authenticateRoutes
-const authenticateRoutes = require("./modules/authenticate/authenticate.routes");
 // Initialising SQL
 const sql = require("mssql");
 // Initialising dbConfig file
