@@ -4,6 +4,7 @@ const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.googleId);
 
 const googleLogin = async (req, res) => {
+  console.log("googleLogin Function Called");
   const { token } = req.body;
 
   try {
