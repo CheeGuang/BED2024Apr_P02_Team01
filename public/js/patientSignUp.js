@@ -62,8 +62,8 @@ document
       profilePicture: user.profilePicture, // Updated field name
     };
 
-    fetch("/api/patient/", {
-      method: "POST",
+    fetch(`/api/patient/${user.PatientID}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -72,7 +72,7 @@ document
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          console.error("Error creating patient", data.error);
+          console.error("Error updating patient", data.error);
         } else {
           localStorage.setItem("user", JSON.stringify(data));
           localStorage.setItem("PatientID", data.PatientID);
