@@ -20,10 +20,7 @@ function handleCredentialResponse(response) {
         console.log(
           "Authentication successful, storing doctor details in localStorage"
         );
-        localStorage.setItem(
-          "doctorDetails",
-          JSON.stringify(data.doctorDetails)
-        );
+        localStorage.setItem("doctorDetails", JSON.stringify(data.user));
 
         if (!data.doctorDetails.ContactNumber) {
           console.log(
