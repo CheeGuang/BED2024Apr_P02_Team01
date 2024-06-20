@@ -31,6 +31,7 @@ function handleCredentialResponse(response) {
           console.log(
             "ContactNumber is present, redirecting to doctorHomePage.html"
           );
+          localStorage.setItem("DoctorID", data.user.DoctorID);
           window.location.href = "../doctorHomePage.html";
         }
       }
