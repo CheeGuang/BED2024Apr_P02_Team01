@@ -73,9 +73,6 @@ app.use("/api/doctor", doctorRoutes);
 // Medicine Routes Route
 app.use("/api/medicine", medicineRoutes);
 
-// Authenticate Routes Route
-app.use("/api/auth", authenticateRoutes);
-
 // End of all routes
 app.all("*", (req, res, next) => {
   res.status(404).json({
