@@ -1,4 +1,6 @@
 function handleCredentialResponse(response) {
+  console.log("handleCredentialResponse called with response:", response);
+
   fetch("/api/doctor/googleLogin", {
     method: "POST",
     headers: {
@@ -6,21 +8,32 @@ function handleCredentialResponse(response) {
     },
     body: JSON.stringify({ token: response.credential }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      console.log("Response received from /api/doctor/googleLogin:", response);
+      return response.json();
+    })
     .then((data) => {
+      console.log("Data received:", data);
       if (data.error) {
         console.error("Authentication failed", data.error);
       } else {
+        console.log(
+          "Authentication successful, storing doctor details in localStorage"
+        );
         localStorage.setItem(
           "doctorDetails",
           JSON.stringify(data.doctorDetails)
         );
 
         if (!data.doctorDetails.ContactNumber) {
-          // Redirect to sign up if address is null or undefined
+          console.log(
+            "ContactNumber is null or undefined, redirecting to doctorSignUp.html"
+          );
           window.location.href = "../doctorSignUp.html";
         } else {
-          // Redirect to home page if address is not null
+          console.log(
+            "ContactNumber is present, redirecting to doctorHomePage.html"
+          );
           window.location.href = "../doctorHomePage.html";
         }
       }
@@ -31,6 +44,7 @@ function handleCredentialResponse(response) {
 }
 
 window.onload = function () {
+  console.log("Initializing Google Sign-In");
   google.accounts.id.initialize({
     client_id:
       "669052276058-vlo56v1ae21jida2o982ams3rgfimajd.apps.googleusercontent.com",
@@ -40,4 +54,5 @@ window.onload = function () {
     theme: "outline",
     size: "large",
   });
+  console.log("Google Sign-In button rendered");
 };

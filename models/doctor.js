@@ -4,9 +4,7 @@ const dbConfig = require("../dbConfig");
 class Doctor {
   constructor(
     DoctorID,
-    Name,
     Email,
-    Password,
     ContactNumber,
     DOB,
     Gender,
@@ -18,9 +16,7 @@ class Doctor {
     profilePicture // New field for Google profile picture
   ) {
     this.DoctorID = DoctorID;
-    this.Name = Name;
     this.Email = Email;
-    this.Password = Password;
     this.ContactNumber = ContactNumber;
     this.DOB = DOB;
     this.Gender = Gender;
@@ -46,9 +42,7 @@ class Doctor {
       (row) =>
         new Doctor(
           row.DoctorID,
-          row.Name,
           row.Email,
-          row.Password,
           row.ContactNumber,
           row.DOB,
           row.Gender,
@@ -76,9 +70,7 @@ class Doctor {
     return result.recordset[0]
       ? new Doctor(
           result.recordset[0].DoctorID,
-          result.recordset[0].Name,
           result.recordset[0].Email,
-          result.recordset[0].Password,
           result.recordset[0].ContactNumber,
           result.recordset[0].DOB,
           result.recordset[0].Gender,
@@ -95,12 +87,10 @@ class Doctor {
   static async createDoctor(newDoctorData) {
     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = `INSERT INTO Doctor (Name, Email, Password, ContactNumber, DOB, Gender, Profession, resetPasswordCode, googleId, givenName, familyName, profilePicture) VALUES (@Name, @Email, @Password, @ContactNumber, @DOB, @Gender, @Profession, @resetPasswordCode, @googleId, @givenName, @familyName, @profilePicture); SELECT SCOPE_IDENTITY() AS DoctorID;`;
+    const sqlQuery = `INSERT INTO Doctor (Email, ContactNumber, DOB, Gender, Profession, resetPasswordCode, googleId, givenName, familyName, profilePicture) VALUES (@Email, @ContactNumber, @DOB, @Gender, @Profession, @resetPasswordCode, @googleId, @givenName, @familyName, @profilePicture); SELECT SCOPE_IDENTITY() AS DoctorID;`;
 
     const request = connection.request();
-    request.input("Name", newDoctorData.Name);
     request.input("Email", newDoctorData.Email);
-    request.input("Password", newDoctorData.Password);
     request.input("ContactNumber", newDoctorData.ContactNumber);
     request.input("DOB", newDoctorData.DOB);
     request.input("Gender", newDoctorData.Gender);
@@ -121,13 +111,11 @@ class Doctor {
   static async updateDoctor(DoctorID, newDoctorData) {
     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = `UPDATE Doctor SET Name = @Name, Email = @Email, Password = @Password, ContactNumber = @ContactNumber, DOB = @DOB, Gender = @Gender, Profession = @Profession, resetPasswordCode = @resetPasswordCode, googleId = @googleId, givenName = @givenName, familyName = @familyName, profilePicture = @profilePicture WHERE DoctorID = @DoctorID`;
+    const sqlQuery = `UPDATE Doctor SET Email = @Email, ContactNumber = @ContactNumber, DOB = @DOB, Gender = @Gender, Profession = @Profession, resetPasswordCode = @resetPasswordCode, googleId = @googleId, givenName = @givenName, familyName = @familyName, profilePicture = @profilePicture WHERE DoctorID = @DoctorID`;
 
     const request = connection.request();
     request.input("DoctorID", DoctorID);
-    request.input("Name", newDoctorData.Name || null);
     request.input("Email", newDoctorData.Email || null);
-    request.input("Password", newDoctorData.Password || null);
     request.input("ContactNumber", newDoctorData.ContactNumber || null);
     request.input("DOB", newDoctorData.DOB || null);
     request.input("Gender", newDoctorData.Gender || null);
@@ -179,12 +167,10 @@ class Doctor {
     }
 
     console.log("User not found, creating new user");
-    const createQuery = `INSERT INTO Doctor (Name, Email, Password, ContactNumber, DOB, Gender, Profession, resetPasswordCode, googleId, givenName, familyName, profilePicture) VALUES (@Name, @Email, @Password, @ContactNumber, @DOB, @Gender, @Profession, @resetPasswordCode, @googleId, @givenName, @familyName, @profilePicture); SELECT SCOPE_IDENTITY() AS DoctorID;`;
+    const createQuery = `INSERT INTO Doctor (Email, ContactNumber, DOB, Gender, Profession, resetPasswordCode, googleId, givenName, familyName, profilePicture) VALUES (@Email, @ContactNumber, @DOB, @Gender, @Profession, @resetPasswordCode, @googleId, @givenName, @familyName, @profilePicture); SELECT SCOPE_IDENTITY() AS DoctorID;`;
 
     let createRequest = connection.request();
-    createRequest.input("Name", googleUserData.Name);
     createRequest.input("Email", googleUserData.Email);
-    createRequest.input("Password", googleUserData.Password);
     createRequest.input("ContactNumber", googleUserData.ContactNumber);
     createRequest.input("DOB", googleUserData.DOB);
     createRequest.input("Gender", googleUserData.Gender);
