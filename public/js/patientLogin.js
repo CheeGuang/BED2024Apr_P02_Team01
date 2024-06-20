@@ -21,7 +21,7 @@ function handleCredentialResponse(response) {
         console.log("Authentication successful, patient details:", data.user);
         localStorage.setItem("patientDetails", JSON.stringify(data.user));
 
-        if (!data.patientDetails.Address) {
+        if (!data.user.Address) {
           console.log(
             "Address is null or undefined, redirecting to sign-up page"
           );
