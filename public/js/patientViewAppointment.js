@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Set PatientID in local storage
-  localStorage.setItem("PatientID", "1");
-
   // Get PatientID from local storage
   const PatientID = localStorage.getItem("PatientID");
 

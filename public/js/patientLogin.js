@@ -28,6 +28,7 @@ function handleCredentialResponse(response) {
           window.location.href = "../patientSignUp.html";
         } else {
           console.log("Address is present, redirecting to home page");
+          localStorage.setItem("PatientID", data.user.PatientID);
           window.location.href = "../patientHomePage.html";
         }
       }
