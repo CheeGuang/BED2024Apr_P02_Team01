@@ -38,10 +38,11 @@ class Patient {
     const connection = await sql.connect(dbConfig);
     console.log("Database connection established");
 
+    // Find existing user
     const findQuery = `SELECT * FROM Patient WHERE googleId = @googleId`;
-    const request = connection.request();
-    request.input("googleId", googleUserData.googleId);
-    let result = await request.query(findQuery);
+    let findRequest = connection.request();
+    findRequest.input("googleId", googleUserData.googleId);
+    let result = await findRequest.query(findQuery);
     console.log("Find query executed, result:", result);
 
     if (result.recordset.length > 0) {
@@ -55,20 +56,21 @@ class Patient {
                          VALUES (@Email, @ContactNumber, @DOB, @Gender, @Address, @eWalletAmount, @resetPasswordCode, @PCHI, @googleId, @givenName, @familyName, @profilePicture); 
                          SELECT SCOPE_IDENTITY() AS PatientID;`;
 
-    request.input("Email", googleUserData.Email);
-    request.input("ContactNumber", googleUserData.ContactNumber);
-    request.input("DOB", googleUserData.DOB);
-    request.input("Gender", googleUserData.Gender);
-    request.input("Address", googleUserData.Address);
-    request.input("eWalletAmount", googleUserData.eWalletAmount);
-    request.input("resetPasswordCode", googleUserData.resetPasswordCode);
-    request.input("PCHI", googleUserData.PCHI);
-    request.input("googleId", googleUserData.googleId);
-    request.input("givenName", googleUserData.givenName);
-    request.input("familyName", googleUserData.familyName);
-    request.input("profilePicture", googleUserData.profilePicture);
+    let createRequest = connection.request();
+    createRequest.input("Email", googleUserData.Email);
+    createRequest.input("ContactNumber", googleUserData.ContactNumber);
+    createRequest.input("DOB", googleUserData.DOB);
+    createRequest.input("Gender", googleUserData.Gender);
+    createRequest.input("Address", googleUserData.Address);
+    createRequest.input("eWalletAmount", googleUserData.eWalletAmount);
+    createRequest.input("resetPasswordCode", googleUserData.resetPasswordCode);
+    createRequest.input("PCHI", googleUserData.PCHI);
+    createRequest.input("googleId", googleUserData.googleId);
+    createRequest.input("givenName", googleUserData.givenName);
+    createRequest.input("familyName", googleUserData.familyName);
+    createRequest.input("profilePicture", googleUserData.profilePicture);
 
-    result = await request.query(createQuery);
+    result = await createRequest.query(createQuery);
     console.log("Create query executed, result:", result);
     connection.close();
 
