@@ -22,7 +22,7 @@ function handleCredentialResponse(response) {
         );
         localStorage.setItem("doctorDetails", JSON.stringify(data.user));
 
-        if (!data.doctorDetails.ContactNumber) {
+        if (!data.user.ContactNumber) {
           console.log(
             "ContactNumber is null or undefined, redirecting to doctorSignUp.html"
           );

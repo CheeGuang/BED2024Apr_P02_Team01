@@ -13,7 +13,7 @@ function handleCredentialResponse(response) {
       } else {
         localStorage.setItem("patientDetails", JSON.stringify(data.user));
 
-        if (!data.patientDetails.Address) {
+        if (!data.user.Address) {
           // Redirect to sign up if address is null or undefined
           window.location.href = "../patientSignUp.html";
         } else {
