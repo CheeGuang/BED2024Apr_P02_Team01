@@ -37,8 +37,6 @@ const createDoctor = async (req, res) => {
   }
 };
 
-const Doctor = require("../../../models/doctor.js");
-
 const updateDoctor = async (req, res) => {
   const doctorId = parseInt(req.params.id);
   const newDoctorData = req.body;
