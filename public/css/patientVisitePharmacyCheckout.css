@@ -1,0 +1,63 @@
+.order-summary {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.order-summary h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.order-summary .item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.order-summary .item p {
+  margin: 0;
+}
+
+.order-summary .total {
+  font-weight: bold;
+}
+
+.order-summary .ewallet {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.order-summary .ewallet p:last-child {
+  color: #ccc;
+}
+
+.order-summary button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  margin-top: 20px;
+}
+
+.fa-arrow-left {
+  color: #1a252f;
+}
+
+.fa-arrow-left {
+  margin-bottom: 20px;
+  color: var(--font-color);
+}

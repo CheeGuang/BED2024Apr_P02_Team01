@@ -12,6 +12,7 @@ class Patient {
     eWalletAmount,
     resetPasswordCode,
     PCHI,
+    Cart = {},
     googleId, // New field for Google ID
     givenName, // New field for Google given name
     familyName, // New field for Google family name
@@ -30,6 +31,7 @@ class Patient {
     this.givenName = givenName;
     this.familyName = familyName;
     this.profilePicture = profilePicture;
+    this.Cart = Cart;
   }
 
   static async findOrCreateGoogleUser(googleUserData) {
@@ -100,6 +102,7 @@ class Patient {
           result.recordset[0].eWalletAmount,
           result.recordset[0].resetPasswordCode,
           result.recordset[0].PCHI,
+          JSON.parse(result.recordset[0].Cart),,
           result.recordset[0].googleId,
           result.recordset[0].givenName,
           result.recordset[0].familyName,
@@ -111,8 +114,8 @@ class Patient {
   static async createPatient(newPatientData) {
     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = `INSERT INTO Patient (Email, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI, googleId, givenName, familyName, profilePicture) 
-                      VALUES (@Email, @ContactNumber, @DOB, @Gender, @Address, @eWalletAmount, @resetPasswordCode, @PCHI, @googleId, @givenName, @familyName, @profilePicture); 
+    const sqlQuery = `INSERT INTO Patient (Email, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI, googleId, givenName, familyName, profilePicture, Cart) 
+                      VALUES (@Email, @ContactNumber, @DOB, @Gender, @Address, @eWalletAmount, @resetPasswordCode, @PCHI, @googleId, @givenName, @familyName, @profilePicture, @Cart); 
                       SELECT SCOPE_IDENTITY() AS PatientID;`;
 
     const request = connection.request();
@@ -128,6 +131,7 @@ class Patient {
     request.input("givenName", newPatientData.givenName);
     request.input("familyName", newPatientData.familyName);
     request.input("profilePicture", newPatientData.profilePicture);
+    request.input("Cart", newPatientData.Cart);
 
     const result = await request.query(sqlQuery);
 
@@ -148,6 +152,7 @@ class Patient {
                         eWalletAmount = @eWalletAmount, 
                         resetPasswordCode = @resetPasswordCode, 
                         PCHI = @PCHI,
+                        Cart = @Cart,
                         googleId = @googleId,
                         givenName = @givenName,
                         familyName = @familyName,
@@ -168,6 +173,7 @@ class Patient {
     request.input("givenName", newPatientData.givenName);
     request.input("familyName", newPatientData.familyName);
     request.input("profilePicture", newPatientData.profilePicture);
+    request.input("Cart", newPatientData.Cart);
 
     await request.query(sqlQuery);
 
@@ -211,6 +217,49 @@ class Patient {
       await connection.close();
     }
   }
+
+  static async updateCart(patientId, newItem) {
+    try {
+      const patient = await this.getPatientById(patientId);
+      if (!patient) {
+        throw new Error(`Patient with ID ${patientId} not found`);
+      }
+
+      // Merge new item with existing cart
+      const updatedCart = { ...patient.Cart, ...newItem };
+
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `
+        UPDATE Patient
+        SET Cart = @cart
+        WHERE PatientID = @id
+      `;
+      const request = connection.request();
+      request.input("cart", JSON.stringify(updatedCart));
+      request.input("id", patientId);
+      await request.query(sqlQuery);
+
+      connection.close();
+
+      // Return updated patient object (optional)
+      return await this.getPatientById(patientId);
+    } catch (error) {
+      throw new Error(`Error updating patient cart: ${error.message}`);
+    }
+  }
+
+  static async clearCart(patientId) {
+    const connection = await sql.connect(dbConfig);
+  
+    const sqlQuery = `UPDATE Patient SET Cart = NULL WHERE PatientID = @id`;
+  
+    const request = connection.request();
+    request.input("id", patientId);
+  
+    await request.query(sqlQuery);
+  
+    connection.close();
+  }  
 
   static async getAllPatients() {
     const connection = await sql.connect(dbConfig);

@@ -78,3 +78,4 @@ CREATE TABLE PatientMedicine (
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
     FOREIGN KEY (MedicineID) REFERENCES Medicine(MedicineID)
 );
+
