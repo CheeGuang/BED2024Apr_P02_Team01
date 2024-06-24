@@ -26,7 +26,8 @@ CREATE TABLE Patient (
     Address NVARCHAR(255),
     eWalletAmount DECIMAL(10, 2),
     resetPasswordCode NVARCHAR(100),
-    PCHI DECIMAL(10, 2) -- Per Capita Household Income
+    PCHI DECIMAL(10, 2), -- Per Capita Household Income
+    Cart NVARCHAR(MAX)
 );
 
 -- Create Doctor table
@@ -73,3 +74,4 @@ CREATE TABLE PatientMedicine (
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
     FOREIGN KEY (MedicineID) REFERENCES Medicine(MedicineID)
 );
+

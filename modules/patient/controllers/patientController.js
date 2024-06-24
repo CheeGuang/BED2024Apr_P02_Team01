@@ -80,6 +80,30 @@ const searchPatients = async (req, res) => {
   }
 };
 
+async function updatePatientCart(req, res) {
+  const patientId = req.params.patientId;
+  const newItem = req.body;
+
+  try {
+    const updatedPatient = await Patient.updateCart(patientId, newItem);
+    res.json({ status: "Success", data: updatedPatient });
+  } catch (error) {
+    res.status(500).json({ status: "Failed", message: error.message });
+  }
+};
+
+const clearCart = async (req, res) => {
+  const patientId = req.params.patientId;
+
+  try {
+    await Patient.clearCart(patientId);
+    res.json({ status: "Success", message: "Cart cleared!" });
+  } catch (error) {
+    console.error('Error clearing cart:', error.message);
+    res.status(500).json({ status: "Failed", message: "Failed to clear cart" });
+  }
+};
+
 module.exports = {
   getAllPatients,
   createPatient,
@@ -87,4 +111,6 @@ module.exports = {
   updatePatient,
   deletePatient,
   searchPatients,
+  updatePatientCart,
+  clearCart,
 };

@@ -13,7 +13,8 @@ class Patient {
     Address,
     eWalletAmount,
     resetPasswordCode,
-    PCHI
+    PCHI,
+    Cart = {}
   ) {
     this.PatientID = PatientID;
     this.Name = Name;
@@ -26,6 +27,7 @@ class Patient {
     this.eWalletAmount = eWalletAmount;
     this.resetPasswordCode = resetPasswordCode;
     this.PCHI = PCHI;
+    this.Cart = Cart;
   }
 
   static async getAllPatients() {
@@ -50,7 +52,8 @@ class Patient {
           row.Address,
           row.eWalletAmount,
           row.resetPasswordCode,
-          row.PCHI
+          row.PCHI,
+          JSON.parse(row.Cart)
         )
     );
   }
@@ -77,7 +80,8 @@ class Patient {
           result.recordset[0].Address,
           result.recordset[0].eWalletAmount,
           result.recordset[0].resetPasswordCode,
-          result.recordset[0].PCHI
+          result.recordset[0].PCHI,
+          JSON.parse(result.recordset[0].Cart),
         )
       : null;
   }
@@ -85,8 +89,8 @@ class Patient {
   static async createPatient(newPatientData) {
     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = `INSERT INTO Patient (Name, Email, Password, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI) 
-                      VALUES (@Name, @Email, @Password, @ContactNumber, @DOB, @Gender, @Address, @eWalletAmount, @resetPasswordCode, @PCHI); 
+    const sqlQuery = `INSERT INTO Patient (Name, Email, Password, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI, Cart) 
+                      VALUES (@Name, @Email, @Password, @ContactNumber, @DOB, @Gender, @Address, @eWalletAmount, @resetPasswordCode, @PCHI, @Cart); 
                       SELECT SCOPE_IDENTITY() AS PatientID;`;
 
     const request = connection.request();
@@ -100,6 +104,7 @@ class Patient {
     request.input("eWalletAmount", newPatientData.eWalletAmount);
     request.input("resetPasswordCode", newPatientData.resetPasswordCode);
     request.input("PCHI", newPatientData.PCHI);
+    request.input("Cart", newPatientData.Cart);
 
     const result = await request.query(sqlQuery);
 
@@ -121,7 +126,8 @@ class Patient {
                         Address = @Address, 
                         eWalletAmount = @eWalletAmount, 
                         resetPasswordCode = @resetPasswordCode, 
-                        PCHI = @PCHI 
+                        PCHI = @PCHI,
+                        Cart = @Cart 
                       WHERE PatientID = @id`;
 
     const request = connection.request();
@@ -136,6 +142,7 @@ class Patient {
     request.input("eWalletAmount", newPatientData.eWalletAmount);
     request.input("resetPasswordCode", newPatientData.resetPasswordCode);
     request.input("PCHI", newPatientData.PCHI);
+    request.input("Cart", newPatientData.Cart);
 
     await request.query(sqlQuery);
 
@@ -178,6 +185,49 @@ class Patient {
       await connection.close();
     }
   }
+
+  static async updateCart(patientId, newItem) {
+    try {
+      const patient = await this.getPatientById(patientId);
+      if (!patient) {
+        throw new Error(`Patient with ID ${patientId} not found`);
+      }
+
+      // Merge new item with existing cart
+      const updatedCart = { ...patient.Cart, ...newItem };
+
+      const connection = await sql.connect(dbConfig);
+      const sqlQuery = `
+        UPDATE Patient
+        SET Cart = @cart
+        WHERE PatientID = @id
+      `;
+      const request = connection.request();
+      request.input("cart", JSON.stringify(updatedCart));
+      request.input("id", patientId);
+      await request.query(sqlQuery);
+
+      connection.close();
+
+      // Return updated patient object (optional)
+      return await this.getPatientById(patientId);
+    } catch (error) {
+      throw new Error(`Error updating patient cart: ${error.message}`);
+    }
+  }
+
+  static async clearCart(patientId) {
+    const connection = await sql.connect(dbConfig);
+  
+    const sqlQuery = `UPDATE Patient SET Cart = NULL WHERE PatientID = @id`;
+  
+    const request = connection.request();
+    request.input("id", patientId);
+  
+    await request.query(sqlQuery);
+  
+    connection.close();
+  }  
 }
 
 module.exports = Patient;

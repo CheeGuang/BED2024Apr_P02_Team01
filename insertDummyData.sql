@@ -1,9 +1,9 @@
 -- Insert dummy data into Patient table
-INSERT INTO Patient (Name, Email, Password, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI)
+INSERT INTO Patient (Name, Email, Password, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI, Cart)
 VALUES 
-('John Doe', 'john.doe@example.com', 'password123', '1234567890', '1980-01-01', 'Male', '123 Main St', 100.00, 'reset123', 5000.00),
-('Jane Smith', 'jane.smith@example.com', 'password123', '0987654321', '1990-02-02', 'Female', '456 Elm St', 150.00, 'reset456', 6000.00),
-('Jim Brown', 'jim.brown@example.com', 'password123', '1122334455', '1975-03-03', 'Male', '789 Oak St', 200.00, 'reset789', 7000.00);
+('John Doe', 'john.doe@example.com', 'password123', '1234567890', '1980-01-01', 'Male', '123 Main St', 100.00, 'reset123', 5000.00, ''),
+('Jane Smith', 'jane.smith@example.com', 'password123', '0987654321', '1990-02-02', 'Female', '456 Elm St', 150.00, 'reset456', 6000.00, ''),
+('Jim Brown', 'jim.brown@example.com', 'password123', '1122334455', '1975-03-03', 'Male', '789 Oak St', 200.00, 'reset789', 7000.00, '');
 
 -- Insert dummy data into Doctor table
 INSERT INTO Doctor (Name, Email, Password, ContactNumber, DOB, Gender, Profession, resetPasswordCode)
