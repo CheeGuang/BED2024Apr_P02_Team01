@@ -246,6 +246,21 @@ class Patient {
     }
   }
 
+  static async updateEWalletAmount(id, amount) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Patient SET eWalletAmount = eWalletAmount + @amount WHERE PatientID = @id`;
+    const request = connection.request();
+    request.input("id", id);
+    request.input("amount", amount);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getPatientById(id);
+  }
+
   static async updateCart(patientId, newItem) {
     try {
       const patient = await this.getPatientById(patientId);
@@ -288,6 +303,20 @@ class Patient {
 
     connection.close();
   }
-}
 
+  static async updateEWalletAmount(id, amount) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Patient SET eWalletAmount = eWalletAmount + @amount WHERE PatientID = @id`;
+    const request = connection.request();
+    request.input("id", id);
+    request.input("amount", amount);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getPatientById(id);
+  }
+}
 module.exports = Patient;

@@ -1,0 +1,78 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.card {
+    border: none;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.balance-card {
+    border: none;
+    background-color: #f8f9fa;
+    margin-top: 30px;
+}
+
+.balance-card h3 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.balance-card p {
+    font-size: 16px;
+    color: #6c757d;
+}
+
+.balance-card h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #000;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+}
+
+.btn-link:hover {
+    color: #000;
+}
+
+.position-relative h2, .position-relative p, .position-relative .btn {
+    margin-bottom: 20px;
+}
+
+.text-center .btn {
+    width: 120px;
+    margin-top: 20px;
+}
+
+.custom-btn {
+    background-color: #153a6b;
+    border-color: #153a6b;
+}
+
+.custom-btn:hover {
+    background-color: #122e50;
+    border-color: #122e50;
+}
+
+.custom-btn:focus, .custom-btn:active, .custom-btn:active:focus {
+    background-color: #122e50 !important;
+    border-color: #122e50 !important;
+}
+
