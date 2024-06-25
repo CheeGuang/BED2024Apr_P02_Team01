@@ -26,6 +26,19 @@ const getDoctorById = async (req, res) => {
   }
 };
 
+const getGuestDoctor = async (req, res) => {
+  try {
+    const doctor = await Doctor.getGuestDoctor();
+    if (!doctor) {
+      return res.status(404).send("Doctor not found");
+    }
+    res.json(doctor);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving doctor");
+  }
+};
+
 const createDoctor = async (req, res) => {
   const newDoctor = req.body;
   try {
@@ -143,4 +156,5 @@ module.exports = {
   updateDoctor,
   deleteDoctor,
   googleLogin,
+  getGuestDoctor,
 };

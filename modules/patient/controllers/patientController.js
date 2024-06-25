@@ -96,6 +96,19 @@ const getPatientById = async (req, res) => {
   }
 };
 
+const getGuestPatient = async (req, res) => {
+  try {
+    const patient = await Patient.getGuestPatient();
+    if (!patient) {
+      return res.status(404).send("Patient not found");
+    }
+    res.json(patient);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving patient");
+  }
+};
+
 const updatePatient = async (req, res) => {
   const patientId = parseInt(req.params.id);
   const newPatientData = req.body;
@@ -175,4 +188,5 @@ module.exports = {
   googleLogin,
   updatePatientCart,
   clearCart,
+  getGuestPatient,
 };

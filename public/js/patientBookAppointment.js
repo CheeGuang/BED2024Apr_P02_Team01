@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Get PatientID from local storage
-  const PatientID = localStorage.getItem("PatientID");
+  const PatientID = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID;
   console.log("Retrieved PatientID from localStorage:", PatientID);
 
   // Get references to the DOM elements

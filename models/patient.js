@@ -110,6 +110,34 @@ class Patient {
         )
       : null;
   }
+  static async getGuestPatient() {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM Patient WHERE PatientID = 1`;
+    const request = connection.request();
+    const result = await request.query(sqlQuery);
+
+    connection.close();
+
+    return result.recordset[0]
+      ? new Patient(
+          result.recordset[0].PatientID,
+          result.recordset[0].Email,
+          result.recordset[0].ContactNumber,
+          result.recordset[0].DOB,
+          result.recordset[0].Gender,
+          result.recordset[0].Address,
+          result.recordset[0].eWalletAmount,
+          result.recordset[0].resetPasswordCode,
+          result.recordset[0].PCHI,
+          JSON.parse(result.recordset[0].Cart),
+          result.recordset[0].googleId,
+          result.recordset[0].givenName,
+          result.recordset[0].familyName,
+          result.recordset[0].profilePicture
+        )
+      : null;
+  }
 
   static async createPatient(newPatientData) {
     const connection = await sql.connect(dbConfig);

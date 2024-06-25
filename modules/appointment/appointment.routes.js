@@ -1,40 +1,55 @@
 // ========== Packages ==========
-// Initialising express
+// Initializing express
 const express = require("express");
 
 // ========== Controllers ==========
-// Initialising appointmentController
-const appointmentController = require("./controllers/CRUDAppointmentController");
-// Initialising createAppointment
-const createAppointment = require("./controllers/createAppointment");
-// Initialising getUnassignedAppointments
-const getUnassignedAppointments = require("./controllers/getUnassignedAppointment");
+// Initializing appointmentController
+const appointmentController = require("./controllers/appointmentController");
 
 // ========== Set-up ==========
-// Initialising appointmentRoutes
+// Initializing appointmentRoutes
 const appointmentRoutes = express.Router();
 
 // ========== Routes ==========
-// GET Appointment
+// Get all appointments
 appointmentRoutes.get("/", appointmentController.getAllAppointments);
-// POST Appointment
-appointmentRoutes.post("/create", createAppointment);
+
+// Create a new appointment
+appointmentRoutes.post("/create", appointmentController.createAppointment);
+
+// Get all appointments for a specific patient by their ID
 appointmentRoutes.get(
   "/getByPatientID/:id",
   appointmentController.getAppointmentsByPatientId
 );
+
+// Get all appointments for a specific doctor by their ID
 appointmentRoutes.get(
   "/getByDoctorID/:id",
   appointmentController.getAppointmentsByDoctorId
 );
-appointmentRoutes.get("/unassigned", getUnassignedAppointments);
+
+// Get all unassigned appointments (appointments with no assigned doctor)
+appointmentRoutes.get(
+  "/unassigned",
+  appointmentController.getUnassignedAppointments
+);
+
+// Get a specific appointment by its ID
 appointmentRoutes.get("/:id", appointmentController.getAppointmentById);
-appointmentRoutes.put("/:id", appointmentController.updateAppointment); // PUT for updating appointments
+
+// Update a specific appointment by its ID
+appointmentRoutes.put("/:id", appointmentController.updateAppointment);
+
+// Update the doctor ID of a specific appointment by its ID
 appointmentRoutes.put(
   "/:id/updateDoctorId",
   appointmentController.updateDoctorId
-); // PUT for updating doctor ID
-appointmentRoutes.delete("/:id", appointmentController.deleteAppointment); // DELETE for deleting appointments
+);
+
+// Delete a specific appointment by its ID
+appointmentRoutes.delete("/:id", appointmentController.deleteAppointment);
 
 // ========== Export Route ==========
+// Export the appointment routes to be used in other parts of the application
 module.exports = appointmentRoutes;

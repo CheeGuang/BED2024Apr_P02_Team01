@@ -84,6 +84,34 @@ class Doctor {
       : null;
   }
 
+  static async getGuestDoctor(DoctorID) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM Doctor WHERE DoctorID = 1`;
+
+    const request = connection.request();
+    request.input("DoctorID", DoctorID);
+    const result = await request.query(sqlQuery);
+
+    connection.close();
+
+    return result.recordset[0]
+      ? new Doctor(
+          result.recordset[0].DoctorID,
+          result.recordset[0].Email,
+          result.recordset[0].ContactNumber,
+          result.recordset[0].DOB,
+          result.recordset[0].Gender,
+          result.recordset[0].Profession,
+          result.recordset[0].resetPasswordCode,
+          result.recordset[0].googleId,
+          result.recordset[0].givenName,
+          result.recordset[0].familyName,
+          result.recordset[0].profilePicture
+        )
+      : null;
+  }
+
   static async createDoctor(newDoctorData) {
     const connection = await sql.connect(dbConfig);
 

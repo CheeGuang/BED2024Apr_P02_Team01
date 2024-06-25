@@ -54,3 +54,17 @@ window.onload = function () {
     size: "large",
   });
 };
+
+async function proceedAsGuest() {
+  try {
+    const response = await fetch(`${window.location.origin}/api/patient/guest`);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const patientDetails = await response.json();
+    localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+    window.location.href = "patientHomePage.html";
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
+}

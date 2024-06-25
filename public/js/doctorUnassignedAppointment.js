@@ -55,7 +55,9 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
             const card = this.closest("[data-appointment-id]");
             const appointmentId = card.getAttribute("data-appointment-id");
-            const doctorId = localStorage.getItem("DoctorID");
+            const doctorId = JSON.parse(
+              localStorage.getItem("doctorDetails")
+            ).DoctorID;
 
             showLoading();
 

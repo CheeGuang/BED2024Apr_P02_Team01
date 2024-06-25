@@ -54,3 +54,17 @@ window.onload = function () {
   });
   console.log("Google Sign-In button rendered");
 };
+
+async function proceedAsGuest() {
+  try {
+    const response = await fetch(`${window.location.origin}/api/doctor/guest`);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const doctorDetails = await response.json();
+    localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+    window.location.href = "doctorHomePage.html";
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
+}

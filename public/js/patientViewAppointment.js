@@ -2,7 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("DOMContentLoaded event triggered");
 
   // Get PatientID from local storage
-  const PatientID = localStorage.getItem("PatientID");
+  const PatientID = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID;
   console.log("Retrieved PatientID from localStorage:", PatientID);
 
   // Dynamically get the current website's domain
