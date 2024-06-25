@@ -83,6 +83,23 @@ const deleteMedicine = async (req, res) => {
   }
 };
 
+const updatePatientMedicine = async (req, res) => {
+  const patientId = parseInt(req.params.patientId);
+  const newMedicineIds = req.body.medicineIds; // Expecting an array of medicine IDs
+
+  if (!Array.isArray(newMedicineIds) || newMedicineIds.length === 0) {
+    return res.status(400).send("medicineIds must be a non-empty array");
+  }
+
+  try {
+    await Medicine.updatePatientMedicine(patientId, newMedicineIds);
+    res.status(200).send("Patient medicine updated successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient medicine");
+  }
+};
+
 module.exports = {
   getAllMedicines,
   createMedicine,
@@ -90,4 +107,5 @@ module.exports = {
   getMedicinesByPatientId,
   updateMedicine,
   deleteMedicine,
+  updatePatientMedicine,
 };

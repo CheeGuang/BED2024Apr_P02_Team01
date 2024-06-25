@@ -21,6 +21,10 @@ medicineRoutes.get(
   "/pateint/:patientId",
   medicineController.getMedicinesByPatientId
 ); // GET medicine by patient id
+medicineRoutes.put(
+  "/pateint/:patientId",
+  medicineController.updatePatientMedicine
+); // GET medicine by patient id
 
 // ========== Export ==========
 module.exports = medicineRoutes;

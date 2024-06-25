@@ -38,7 +38,6 @@ VALUES
 
 -- Insert dummy data into Appointment table
 INSERT INTO Appointment (PatientID, DoctorID, endDateTime, PatientURL, HostRoomURL, IllnessDescription)
-INSERT INTO Appointment (PatientID, DoctorID, endDateTime, PatientURL, HostRoomURL, IllnessDescription)
 VALUES 
 (1, 1, '2024-07-01 10:00:00', 'https://example.com/patient1', 'https://example.com/host1', 'Fever and headache'),
 (2, 2, '2024-07-02 11:00:00', 'https://example.com/patient2', 'https://example.com/host2', 'Abdominal pain'),

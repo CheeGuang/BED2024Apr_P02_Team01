@@ -141,6 +141,28 @@ class Medicine {
         )
     );
   }
+
+  static async updatePatientMedicine(PatientID, newMedicineIDs) {
+    const connection = await sql.connect(dbConfig);
+
+    // Remove existing medicines for the patient
+    const deleteQuery = `DELETE FROM PatientMedicine WHERE PatientID = @PatientID`;
+    const deleteRequest = connection.request();
+    deleteRequest.input("PatientID", PatientID);
+    await deleteRequest.query(deleteQuery);
+
+    // Add new medicines
+    const insertQuery = `INSERT INTO PatientMedicine (PatientID, MedicineID) VALUES (@PatientID, @MedicineID)`;
+
+    for (const medicineID of newMedicineIDs) {
+      const insertRequest = connection.request();
+      insertRequest.input("PatientID", PatientID);
+      insertRequest.input("MedicineID", medicineID);
+      await insertRequest.query(insertQuery);
+    }
+
+    connection.close();
+  }
 }
 
 module.exports = Medicine;
