@@ -1,36 +1,52 @@
 // ========== Packages ==========
-// Initialising express
+// Initializing express
 const express = require("express");
 
 // ========== Controllers ==========
-// Initialising dbConfig file
+// Initializing patientController
 const patientController = require("./controllers/patientController");
 
 // ========== Set-up ==========
-// Initialising patientRoutes
+// Initializing patientRoutes
 const patientRoutes = express.Router();
 
 // ========== Routes ==========
-// Define routes for the Patient
+// Get all patients
 patientRoutes.get("/", patientController.getAllPatients);
-patientRoutes.get("/search", patientController.searchPatients);
-patientRoutes.post("/", patientController.createPatient); // Add route for creating a patient
 
+// Search patients
+patientRoutes.get("/search", patientController.searchPatients);
+
+// Create a new patient
+patientRoutes.post("/", patientController.createPatient);
+
+// Google login for patients
 patientRoutes.post("/googleLogin", patientController.googleLogin);
+
+// Get guest patient
 patientRoutes.get("/guest", patientController.getGuestPatient);
 
+// Top up e-wallet amount for a patient by ID
 patientRoutes.put("/topup/:id", patientController.updateEWalletAmount);
 
+// Get a specific patient by ID
 patientRoutes.get("/:id", patientController.getPatientById);
-patientRoutes.put("/:id", patientController.updatePatient); // PUT for updating patients
-patientRoutes.delete("/:id", patientController.deletePatient); // DELETE for deleting patients
-patientRoutes.get("/:id/e-wallet-amount", patientController.getEWalletAmount); // Add this route
-patientRoutes.put("/topup/:id", patientController.updateEWalletAmount);
 
+// Update a specific patient by ID
+patientRoutes.put("/:id", patientController.updatePatient);
+
+// Delete a specific patient by ID
+patientRoutes.delete("/:id", patientController.deletePatient);
+
+// Get e-wallet amount for a specific patient by ID
+patientRoutes.get("/:id/eWalletAmount", patientController.getEWalletAmount);
+
+// Update the cart for a specific patient by ID
 patientRoutes.put("/:patientId/cart", patientController.updatePatientCart);
+
+// Clear the cart for a specific patient by ID
 patientRoutes.put("/:patientId/clear-cart", patientController.clearCart);
 
-patientRoutes.get("/:id/e-wallet-amount", patientController.getEWalletAmount); // Add this route
-
 // ========== Export ==========
+// Export the patient routes to be used in other parts of the application
 module.exports = patientRoutes;

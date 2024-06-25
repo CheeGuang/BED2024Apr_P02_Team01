@@ -259,7 +259,8 @@ class Patient {
     connection.close();
 
     return this.getPatientById(id);
-  
+  }
+
   static async updateCart(patientId, newItem) {
     try {
       const patient = await this.getPatientById(patientId);
@@ -317,7 +318,5 @@ class Patient {
 
     return this.getPatientById(id);
   }
-
-}
 }
 module.exports = Patient;

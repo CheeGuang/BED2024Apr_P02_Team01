@@ -223,47 +223,6 @@ const clearCart = async (req, res) => {
   }
 };
 
-const getEWalletAmount = async (req, res) => {
-  const patientId = parseInt(req.params.id);
-  try {
-    const patient = await Patient.getPatientById(patientId);
-    if (!patient) {
-      console.log(`Patient with ID ${patientId} not found`);
-      return res
-        .status(404)
-        .json({ status: "Failed", message: "Patient not found" });
-    }
-    res.json({ status: "Success", eWalletAmount: patient.eWalletAmount });
-  } catch (error) {
-    console.error(
-      `Error retrieving e-wallet amount for Patient ID ${patientId}:`,
-      error
-    );
-    res
-      .status(500)
-      .json({ status: "Failed", message: "Internal server error" });
-  }
-};
-
-const updateEWalletAmount = async (req, res) => {
-  const patientId = parseInt(req.params.id);
-  const { amount } = req.body;
-
-  try {
-    const updatedPatient = await Patient.updateEWalletAmount(patientId, amount);
-    if (!updatedPatient) {
-      return res.status(404).send("Patient not found");
-    }
-    res.json({
-      status: "Success",
-      eWalletAmount: updatedPatient.eWalletAmount,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error updating eWallet amount");
-  }
-};
-
 module.exports = {
   getAllPatients,
   createPatient,
@@ -275,8 +234,6 @@ module.exports = {
   updatePatientCart,
   clearCart,
   getGuestPatient,
-  getEWalletAmount,
-  updateEWalletAmount,
   getEWalletAmount,
   updateEWalletAmount,
 };
