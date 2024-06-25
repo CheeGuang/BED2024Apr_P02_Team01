@@ -18,6 +18,10 @@ patientRoutes.get("/search", patientController.searchPatients);
 patientRoutes.get("/:id", patientController.getPatientById);
 patientRoutes.put("/:id", patientController.updatePatient); // PUT for updating patients
 patientRoutes.delete("/:id", patientController.deletePatient); // DELETE for deleting patients
+patientRoutes.get("/:id/e-wallet-amount", patientController.getEWalletAmount); // Add this route
+patientRoutes.put("/topup/:id", patientController.updateEWalletAmount);
+
+
 
 // ========== Export ==========
 module.exports = patientRoutes;
