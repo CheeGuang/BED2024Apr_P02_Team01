@@ -73,8 +73,6 @@ const createPatient = async (req, res) => {
     res.status(500).send("Error creating patient");
   }
 };
-const QRCode = require("qrcode");
-const { v4: uuidv4 } = require("uuid");
 
 const getAllPatients = async (req, res) => {
   try {
