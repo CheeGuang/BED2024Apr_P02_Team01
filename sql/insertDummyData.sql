@@ -1,6 +1,6 @@
 -- Insert dummy data into Patient table
 INSERT INTO Patient (Email, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI, googleId, givenName, familyName, profilePicture, Cart)
-VALUES ('john.doe@example.com', '1234567890', '1980-01-01', 'Male', '123 Main St', 100.00, 'resetCode123', 2000.00, 'googleId123', 'John', 'Doe', 'profile.jpg', '[]');
+VALUES ('john.doe@example.com', '1234567890', '1980-01-01', 'Male', '123 Main St', 100.00, 'resetCode123', 1000.00, 'googleId123', 'John', 'Doe', 'profile.jpg', NULL);
 
 -- Insert dummy data into Doctor table
 INSERT INTO Doctor (Email, ContactNumber, DOB, Gender, Profession, resetPasswordCode, googleId, givenName, familyName, profilePicture)
