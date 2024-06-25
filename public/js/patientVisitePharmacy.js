@@ -30,13 +30,15 @@ function addToCart(event) {
   const medicinePrice = parseFloat(addToCartButton.dataset.price);
   const quantity = 1; // Assuming quantity is always 1 when adding
 
-  const patientIdString = localStorage.getItem("PatientID");
-  if (!patientIdString) {
+  const patientId = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID;
+
+
+  if (!patientId) {
     console.error("Error: Patient ID not found in local storage");
     return;
   }
-
-  const patientId = parseInt(patientIdString);
 
   // Fetch patient's current cart to check for existing items
   fetch(`${window.location.origin}/api/patient/${patientId}`)

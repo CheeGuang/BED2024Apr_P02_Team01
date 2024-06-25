@@ -1,6 +1,8 @@
 async function loadBalance() {
   let currentBalanceElement = document.getElementById("current-balance");
-  let patientId = localStorage.getItem("PatientID");
+  const patientId = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID;
 
   if (!patientId) {
     alert("Patient ID not found");
@@ -38,7 +40,9 @@ window.onload = loadBalance;
 
 async function confirmTopUp() {
   const topUpAmount = parseFloat(document.getElementById("topup-amount").value);
-  const patientId = localStorage.getItem("PatientID"); // Fetch patient ID from local storage
+  const patientId = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID; // Fetch patient ID from local storage
 
   if (isNaN(topUpAmount) || topUpAmount <= 0) {
     showNotification("Please enter a valid top-up amount", "error");

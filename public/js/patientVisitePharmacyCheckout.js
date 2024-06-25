@@ -20,13 +20,14 @@ function calculateTotalPrice(cart) {
 
 // Function to fetch and display cart items from the database
 async function fetchCartItems() {
-  const patientIdString = localStorage.getItem("PatientID");
-  if (!patientIdString) {
+  const patientId = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID;
+
+  if (!patientId) {
     console.error("Error: Patient ID not found in local storage");
     return;
   }
-
-  const patientId = parseInt(patientIdString);
 
   try {
     const response = await fetch(
@@ -53,13 +54,14 @@ async function fetchCartItems() {
 }
 
 async function clearCart() {
-  const patientIdString = localStorage.getItem("PatientID");
-  if (!patientIdString) {
+  const patientId = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID;
+
+  if (!patientId) {
     console.error("Error: Patient ID not found in local storage");
     return;
   }
-
-  const patientId = parseInt(patientIdString);
 
   try {
     const response = await fetch(
