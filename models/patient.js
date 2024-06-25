@@ -102,7 +102,7 @@ class Patient {
           result.recordset[0].eWalletAmount,
           result.recordset[0].resetPasswordCode,
           result.recordset[0].PCHI,
-          JSON.parse(result.recordset[0].Cart),,
+          JSON.parse(result.recordset[0].Cart),
           result.recordset[0].googleId,
           result.recordset[0].givenName,
           result.recordset[0].familyName,
@@ -250,16 +250,16 @@ class Patient {
 
   static async clearCart(patientId) {
     const connection = await sql.connect(dbConfig);
-  
+
     const sqlQuery = `UPDATE Patient SET Cart = NULL WHERE PatientID = @id`;
-  
+
     const request = connection.request();
     request.input("id", patientId);
-  
+
     await request.query(sqlQuery);
-  
+
     connection.close();
-  }  
+  }
 }
 
 module.exports = Patient;
