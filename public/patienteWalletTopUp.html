@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/4f6d96e165.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <title>SyncHealth</title>
+    <link rel="stylesheet" href="./css/eWalletTopUp.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css" defer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
+    <script src="./js/patienteWalletTopUp.js" defer></script>
+    <script src="./js/script.js" defer></script>
+    <script src="./js/navbarFooter.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="./images/SyncHealthLogo-Small.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <header>
+        <div id="navbar-container"></div>
+    </header>
+    <div class="row" style="height: 70px; width: 100vw"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <a href="patientewallet.html" class="btn btn-link"><i class="fas fa-arrow-left"></i> Back</a>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="card shadow-sm p-4 mb-4 bg-white rounded">
+                    <h2>E-Wallet Top Up</h2>
+                    <p class="mb-4">Enter Amount to Top-up</p>
+                    <div class="card shadow-sm p-4 mb-4 bg-light rounded text-start">
+                        <p class="mb-1">Account Name: Olivia Seah</p>
+                        <div class="form-group mt-3">
+                            <label for="topup-amount" class="form-label">Enter Top-up Amount</label>
+                            <input type="text" id="topup-amount" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="card balance-card shadow-sm p-4 mb-4 bg-light rounded d-flex justify-content-between">
+                    <div class="text-start">
+                        <h3>E-Wallet</h3>
+                        <p>Balance</p>
+                    </div>
+                    <div class="text-end">
+                        <h2 id="current-balance">S$0.00</h2>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-lg" onclick="confirmTopUp()">Confirm Top-Up</button>
+                <div id="qr-code-container" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+    <footer class="bd-footer py-4 py-md-5 mt-5 bg-body-tertiary">
+        <div id="footer" class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"></div>
+    </footer>
+
+    <!-- Notification Div -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+    </script>
+</body>
+</html>

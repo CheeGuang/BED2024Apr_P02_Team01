@@ -19,11 +19,17 @@ patientRoutes.post("/", patientController.createPatient); // Add route for creat
 patientRoutes.post("/googleLogin", patientController.googleLogin);
 patientRoutes.get("/guest", patientController.getGuestPatient);
 
+patientRoutes.put("/topup/:id", patientController.updateEWalletAmount);
+
 patientRoutes.get("/:id", patientController.getPatientById);
 patientRoutes.put("/:id", patientController.updatePatient); // PUT for updating patients
 patientRoutes.delete("/:id", patientController.deletePatient); // DELETE for deleting patients
 patientRoutes.put("/:patientId/cart", patientController.updatePatientCart);
 patientRoutes.put("/:patientId/clear-cart", patientController.clearCart);
+
+patientRoutes.get("/:id/e-wallet-amount", patientController.getEWalletAmount); // Add this route
+
+
 
 // ========== Export ==========
 module.exports = patientRoutes;
