@@ -9,8 +9,6 @@ const express = require("express");
 const path = require("path");
 // Initialising errorHandler
 const ErrorHandler = require("./handlers/errorHandler");
-// Initialising topicRoutes (Template)
-const topicRoutes = require("./modules/topic/topic.routes");
 // Initialising patientRoutes
 const patientRoutes = require("./modules/patient/patient.routes");
 // Initialising doctorRoutes
@@ -56,9 +54,6 @@ app.get("/", (req, res) => {
 });
 
 // ========== Routes ==========
-// Topic Route (Template)
-app.use("/api/topic", topicRoutes);
-
 // Appointment Route
 app.use("/api/appointment", appointmentRoutes);
 
