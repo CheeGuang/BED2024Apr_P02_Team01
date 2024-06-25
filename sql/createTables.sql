@@ -5,9 +5,6 @@ IF OBJECT_ID('dbo.Appointment', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.PatientMedicine', 'U') IS NOT NULL
     DROP TABLE dbo.PatientMedicine;
 
-IF OBJECT_ID('dbo.PatientMedicine', 'U') IS NOT NULL
-    DROP TABLE dbo.PatientMedicine;
-
 IF OBJECT_ID('dbo.Medicine', 'U') IS NOT NULL
     DROP TABLE dbo.Medicine;
 
@@ -16,6 +13,9 @@ IF OBJECT_ID('dbo.Doctor', 'U') IS NOT NULL
 
 IF OBJECT_ID('dbo.Patient', 'U') IS NOT NULL
     DROP TABLE dbo.Patient;
+
+IF OBJECT_ID('dbo.AppointmentMedicine', 'U') IS NOT NULL
+    DROP TABLE dbo.AppointmentMedicine;
 
 -- Create Patient table
 CREATE TABLE Patient (
@@ -60,15 +60,20 @@ CREATE TABLE Medicine (
     Image NVARCHAR(255)
 );
 
--- Create Appointment table
+-- Create Appointment table with medical certificate details
 CREATE TABLE Appointment (
     AppointmentID INT IDENTITY(1,1) PRIMARY KEY,
     PatientID INT,
     DoctorID INT,
-    endDateTime DATETIME,
+    StartDateTime DATETIME,
+    EndDateTime DATETIME,
     PatientURL NVARCHAR(1000),
     HostRoomURL NVARCHAR(1000),
     IllnessDescription NVARCHAR(255),
+    Diagnosis NVARCHAR(255), -- New attribute for diagnosis
+    MCStartDate DATE, -- Renamed attribute for medical certificate start date
+    MCEndDate DATE, -- Renamed attribute for medical certificate end date
+    DoctorNotes NVARCHAR(MAX), -- New attribute for additional doctor notes
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
     FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID)
 );
@@ -82,13 +87,11 @@ CREATE TABLE PatientMedicine (
     FOREIGN KEY (MedicineID) REFERENCES Medicine(MedicineID)
 );
 
-
--- Create PatientMedicine junction table
-CREATE TABLE PatientMedicine (
-    PatientMedicineID INT IDENTITY(1,1) PRIMARY KEY,
-    PatientID INT,
+-- Create AppointmentMedicine junction table
+CREATE TABLE AppointmentMedicine (
+    AppointmentMedicineID INT IDENTITY(1,1) PRIMARY KEY,
+    AppointmentID INT,
     MedicineID INT,
-    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+    FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID),
     FOREIGN KEY (MedicineID) REFERENCES Medicine(MedicineID)
 );
-

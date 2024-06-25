@@ -1,14 +1,17 @@
--- Select data from Patient table
+-- Select all data from Patient table
 SELECT * FROM Patient;
 
--- Select data from Doctor table
+-- Select all data from Doctor table
 SELECT * FROM Doctor;
 
--- Select data from Medicine table
+-- Select all data from Medicine table
 SELECT * FROM Medicine;
 
--- Select data from Appointment table
+-- Select all data from Appointment table
 SELECT * FROM Appointment;
 
--- Select data from PatientMedicine table
+-- Select all data from PatientMedicine table
 SELECT * FROM PatientMedicine;
+
+-- Select all data from AppointmentMedicine table
+SELECT * FROM AppointmentMedicine;
