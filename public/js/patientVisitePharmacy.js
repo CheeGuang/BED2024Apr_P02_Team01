@@ -7,11 +7,18 @@ function createMedicineCard(medicine) {
           <h5 class="card-title">${medicine.Name}</h5>
           <p class="card-text">${medicine.Description}</p>
           <p class="price">$${medicine.Price}/Box (30 Pills)</p>
-          <p class="dosage">Recommended Dosage: ${medicine.RecommendedDosage}</p>
+          <p class="dosage">Recommended Dosage: ${
+            medicine.RecommendedDosage
+          }</p>
           <p class="shipping">
             <i class="fas fa-truck shipping-icon"></i> Free shipping
           </p>
-          <button type="button" class="btn btn-primary add-to-cart-btn" data-product="${medicine.Name.toLowerCase().replace(/ /g, '')}" data-price="${medicine.Price}" onclick="addToCart(event)">Add To Cart</button>
+          <button type="button" class="btn btn-primary add-to-cart-btn" data-product="${medicine.Name.toLowerCase().replace(
+            / /g,
+            ""
+          )}" data-price="${
+    medicine.Price
+  }" onclick="addToCart(event)">Add To Cart</button>
         </div>
       </div>
     </div>`;
@@ -23,23 +30,23 @@ function addToCart(event) {
   const medicinePrice = parseFloat(addToCartButton.dataset.price);
   const quantity = 1; // Assuming quantity is always 1 when adding
 
-  const patientIdString = localStorage.getItem('PatientID');
+  const patientIdString = localStorage.getItem("PatientID");
   if (!patientIdString) {
-    console.error('Error: Patient ID not found in local storage');
+    console.error("Error: Patient ID not found in local storage");
     return;
   }
 
   const patientId = parseInt(patientIdString);
 
   // Fetch patient's current cart to check for existing items
-  fetch(`http://localhost:8000/api/patient/${patientId}`)
-    .then(response => {
+  fetch(`${window.location.origin}/api/patient/${patientId}`)
+    .then((response) => {
       if (!response.ok) {
-        throw new Error('Failed to fetch patient data');
+        throw new Error("Failed to fetch patient data");
       }
       return response.json();
     })
-    .then(patientData => {
+    .then((patientData) => {
       let cart = patientData.Cart || {};
 
       // Check if the item already exists in the cart
@@ -50,58 +57,55 @@ function addToCart(event) {
         // Item does not exist, add it to the cart
         cart[medicineName] = {
           Quantity: quantity,
-          Price: medicinePrice
+          Price: medicinePrice,
         };
       }
 
       // Send updated cart data to the backend
-      return fetch(`http://localhost:8000/api/patient/${patientId}/cart`, {
-        method: 'PUT',
+      return fetch(`${window.location.origin}/api/patient/${patientId}/cart`, {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(cart)
+        body: JSON.stringify(cart),
       });
     })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
-        throw new Error('Failed to update cart');
+        throw new Error("Failed to update cart");
       }
       return response.json();
     })
-    .then(data => {
-      console.log('Cart updated successfully:', data);
+    .then((data) => {
+      console.log("Cart updated successfully:", data);
       // Update UI or handle success as needed
     })
-    .catch(error => {
-      console.error('Error updating cart:', error.message);
+    .catch((error) => {
+      console.error("Error updating cart:", error.message);
       // Handle errors appropriately
     });
 
-  const cartPopup = document.getElementById('cart-popup');
-  cartPopup.classList.remove('hidden');
+  const cartPopup = document.getElementById("cart-popup");
+  cartPopup.classList.remove("hidden");
 
   setTimeout(() => {
-    cartPopup.classList.add('hidden');
+    cartPopup.classList.add("hidden");
   }, 2000); // Hide popup after 2 seconds
 }
-
-
-
 
 // Fetch the medicines from the backend and display them
 async function fetchMedicines() {
   try {
-    const response = await fetch('/api/medicine');
+    const response = await fetch(`${window.location.origin}/api/medicine`);
     const medicines = await response.json();
-    const medicineCardsContainer = document.getElementById('medicine-cards');
+    const medicineCardsContainer = document.getElementById("medicine-cards");
 
-    medicines.forEach(medicine => {
+    medicines.forEach((medicine) => {
       const medicineCardHTML = createMedicineCard(medicine);
       medicineCardsContainer.innerHTML += medicineCardHTML;
     });
   } catch (error) {
-    console.error('Error fetching medicines:', error);
+    console.error("Error fetching medicines:", error);
   }
 }
 

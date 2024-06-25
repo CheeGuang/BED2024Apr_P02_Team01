@@ -1,10 +1,10 @@
-const cartItemsList = document.getElementById('cart-items');
-const totalPriceElement = document.getElementById('total-price');
-const clearCartButton = document.getElementById('clear-cart-button');
+const cartItemsList = document.getElementById("cart-items");
+const totalPriceElement = document.getElementById("total-price");
+const clearCartButton = document.getElementById("clear-cart-button");
 
 // Function to display a cart item
 function displayCartItem(name, quantity, price) {
-  const listItem = document.createElement('li');
+  const listItem = document.createElement("li");
   listItem.textContent = `${name} (x${quantity}) - $${price.toFixed(2)}`;
   cartItemsList.appendChild(listItem);
 }
@@ -20,18 +20,20 @@ function calculateTotalPrice(cart) {
 
 // Function to fetch and display cart items from the database
 async function fetchCartItems() {
-  const patientIdString = localStorage.getItem('PatientID');
+  const patientIdString = localStorage.getItem("PatientID");
   if (!patientIdString) {
-    console.error('Error: Patient ID not found in local storage');
+    console.error("Error: Patient ID not found in local storage");
     return;
   }
 
   const patientId = parseInt(patientIdString);
 
   try {
-    const response = await fetch(`http://localhost:8000/api/patient/${patientId}`);
+    const response = await fetch(
+      `${window.location.origin}/api/patient/${patientId}`
+    );
     if (!response.ok) {
-      throw new Error('Failed to fetch patient data');
+      throw new Error("Failed to fetch patient data");
     }
     const patientData = await response.json();
     const cart = patientData.Cart || {};
@@ -42,47 +44,48 @@ async function fetchCartItems() {
       }
       calculateTotalPrice(cart);
     } else {
-      cartItemsList.textContent = 'No items in your cart.';
-      totalPriceElement.textContent = '';
+      cartItemsList.textContent = "No items in your cart.";
+      totalPriceElement.textContent = "";
     }
   } catch (error) {
-    console.error('Error fetching cart items:', error.message);
+    console.error("Error fetching cart items:", error.message);
   }
 }
 
 async function clearCart() {
-  const patientIdString = localStorage.getItem('PatientID');
+  const patientIdString = localStorage.getItem("PatientID");
   if (!patientIdString) {
-    console.error('Error: Patient ID not found in local storage');
+    console.error("Error: Patient ID not found in local storage");
     return;
   }
 
   const patientId = parseInt(patientIdString);
 
   try {
-    const response = await fetch(`http://localhost:8000/api/patient/${patientId}/clear-cart`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
+    const response = await fetch(
+      `${window.location.origin}/api/patient/${patientId}/clear-cart`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
 
     if (!response.ok) {
-      throw new Error('Failed to clear cart');
+      throw new Error("Failed to clear cart");
     }
 
     // Clear the frontend cart display
-    cartItemsList.textContent = 'No items in your cart.';
-    totalPriceElement.textContent = '';
-
+    cartItemsList.textContent = "No items in your cart.";
+    totalPriceElement.textContent = "";
   } catch (error) {
-    console.error('Error clearing cart:', error.message);
+    console.error("Error clearing cart:", error.message);
   }
 }
 
-
 // Add click event listener to clear cart button
-clearCartButton.addEventListener('click', clearCart);
+clearCartButton.addEventListener("click", clearCart);
 
 // Fetch and display cart items when the page loads
 window.onload = fetchCartItems;
