@@ -7,17 +7,6 @@ if (pageName.includes("Login") || pageName.includes("SignUp")) {
   navbarFile = "navbar.html";
 } else if (pageName.includes("patient")) {
   navbarFile = "patientNavbar.html";
-
-  document.addEventListener("DOMContentLoaded", function () {
-    // Get local storage
-    const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
-
-    // Update the html img src so profile pic changes to one in local storage
-    if (patientDetails.profilePicture) {
-      console.log(patientDetails.profilePicture);
-      $("#profile-image-login").attr("src", patientDetails.profilePicture);
-    }
-  });
 } else if (pageName.includes("doctor")) {
   navbarFile = "doctorNavbar.html";
 } else {
