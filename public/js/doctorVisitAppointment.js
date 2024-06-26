@@ -7,10 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const appointmentId = urlParams.get("appointmentID");
 
-  // Set MC Start Date to today
-  const today = new Date().toISOString().split("T")[0];
+  // Set MC Start Date to today in Singapore time
+  const today = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Singapore",
+  });
+  const todayDate = new Date(today).toISOString().split("T")[0];
   const mcEndDateInput = document.getElementById("mcenddate");
-  mcEndDateInput.setAttribute("min", today);
+  mcEndDateInput.setAttribute("min", todayDate);
 
   // Fetch all medicines from the medicine table
   fetch(`${window.location.origin}/api/medicine`)
@@ -54,14 +57,27 @@ document.addEventListener("DOMContentLoaded", function () {
         parseInt(checkbox.value)
       );
 
-      if (new Date(mcenddate) < new Date(today)) {
-        alert("MC End Date cannot be before today.");
+      // Convert mcenddate and todayDate to Singapore time and compare
+      const mcEndDateSGT = new Date(
+        new Date(mcenddate).toLocaleString("en-US", {
+          timeZone: "Asia/Singapore",
+        })
+      ).setHours(0, 0, 0, 0);
+      const todaySGT = new Date(
+        new Date().toLocaleString("en-US", {
+          timeZone: "Asia/Singapore",
+        })
+      ).setHours(0, 0, 0, 0);
+
+      // Ensure mcenddate is not before today
+      if (mcEndDateSGT < todaySGT) {
+        showNotification("MC End Date cannot be before today.", "error");
         return;
       }
 
       const requestBody = {
         Diagnosis: diagnosis,
-        MCStartDate: today, // Default to today
+        MCStartDate: todayDate, // Default to today in Singapore time
         MCEndDate: mcenddate,
         DoctorNotes: doctornotes,
         MedicineIDs: MedicineIDs,
@@ -81,14 +97,25 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((response) => response.json())
         .then((data) => {
           if (data.status === "Success") {
-            document.getElementById("success-message").style.display = "block";
+            showNotification("Appointment updated successfully!", "success");
           } else {
-            alert("Failed to update appointment.");
+            showNotification("Failed to update appointment.", "error");
           }
         })
         .catch((error) => {
           console.error("Error updating appointment:", error);
-          alert("Failed to update appointment.");
+          showNotification("Failed to update appointment.", "error");
         });
     });
+
+  // Function to show notification
+  function showNotification(message, type) {
+    const notification = document.createElement("div");
+    notification.className = `notification ${type}`;
+    notification.innerText = message;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+      notification.remove();
+    }, 4000);
+  }
 });

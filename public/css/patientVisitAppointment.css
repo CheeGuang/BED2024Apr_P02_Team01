@@ -45,6 +45,20 @@
   margin-right: 0.5rem;
 }
 
+.notification {
+  position: fixed;
+  top: 70px; /* Adjust based on your header height */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s;
+  background-color: #d4edda;
+  color: #155724;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
