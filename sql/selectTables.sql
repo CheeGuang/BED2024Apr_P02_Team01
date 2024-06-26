@@ -15,3 +15,6 @@ SELECT * FROM PatientMedicine;
 
 -- Select all data from AppointmentMedicine table
 SELECT * FROM AppointmentMedicine;
+
+-- Select all data from ChatHistory table
+SELECT * FROM ChatHistory;

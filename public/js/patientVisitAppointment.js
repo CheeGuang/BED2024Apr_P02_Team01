@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
           data.Diagnosis
         ) {
           document.getElementById("downloadMC").disabled = false;
+          showNotification("You can now download your Medical Certificate.");
         }
       })
       .catch((error) => {
@@ -74,4 +75,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const mcUrl = `${apiBaseUrl}/medicalCertificate`;
     window.open(mcUrl, "_blank"); // Open the generated PDF in a new tab
   });
+
+  // Function to show notification
+  function showNotification(message) {
+    const notification = document.getElementById("notification");
+    notification.innerText = message;
+    notification.style.display = "block";
+    setTimeout(() => {
+      notification.style.display = "none";
+    }, 5000);
+  }
 });

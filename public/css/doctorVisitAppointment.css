@@ -40,10 +40,7 @@ body {
   background-color: #0056b3;
   border-color: #0056b3;
 }
-#success-message {
-  display: none;
-  border-radius: 6px;
-}
+
 .medicine-checkboxes {
   display: flex;
   flex-wrap: wrap;
@@ -66,4 +63,26 @@ body {
   margin-top: 10px;
   width: 100%;
   height: 40px;
+}
+
+.notification {
+  position: fixed;
+  top: 70px; /* Adjust based on your header height */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s;
+}
+
+.notification.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+  color: #721c24;
 }

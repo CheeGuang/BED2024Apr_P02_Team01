@@ -91,11 +91,18 @@ document.addEventListener("DOMContentLoaded", function () {
       upcomingAppointmentsContainer.innerHTML = "";
       historyAppointmentsContainer.innerHTML = "";
 
-      const now = new Date();
+      // Get the current date and time in Singapore time
+      const now = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Asia/Singapore" })
+      );
 
       data.forEach((appointment) => {
-        // Calculate StartDateTime as EndDateTime - 1hr
-        const endDateTime = new Date(appointment.endDateTime);
+        // Calculate StartDateTime as EndDateTime - 1hr in Singapore time
+        const endDateTime = new Date(
+          new Date(appointment.endDateTime).toLocaleString("en-US", {
+            timeZone: "Asia/Singapore",
+          })
+        );
         const startDateTime = new Date(endDateTime.getTime() - 60 * 60 * 1000);
         appointment.StartDateTime = startDateTime;
 
@@ -104,15 +111,18 @@ document.addEventListener("DOMContentLoaded", function () {
             appointment,
             "history"
           );
-        } else if (startDateTime.toDateString() === now.toDateString()) {
-          todayAppointmentsContainer.innerHTML += createAppointmentCard(
-            appointment,
-            "today"
-          );
-        } else {
+        } else if (
+          startDateTime >
+          new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+        ) {
           upcomingAppointmentsContainer.innerHTML += createAppointmentCard(
             appointment,
             "upcoming"
+          );
+        } else {
+          todayAppointmentsContainer.innerHTML += createAppointmentCard(
+            appointment,
+            "today"
           );
         }
       });

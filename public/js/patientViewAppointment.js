@@ -17,6 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => {
       console.log("Fetched appointment data:", data);
 
+      // Sort appointments from earliest to latest
+      data.sort((a, b) => new Date(a.endDateTime) - new Date(b.endDateTime));
+      console.log("Sorted appointment data:", data);
+
       // Get the containers
       const todayContainer = document.getElementById("today-appointments");
       const upcomingContainer = document.getElementById(
@@ -29,9 +33,11 @@ document.addEventListener("DOMContentLoaded", function () {
       upcomingContainer.innerHTML = "";
       historyContainer.innerHTML = "";
 
-      // Get the current date and time
-      const now = new Date();
-      console.log("Current date and time:", now);
+      // Get the current date and time in Singapore time
+      const now = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Asia/Singapore" })
+      );
+      console.log("Current date and time (SGT):", now);
 
       // Function to create a card
       const createCard = (appointment, category) => {
@@ -43,8 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const startDateTime = new Date(
           appointment.StartDateTime
         ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-        console.log(startDateTime);
         const formattedDate = new Date(
           appointment.StartDateTime
         ).toLocaleDateString("en-GB", {
@@ -76,15 +80,14 @@ document.addEventListener("DOMContentLoaded", function () {
                   : ""
               }
               ${
-                category === "today"
+                category === "today" && appointment.DoctorID
                   ? '<button class="btn btn-dark btn-custom join-meeting-button" data-id="' +
                     appointment.AppointmentID +
                     '">Join Meeting</button>'
-                  : ""
-              }
-              ${
-                category === "upcoming"
-                  ? '<button class="btn btn-dark btn-custom">Reschedule</button>'
+                  : category === "today"
+                  ? '<button class="btn btn-dark btn-custom join-meeting-button" data-id="' +
+                    appointment.AppointmentID +
+                    '" disabled>Awaiting Doctor</button>'
                   : ""
               }
               ${
@@ -97,26 +100,42 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
           </div>
         `;
+
+        if (category === "upcoming") {
+          card.querySelector(".cancel-button").style.width = "100%";
+        }
+
         return card;
       };
 
       // Categorize appointments
       data.forEach((appointment) => {
-        // Calculate StartDateTime as endDateTime - 1hr
-        const endDateTime = new Date(appointment.endDateTime);
+        // Calculate StartDateTime as endDateTime - 1hr in Singapore time
+        const endDateTime = new Date(
+          new Date(appointment.endDateTime).toLocaleString("en-US", {
+            timeZone: "Asia/Singapore",
+          })
+        );
         const startDateTime = new Date(endDateTime.getTime() - 60 * 60 * 1000);
         appointment.StartDateTime = startDateTime;
-        console.log("Calculated StartDateTime:", startDateTime);
+        console.log("Calculated StartDateTime (SGT):", startDateTime);
 
-        if (startDateTime < now && endDateTime < now) {
+        if (appointment.diagnosis || endDateTime < now) {
           console.log("Appointment categorized as history");
           historyContainer.appendChild(createCard(appointment, "history"));
-        } else if (startDateTime.toDateString() === now.toDateString()) {
-          console.log("Appointment categorized as today");
-          todayContainer.appendChild(createCard(appointment, "today"));
-        } else {
+        } else if (
+          startDateTime.getFullYear() > now.getFullYear() ||
+          (startDateTime.getFullYear() === now.getFullYear() &&
+            startDateTime.getMonth() > now.getMonth()) ||
+          (startDateTime.getFullYear() === now.getFullYear() &&
+            startDateTime.getMonth() === now.getMonth() &&
+            startDateTime.getDate() > now.getDate())
+        ) {
           console.log("Appointment categorized as upcoming");
           upcomingContainer.appendChild(createCard(appointment, "upcoming"));
+        } else {
+          console.log("Appointment categorized as today");
+          todayContainer.appendChild(createCard(appointment, "today"));
         }
       });
 
@@ -264,4 +283,31 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Loading spinner hidden");
     }
   }
+
+  // Set up MutationObserver to listen for changes in the join meeting button
+  const observeJoinMeetingButtonChanges = () => {
+    const buttons = document.querySelectorAll(".join-meeting-button");
+    buttons.forEach((button) => {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "disabled"
+          ) {
+            if (button.disabled) {
+              button.innerText = "Awaiting Doctor";
+            } else {
+              button.innerText = "Join Meeting Room";
+            }
+          }
+        });
+      });
+
+      observer.observe(button, {
+        attributes: true,
+      });
+    });
+  };
+
+  observeJoinMeetingButtonChanges();
 });

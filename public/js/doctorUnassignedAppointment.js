@@ -11,11 +11,32 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       appointmentContainer.innerHTML = "";
 
-      if (data.length === 0) {
+      const now = new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Singapore",
+      });
+      const currentTime = new Date(now);
+
+      const filteredAppointments = data.filter((appointment) => {
+        const endDateTime = new Date(
+          new Date(appointment.endDateTime).toLocaleString("en-US", {
+            timeZone: "Asia/Singapore",
+          })
+        );
+        const oneHourAfterEndDateTime = new Date(
+          endDateTime.getTime() + 1 * 60 * 60 * 1000
+        );
+        return oneHourAfterEndDateTime > currentTime;
+      });
+
+      if (filteredAppointments.length === 0) {
         appointmentContainer.innerHTML = "<p>No Appointments</p>";
       } else {
-        data.forEach((appointment) => {
-          const endDateTime = new Date(appointment.endDateTime);
+        filteredAppointments.forEach((appointment) => {
+          const endDateTime = new Date(
+            new Date(appointment.endDateTime).toLocaleString("en-US", {
+              timeZone: "Asia/Singapore",
+            })
+          );
           const startDateTime = new Date(
             endDateTime.getTime() - 60 * 60 * 1000
           ); // Subtract 1 hour
@@ -32,21 +53,20 @@ document.addEventListener("DOMContentLoaded", function () {
           });
 
           const appointmentCard = `
-                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3" data-appointment-id="${appointment.AppointmentID}">
-                    <div class="card card-custom card-history card-equal-height">
-                      <div class="card-body">
-                        <div class="icon-container">
-                          <i class="fas fa-calendar-alt"></i>
-                          <strong>${formattedDate}</strong>
-                        </div>
-                        <span class="date-time">Time: ${formattedStartTime}</span>
-                        <span class="card-text">Patient: ${appointment.PatientID}</span>
-                        <span class="card-text">Description: ${appointment.IllnessDescription}</span>
-                        <a href="#" class="btn btn-dark btn-custom btn-take-up">Take Up</a>
-                      </div>
-                    </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3" data-appointment-id="${appointment.AppointmentID}">
+              <div class="card card-custom card-history card-equal-height">
+                <div class="card-body">
+                  <div class="icon-container">
+                    <i class="fas fa-calendar-alt"></i>
+                    <strong>${formattedDate}</strong>
                   </div>
-                `;
+                  <span class="date-time">Time: ${formattedStartTime}</span>
+                  <span class="card-text">Description: ${appointment.IllnessDescription}</span>
+                  <a href="#" class="btn btn-dark btn-custom btn-take-up">Take Up</a>
+                </div>
+              </div>
+            </div>
+          `;
           appointmentContainer.innerHTML += appointmentCard;
         });
 
@@ -104,8 +124,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const loadingElement = document.createElement("div");
     loadingElement.classList.add("loading");
     loadingElement.innerHTML = `
-          <div class="loading-spinner"></div>
-        `;
+      <div class="loading-spinner"></div>
+    `;
     document.body.appendChild(loadingElement);
   }
 

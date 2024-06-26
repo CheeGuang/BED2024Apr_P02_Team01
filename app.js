@@ -17,6 +17,8 @@ const doctorRoutes = require("./modules/doctor/doctor.routes");
 const medicineRoutes = require("./modules/medicine/medicine.routes");
 // Initialising appointmentRoutes
 const appointmentRoutes = require("./modules/appointment/appointment.routes");
+// Initialising chatbotController
+const chatbotController = require("./modules/chatbot/chatbot.routes");
 // Initialising SQL
 const sql = require("mssql");
 // Initialising dbConfig file
@@ -65,6 +67,9 @@ app.use("/api/doctor", doctorRoutes);
 
 // Medicine Routes Route
 app.use("/api/medicine", medicineRoutes);
+
+// Chatbot Routes Route
+app.use("/api/chatbot", chatbotController);
 
 // End of all routes
 app.all("*", (req, res, next) => {
