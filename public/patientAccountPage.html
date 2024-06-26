@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap Link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      defer
+    ></script>
+
+    <!-- JQuery Link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/4f6d96e165.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Page Name -->
+    <title>SyncHealth</title>
+
+    <!-- Linking CSS -->
+    <link rel="stylesheet" href="./css/normalize.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/navbar.css" />
+
+    <!-- INSERT PAGE'S CSS HERE \/-->
+    <link rel="stylesheet" href="css/accountPage.css" />
+    <!-- END OF PAGE'S CSS /\-->
+
+    <link rel="stylesheet" href="./css/footer.css" defer />
+
+    <!-- Linking JS -->
+    <script src="./js/script.js" defer></script>
+    <script src="./js/navbarFooter.js" defer></script>
+
+    <!-- INSERT PAGE'S JS HERE \/-->
+    <script src="js/accountPage.js" defer></script>
+    <!-- END OF PAGE'S JS /\-->
+
+    <!-- Add a favicon to the tab bar -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="./images/SyncHealthLogo-Small.png"
+    />
+  </head>
+  <body>
+    <header>
+      <div id="navbar-container"></div>
+    </header>
+    <div class="row" style="height: 70px; width: 100vw"></div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <!-- INSERT CONTENT HERE -->
+          <section id="logoutSect" class="col-10 mx-auto">
+            <h1>SYNCHEALTH ACCOUNT</h1>
+            <div id="logoutBtn">
+              <button
+                id="sign-out-btn"
+                type="button"
+                class="btn btn-outline-secondary"
+              >
+                Sign Out
+              </button>
+            </div>
+          </section>
+
+          <div class="col-10 mx-auto seperator"></div>
+
+          <section id="profile" class="col-10 mx-auto my-5">
+            <img
+              id="avatar"
+              class="me-5"
+              src="images/LoginIconLight.png"
+              alt=""
+            />
+            <div id="description">
+              <div id="username" class="mb-2">User Name</div>
+              <div id="email">example@gmail.com</div>
+            </div>
+          </section>
+
+          <section class="personalInfoContainer col-10">
+            <div class="infoContainer card" style="background-color: #fcf3e3">
+              <div class="card-body">
+                <div class="header">
+                  <h5 class="card-title">Name</h5>
+                  <i class="fa fa-pencil-square-o"></i>
+                </div>
+
+                <p class="card-text text-muted mt-3" id="personal-name">Name</p>
+              </div>
+            </div>
+
+            <div class="infoContainer card" style="background-color: #fcf3e3">
+              <div class="card-body">
+                <div class="header">
+                  <h5 class="card-title">Contact</h5>
+                  <i class="fa fa-pencil-square-o"></i>
+                </div>
+
+                <p class="card-text text-muted mt-3" id="contact">99998888</p>
+              </div>
+            </div>
+
+            <div class="infoContainer card" style="background-color: #fcf3e3">
+              <div class="card-body">
+                <div class="header">
+                  <h5 class="card-title">Date Of Birth</h5>
+                  <i class="fa fa-pencil-square-o"></i>
+                </div>
+
+                <p class="card-text text-muted mt-3" id="dob">Date of Birth</p>
+
+                <!-- <input
+                  type="date"
+                  class="form-control mt-3"
+                  id="dob"
+                  name="dob"
+                  style="background-color: #fcf3e3"
+                  required
+                /> -->
+              </div>
+            </div>
+
+            <div class="infoContainer card" style="background-color: #fcf3e3">
+              <div class="card-body">
+                <div class="header">
+                  <h5 class="card-title">Gender</h5>
+                  <i class="fa fa-pencil-square-o"></i>
+                </div>
+
+                <p class="card-text text-muted mt-3" id="gender">Gender</p>
+
+                <!-- <select
+                  class="form-control mt-3"
+                  id="gender"
+                  name="gender"
+                  style="background-color: #fcf3e3"
+                  required
+                >
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select> -->
+              </div>
+            </div>
+
+            <div class="infoContainer card" style="background-color: #fcf3e3">
+              <div class="card-body">
+                <div class="header">
+                  <h5 class="card-title">Address</h5>
+                  <i class="fa fa-pencil-square-o"></i>
+                </div>
+
+                <p class="card-text text-muted mt-3" id="address">
+                  Boon Lay Drive Blk 40 #17-09 Singapore 640040
+                </p>
+              </div>
+            </div>
+          </section>
+          <!-- END OF CONTENT -->
+        </div>
+      </div>
+    </div>
+    <footer class="bd-footer py-4 py-md-5 mt-5 bg-body-tertiary">
+      <div
+        id="footer"
+        class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
+      ></div>
+    </footer>
+  </body>
+</html>
