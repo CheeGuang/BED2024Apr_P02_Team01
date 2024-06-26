@@ -17,6 +17,9 @@ IF OBJECT_ID('dbo.Patient', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.AppointmentMedicine', 'U') IS NOT NULL
     DROP TABLE dbo.AppointmentMedicine;
 
+IF OBJECT_ID('dbo.ChatHistory', 'U') IS NOT NULL
+    DROP TABLE dbo.ChatHistory;
+
 -- Create Patient table
 CREATE TABLE Patient (
     PatientID INT IDENTITY(1,1) PRIMARY KEY,
@@ -93,4 +96,14 @@ CREATE TABLE AppointmentMedicine (
     MedicineID INT,
     FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID),
     FOREIGN KEY (MedicineID) REFERENCES Medicine(MedicineID)
+);
+
+-- Create ChatHistory table
+CREATE TABLE ChatHistory (
+    ChatSessionID UNIQUEIDENTIFIER,
+    PatientID INT,
+    Sender VARCHAR(10),
+    Message NVARCHAR(MAX),
+    Timestamp DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID)
 );
