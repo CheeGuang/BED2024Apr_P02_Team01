@@ -1,32 +1,27 @@
-const { Configuration, OpenAIApi } = require("openai"); // Import OpenAI API client
-const sql = require("mssql"); // Import the mssql library for SQL Server database operations
-const dbConfig = require("../dbConfig"); // Import the database configuration
+require("dotenv").config();
+const OpenAI = require("openai");
+const sql = require("mssql");
+const dbConfig = require("../dbConfig");
 const EventEmitter = require("events");
-const { v4: uuidv4 } = require("uuid"); // Import UUID library for unique chat session IDs
+const { v4: uuidv4 } = require("uuid");
+
+const openai = new OpenAI({
+  apiKey: process.env.openAISecretKey,
+});
 
 class ChatbotEmitter extends EventEmitter {}
 const chatbotEmitter = new ChatbotEmitter();
 
-/**
- * Class representing a Chatbot.
- */
 class Chatbot {
-  constructor() {
-    this.configuration = new Configuration({
-      apiKey: process.env.openAISecretKey, // Use the API key from environment variables
-    });
-    this.openai = new OpenAIApi(this.configuration);
-  }
-
-  /**
-   * Initialize a chat session for a patient.
-   * @param {number} patientId - The ID of the patient.
-   * @returns {Promise<string>} A promise that resolves to the chat session ID.
-   */
   async initializeChat(patientId) {
-    const chatSessionId = uuidv4(); // Generate a unique chat session ID
+    const chatSessionId = uuidv4();
     const initialPrompt = `
       You are Health Buddy, an AI Doctor that will answer any patient's queries. You should give prudent answers and advise users to refer to their doctor when in any doubt. However, for simple health queries, you should provide valid responses.
+  
+      - Answers must be formatted neatly, adding regular \n after each new topic.
+      - Give an answer that layman can understand.
+      - Be concise, friendly, and cheerful.
+      - Remind the user to visit a doctor at the end of each reply.
     `;
 
     await this.saveChatHistory(chatSessionId, patientId, "bot", initialPrompt);
@@ -34,44 +29,60 @@ class Chatbot {
     return chatSessionId;
   }
 
-  /**
-   * Send a message to the chatbot and get a response.
-   * @param {string} chatSessionId - The chat session ID.
-   * @param {number} patientId - The ID of the patient.
-   * @param {string} message - The patient's message.
-   * @returns {Promise<string>} A promise that resolves to the bot's response.
-   */
   async sendMessage(chatSessionId, patientId, message) {
+    console.log(
+      `Saving chat history for session: ${chatSessionId}, patient: ${patientId}, message: ${message}`
+    );
     await this.saveChatHistory(chatSessionId, patientId, "user", message);
 
+    console.log(`Retrieving chat history for session: ${chatSessionId}`);
     const chatHistory = await this.getChatHistory(chatSessionId);
+    console.log(`Chat history: ${JSON.stringify(chatHistory)}`);
 
-    const messages = chatHistory.map((entry) => {
-      return {
+    // Filter out any entries with invalid message content (e.g., null or non-string values)
+    const messages = chatHistory
+      .filter(
+        (entry) =>
+          entry.message &&
+          typeof entry.message === "string" &&
+          entry.message.trim() !== ""
+      )
+      .map((entry) => ({
         role: entry.sender === "user" ? "user" : "system",
         content: entry.message,
-      };
+      }));
+    console.log(`Filtered messages: ${JSON.stringify(messages)}`);
+
+    // Include the current message in the request to OpenAI
+    messages.push({
+      role: "user",
+      content: message,
     });
 
-    const response = await this.openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: messages,
-    });
+    // Make the API call to OpenAI
+    try {
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: messages,
+      });
+      console.log(`OpenAI response: ${JSON.stringify(completion)}`);
 
-    const botMessage = response.data.choices[0].message.content.trim();
-    await this.saveChatHistory(chatSessionId, patientId, "bot", botMessage);
+      // Extract and save the bot's response
+      const botMessage = completion.choices[0].message.content.trim();
+      console.log(`Bot message: ${botMessage}`);
 
-    return botMessage;
+      console.log(
+        `Saving bot response to chat history for session: ${chatSessionId}, patient: ${patientId}`
+      );
+      await this.saveChatHistory(chatSessionId, patientId, "bot", botMessage);
+
+      return botMessage;
+    } catch (error) {
+      console.error(`Error calling OpenAI API: ${error.message}`);
+      throw new Error("Failed to get response from OpenAI");
+    }
   }
 
-  /**
-   * Save chat history to the database.
-   * @param {string} chatSessionId - The chat session ID.
-   * @param {number} patientId - The ID of the patient.
-   * @param {string} sender - The sender of the message ("user" or "bot").
-   * @param {string} message - The message content.
-   * @returns {Promise<void>} A promise that resolves when the chat history is saved.
-   */
   async saveChatHistory(chatSessionId, patientId, sender, message) {
     const connection = await sql.connect(dbConfig);
     const sqlQuery = `
@@ -87,11 +98,6 @@ class Chatbot {
     connection.close();
   }
 
-  /**
-   * Get chat history for a specific chat session.
-   * @param {string} chatSessionId - The chat session ID.
-   * @returns {Promise<{sender: string, message: string}[]>} A promise that resolves to an array of chat history entries.
-   */
   async getChatHistory(chatSessionId) {
     const connection = await sql.connect(dbConfig);
     const sqlQuery = `

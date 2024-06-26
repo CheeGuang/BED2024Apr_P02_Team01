@@ -4,13 +4,15 @@
 </button>
 
 <!-- Chatbot Interface -->
-<div id="chatbot-container" class="chatbot-container">
+<div id="chatbot-container" class="chatbot-container" style="display: none">
   <div id="chatbot-header" class="chatbot-header">
     <img
       src="./images/HealthBuddy.png"
       alt="HealthBuddy"
       class="chatbot-icon"
     />
+    <span class="chatbot-title">Health Buddy</span>
+    <!-- Added this line -->
     <button id="close-chatbot" class="close-chatbot">&times;</button>
   </div>
   <div id="chatbot-body" class="chatbot-body">
@@ -25,4 +27,5 @@
       <button id="send-message" class="btn btn-dark">Send</button>
     </div>
   </div>
+  <div class="chatbot-footer">Powered by OpenAI</div>
 </div>
