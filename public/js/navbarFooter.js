@@ -17,6 +17,13 @@ fetch(navbarFile)
   .then((response) => response.text())
   .then((data) => {
     document.getElementById("navbar-container").innerHTML = data;
+
+    // Check for patient profile picture and update src if it exists
+    const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+    if (patientDetails && patientDetails.profilePicture) {
+      document.getElementById("profile-image-login").src =
+        patientDetails.profilePicture;
+    }
   })
   .catch((error) => console.error(error));
 
