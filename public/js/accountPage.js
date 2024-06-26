@@ -2,7 +2,7 @@
 const signOutBtn = document.getElementById("sign-out-btn");
 
 // Function for sign out to work
-signOutBtn.addEventListener("onclick", function () {
+signOutBtn.addEventListener("click", function () {
   // Remove patient details from local storage
   localStorage.removeItem(patientDetails);
 
