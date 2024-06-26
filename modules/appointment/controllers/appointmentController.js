@@ -448,7 +448,7 @@ const generateMedicalCertificate = async (req, res) => {
     );
     res.setHeader(
       "Content-Disposition",
-      `attachment; filename=MC_${appointmentId}.pdf`
+      `attachment; filename=SyncHealth-Medical-Certificate.pdf`
     );
     res.setHeader("Content-Type", "application/pdf");
     res.send(pdfBuffer);
