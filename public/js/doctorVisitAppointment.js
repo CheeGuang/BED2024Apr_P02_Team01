@@ -28,7 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
         input.name = "medicines";
 
         label.appendChild(input);
-        label.appendChild(document.createTextNode(medicine.Name));
+        label.appendChild(
+          document.createTextNode(
+            `${medicine.Name} - ${medicine.Description} (Dosage: ${medicine.RecommendedDosage})`
+          )
+        );
         medicineCheckboxes.appendChild(label);
       });
     })

@@ -1,5 +1,8 @@
 const moment = require("moment-timezone");
-const Appointment = require("../../../models/appointment.js");
+const {
+  Appointment,
+  appointmentEmitter,
+} = require("../../../models/appointment");
 const API_KEY = process.env.appointmentAPIKey;
 
 /**
@@ -373,6 +376,88 @@ const updateAppointmentWithMedicines = async (req, res) => {
   }
 };
 
+/**
+ * Controller to get appointment details by ID.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+const getAppointmentDetailsById = async (req, res) => {
+  const appointmentId = parseInt(req.params.id);
+  try {
+    const appointmentDetails = await Appointment.getAppointmentDetailsById(
+      appointmentId
+    );
+    if (!appointmentDetails) {
+      return res.status(404).send("Appointment not found");
+    }
+    res.json(appointmentDetails);
+  } catch (error) {
+    console.error("Error retrieving appointment details:", error);
+    res.status(500).send("Error retrieving appointment details");
+  }
+};
+
+/**
+ * Controller to handle SSE connections for appointment updates.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+const handleSSEUpdates = (req, res) => {
+  const appointmentId = req.params.id;
+  console.log(
+    `SSE connection established for appointment ID: ${appointmentId}`
+  );
+
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  const onUpdate = (data) => {
+    console.log(`Received update for appointment ID: ${data.AppointmentID}`);
+    console.log(`data.AppointmentID: ${data.AppointmentID}`);
+    console.log(`appointmentId: ${appointmentId}`);
+    if (data.AppointmentID == appointmentId) {
+      console.log(`Sending update for appointment ID: ${appointmentId}`);
+      res.write(`data: ${JSON.stringify(data)}\n\n`);
+    } else {
+      console.log(
+        `Update received for different appointment ID: ${data.AppointmentID}`
+      );
+    }
+  };
+
+  appointmentEmitter.on("appointmentUpdated", onUpdate);
+  console.log(`Listener added for appointment ID: ${appointmentId}`);
+
+  req.on("close", () => {
+    appointmentEmitter.removeListener("appointmentUpdated", onUpdate);
+    console.log(`SSE connection closed for appointment ID: ${appointmentId}`);
+  });
+};
+
+/**
+ * Controller to generate a medical certificate for an appointment.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+const generateMedicalCertificate = async (req, res) => {
+  const appointmentId = parseInt(req.params.id);
+  try {
+    const pdfBuffer = await Appointment.generateMedicalCertificate(
+      appointmentId
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=MC_${appointmentId}.pdf`
+    );
+    res.setHeader("Content-Type", "application/pdf");
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error("Error generating medical certificate PDF:", error);
+    res.status(500).send("Error generating medical certificate");
+  }
+};
+
 module.exports = {
   getAllAppointments,
   createAppointment,
@@ -387,4 +472,7 @@ module.exports = {
   updateMedicinesForAppointment,
   getMedicinesForAppointment,
   updateAppointmentWithMedicines,
+  getAppointmentDetailsById,
+  handleSSEUpdates,
+  generateMedicalCertificate,
 };

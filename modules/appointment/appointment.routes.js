@@ -1,6 +1,7 @@
 // ========== Packages ==========
 // Initializing express
 const express = require("express");
+const { appointmentEmitter } = require("../../models/appointment");
 
 // ========== Controllers ==========
 // Initializing appointmentController
@@ -77,6 +78,19 @@ appointmentRoutes.post(
   "/:id/medicineToAppointment",
   appointmentController.addMedicinesToAppointment
 );
+
+appointmentRoutes.get(
+  "/:id/details",
+  appointmentController.getAppointmentDetailsById
+);
+
+appointmentRoutes.get(
+  "/:id/medicalCertificate",
+  appointmentController.generateMedicalCertificate
+);
+
+// Endpoint to listen for updates (SSE)
+appointmentRoutes.get("/:id/updates", appointmentController.handleSSEUpdates);
 
 // ========== Export Route ==========
 // Export the appointment routes to be used in other parts of the application

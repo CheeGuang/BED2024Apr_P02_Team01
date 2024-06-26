@@ -13,6 +13,7 @@
   "dependencies": {
     "cross-fetch": "^4.0.0",
     "dotenv": "^16.4.5",
+    "events": "^3.3.0",
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
     "express-session": "^1.18.0",
@@ -23,6 +24,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
+    "pdfkit": "^0.15.0",
     "qrcode": "^1.5.3"
   }
 }

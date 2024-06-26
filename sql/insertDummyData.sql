@@ -9,16 +9,16 @@ VALUES ('dr.jane.smith@example.com', '0987654321', '1975-05-20', 'Female', 'Gene
 -- Insert provided data into Medicine table
 INSERT INTO Medicine (Name, Description, Price, RecommendedDosage, Image)
 VALUES 
-('Aspirin', 'Pain reliever and fever reducer.', 5.00, '1-2 tablets every 4-6 hours', 'aspirin.jpg'),
-('Ibuprofen', 'Nonsteroidal anti-inflammatory drug.', 10.00, '1 tablet every 6-8 hours', 'ibuprofen.jpg'),
-('Paracetamol', 'Pain reliever and fever reducer', 8.00, '1-2 tablets every 4-6 hours', 'paracetamol.jpg'),
-('Acetaminophen', 'Pain reliever and fever reducer.', 6.00, '1-2 tablets every 4-6 hours', 'acetaminophen.jpg'),
-('Amoxicillin', 'Antibiotic.', 12.00, '500 mg every 8 hours', 'amoxicillin.jpg'),
-('Metformin', 'Diabetes medication.', 15.00, '500 mg twice daily', 'metformin.jpg'),
-('Lisinopril', 'Blood pressure medication.', 10.00, '10-40 mg once daily', 'lisinopril.jpg'),
-('Atorvastatin', 'Cholesterol-lowering medication.', 18.00, '10-20 mg once daily', 'atorvastatin.jpg'),
-('Sertraline', 'Antidepressant.', 20.00, '50 mg once daily', 'sertraline.jpg'),
-('Cetirizine', 'Antihistamine for allergy relief.', 7.00, '1 tablet once daily', 'cetirizine.jpg');
+('Aspirin', 'Pain reliever and fever reducer.', 5.00, 'Take 1-2 tablets after meals, up to 4 times a day.', 'aspirin.jpg'),
+('Ibuprofen', 'Nonsteroidal anti-inflammatory drug.', 10.00, 'Take 1 tablet after meals, up to 3 times a day.', 'ibuprofen.jpg'),
+('Paracetamol', 'Pain reliever and fever reducer.', 8.00, 'Take 1-2 tablets after meals, up to 4 times a day.', 'paracetamol.jpg'),
+('Acetaminophen', 'Pain reliever and fever reducer.', 6.00, 'Take 1-2 tablets after meals, up to 4 times a day.', 'acetaminophen.jpg'),
+('Amoxicillin', 'Antibiotic.', 12.00, 'Take 1 tablet before meals, up to 3 times a day.', 'amoxicillin.jpg'),
+('Metformin', 'Diabetes medication.', 15.00, 'Take 1 tablet before meals, up to 2 times a day.', 'metformin.jpg'),
+('Lisinopril', 'Blood pressure medication.', 10.00, 'Take 1 tablet before meals, up to 1 time a day.', 'lisinopril.jpg'),
+('Atorvastatin', 'Cholesterol-lowering medication.', 18.00, 'Take 1 tablet before meals, up to 1 time a day.', 'atorvastatin.jpg'),
+('Sertraline', 'Antidepressant.', 20.00, 'Take 1 tablet after meals, up to 1 time a day.', 'sertraline.jpg'),
+('Cetirizine', 'Antihistamine for allergy relief.', 7.00, 'Take 1 tablet after meals, up to 1 time a day.', 'cetirizine.jpg');
 
 -- Insert dummy data into Appointment table
 INSERT INTO Appointment (PatientID, DoctorID, endDateTime, PatientURL, HostRoomURL, IllnessDescription, Diagnosis, MCStartDate, MCEndDate, DoctorNotes)

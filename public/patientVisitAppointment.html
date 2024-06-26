@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <!-- INSERT PAGE'S CSS HERE \/-->
-    <link rel="stylesheet" href="#" />
+    <link rel="stylesheet" href="./css/patientVisitAppointment.css" />
     <!-- END OF PAGE'S CSS /\-->
 
     <link rel="stylesheet" href="./css/footer.css" defer />
@@ -90,6 +90,30 @@
             allow="camera; microphone; fullscreen; speaker; display-capture; compute-pressure"
             style="height: 700px; width: 100%"
           ></iframe>
+          <!-- Appointment Details Section -->
+          <div class="mt-4" id="appointment-details">
+            <h2>Appointment Details</h2>
+            <p>
+              <strong>Patient Full Name:</strong>
+              <span id="patientFullName"></span>
+            </p>
+            <p>
+              <strong>Doctor Full Name:</strong>
+              <span id="doctorFullName"></span>
+            </p>
+            <p>
+              <strong>Illness Description:</strong>
+              <span id="illnessDescription"></span>
+            </p>
+            <p><strong>Diagnosis:</strong> <span id="diagnosis"></span></p>
+            <button
+              id="downloadMC"
+              class="btn btn-dark btn-custom btn-download"
+              disabled
+            >
+              <i class="fas fa-download"></i> Download MC
+            </button>
+          </div>
           <!-- END OF CONTENT -->
         </div>
       </div>

@@ -89,7 +89,9 @@ document.addEventListener("DOMContentLoaded", function () {
               }
               ${
                 category === "history"
-                  ? '<a href="#" class="btn btn-dark btn-custom btn-download"><i class="fas fa-download"></i> Download MC</a>'
+                  ? '<button class="btn btn-dark btn-custom btn-download" data-id="' +
+                    appointment.AppointmentID +
+                    '"><i class="fas fa-download"></i> Download MC</button>'
                   : ""
               }
             </div>
@@ -190,8 +192,11 @@ document.addEventListener("DOMContentLoaded", function () {
                   "PatientURL found, joining meeting:",
                   appointmentData.PatientURL
                 );
-                localStorage.setItem("patientURL", appointmentData.PatientURL);
-                window.location.href = "patientVisitAppointment.html";
+                const urlParams = new URLSearchParams({
+                  patientURL: encodeURIComponent(appointmentData.PatientURL),
+                  appointmentID: appointmentID,
+                });
+                window.location.href = `patientVisitAppointment.html?${urlParams.toString()}`;
               } else {
                 console.error("Failed to join meeting. URL not found.");
                 showNotification(
@@ -208,6 +213,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 "error"
               );
             });
+        });
+      });
+
+      // Add event listeners for Download MC buttons
+      document.querySelectorAll(".btn-download").forEach((button) => {
+        button.addEventListener("click", function () {
+          const appointmentID = this.getAttribute("data-id");
+          console.log(
+            "Download MC button clicked for appointmentID:",
+            appointmentID
+          );
+          const mcUrl = `${baseUrl}/api/appointment/${appointmentID}/medicalCertificate`;
+          window.open(mcUrl, "_blank"); // Open the generated PDF in a new tab
         });
       });
     })

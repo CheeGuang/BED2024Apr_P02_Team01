@@ -1,5 +1,10 @@
 const sql = require("mssql"); // Import the mssql library for SQL Server database operations
 const dbConfig = require("../dbConfig"); // Import the database configuration
+const EventEmitter = require("events");
+class AppointmentEmitter extends EventEmitter {}
+const appointmentEmitter = new AppointmentEmitter();
+const PDFDocument = require("pdfkit"); // Import the pdfkit library
+const path = require("path");
 
 /**
  * Class representing an Appointment.
@@ -402,6 +407,11 @@ class Appointment {
     }
   }
 
+  /**
+   * Update the PatientMedicine table based on the AppointmentID.
+   * @param {number} AppointmentID - The ID of the appointment.
+   * @returns {Promise<void>} A promise that resolves when the PatientMedicine table is updated.
+   */
   static async updatePatientMedicineTable(AppointmentID) {
     console.log(
       `Starting updatePatientMedicineTable for AppointmentID: ${AppointmentID}`
@@ -448,10 +458,10 @@ class Appointment {
           `Deleted all PatientMedicine records for PatientID: ${PatientID}`
         );
 
-        // Get all MedicineIDs associated with the same PatientID in the AppointmentMedicine table using INNER JOIN
-        console.log(`Fetching MedicineIDs for PatientID: ${PatientID}`);
+        // Get all unique MedicineIDs associated with the same PatientID in the AppointmentMedicine table using INNER JOIN
+        console.log(`Fetching unique MedicineIDs for PatientID: ${PatientID}`);
         const medicineQuery = `
-          SELECT am.MedicineID
+          SELECT DISTINCT am.MedicineID
           FROM AppointmentMedicine am
           INNER JOIN Appointment a ON am.AppointmentID = a.AppointmentID
           WHERE a.PatientID = @PatientID
@@ -463,10 +473,10 @@ class Appointment {
           (row) => row.MedicineID
         );
         console.log(
-          `Fetched MedicineIDs: ${MedicineIDs} for PatientID: ${PatientID}`
+          `Fetched unique MedicineIDs: ${MedicineIDs} for PatientID: ${PatientID}`
         );
 
-        // Add all MedicineIDs to the PatientMedicine table
+        // Add all unique MedicineIDs to the PatientMedicine table
         const insertQuery = `
           INSERT INTO PatientMedicine (PatientID, MedicineID)
           VALUES (@PatientID, @MedicineID)
@@ -567,13 +577,13 @@ class Appointment {
       );
 
       const updateQuery = `
-      UPDATE Appointment
-      SET Diagnosis = @Diagnosis,
-          MCStartDate = @MCStartDate,
-          MCEndDate = @MCEndDate,
-          DoctorNotes = @DoctorNotes
-      WHERE AppointmentID = @AppointmentID
-    `;
+        UPDATE Appointment
+        SET Diagnosis = @Diagnosis,
+            MCStartDate = @MCStartDate,
+            MCEndDate = @MCEndDate,
+            DoctorNotes = @DoctorNotes
+        WHERE AppointmentID = @AppointmentID
+      `;
       const updateRequest = transaction.request();
       updateRequest.input("AppointmentID", AppointmentID);
       updateRequest.input("Diagnosis", appointmentData.Diagnosis);
@@ -618,6 +628,13 @@ class Appointment {
         AppointmentID,
         MedicineIDs
       );
+
+      // Emit the update event
+      console.log(`Emitting update event for AppointmentID: ${AppointmentID}`);
+      appointmentEmitter.emit("appointmentUpdated", {
+        AppointmentID,
+        updatedWithMedicines: true,
+      });
     } catch (error) {
       console.error(
         `Error during updateMedicinesForAppointment for AppointmentID: ${AppointmentID}`,
@@ -626,6 +643,123 @@ class Appointment {
       throw error;
     }
   }
+
+  /**
+   * Get appointment details by ID.
+   * @param {number} AppointmentID - The ID of the appointment.
+   * @returns {Promise<object|null>} A promise that resolves to an object containing appointment details or null if not found.
+   */
+  static async getAppointmentDetailsById(AppointmentID) {
+    const connection = await sql.connect(dbConfig); // Establish a connection to the database
+    const sqlQuery = `
+      SELECT       
+        CONCAT(p.GivenName, ' ', p.FamilyName) AS PatientFullName,
+        CONCAT('Dr. ', d.GivenName, ' ', d.FamilyName) AS DoctorFullName,
+        a.IllnessDescription,
+        a.Diagnosis,
+        a.MCStartDate,
+        a.MCEndDate
+      FROM 
+        Appointment a
+      INNER JOIN 
+        Patient p ON a.PatientID = p.PatientID
+      INNER JOIN 
+        Doctor d ON a.DoctorID = d.DoctorID
+      WHERE 
+        a.AppointmentID = @AppointmentID
+    `; // SQL query to select appointment details with joined patient and doctor information
+    const request = connection.request(); // Create a request object
+    request.input("AppointmentID", AppointmentID); // Add the input parameter for the query
+    const result = await request.query(sqlQuery); // Execute the query
+    connection.close(); // Close the database connection
+
+    if (!result.recordset[0]) {
+      return null; // Return null if no record is found
+    }
+
+    // Ensure null values are returned explicitly
+    const appointmentDetails = result.recordset[0];
+    return {
+      PatientFullName: appointmentDetails.PatientFullName || null,
+      DoctorFullName: appointmentDetails.DoctorFullName || null,
+      IllnessDescription: appointmentDetails.IllnessDescription || null,
+      Diagnosis: appointmentDetails.Diagnosis || null,
+      MCStartDate: appointmentDetails.MCStartDate || null,
+      MCEndDate: appointmentDetails.MCEndDate || null,
+    };
+  }
+
+  /**
+   * Generate a medical certificate PDF document for the appointment.
+   * @param {number} AppointmentID - The ID of the appointment.
+   * @returns {Promise<Buffer>} A promise that resolves to a buffer containing the PDF document.
+   */
+  static async generateMedicalCertificate(AppointmentID) {
+    // Get appointment details
+    const details = await this.getAppointmentDetailsById(AppointmentID);
+    if (!details) {
+      throw new Error("Appointment not found");
+    }
+
+    // Create a new PDF document
+    const doc = new PDFDocument({ margin: 50 });
+    let buffers = [];
+    doc.on("data", buffers.push.bind(buffers));
+    doc.on("end", () => {});
+
+    // Add SyncHealth logo
+    const logoPath = path.join(
+      __dirname,
+      "../public/images/SyncHealthLogo.png"
+    );
+    doc.image(logoPath, { fit: [100, 100], align: "center", valign: "center" });
+
+    // Add title
+    doc.fontSize(24).text("Medical Certificate", { align: "center" });
+    doc.moveDown(2);
+
+    // Add details
+    doc.fontSize(16).text("Patient Details", { underline: true });
+    doc.moveDown();
+    doc.fontSize(12).text(`Full Name: ${details.PatientFullName || "N/A"}`);
+    doc.moveDown();
+
+    doc.fontSize(16).text("Doctor Details", { underline: true });
+    doc.moveDown();
+    doc.fontSize(12).text(`Full Name: ${details.DoctorFullName || "N/A"}`);
+    doc.moveDown();
+
+    doc.fontSize(16).text("Medical Information", { underline: true });
+    doc.moveDown();
+    doc
+      .fontSize(12)
+      .text(`Illness Description: ${details.IllnessDescription || "N/A"}`);
+    doc.moveDown();
+    doc.fontSize(12).text(`Diagnosis: ${details.Diagnosis || "N/A"}`);
+    doc.moveDown();
+    doc.fontSize(12).text(`MC Start Date: ${details.MCStartDate || "N/A"}`);
+    doc.moveDown();
+    doc.fontSize(12).text(`MC End Date: ${details.MCEndDate || "N/A"}`);
+    doc.moveDown(2);
+
+    // Add footer
+    doc.fontSize(10).text("Generated by SyncHealth", {
+      align: "center",
+      valign: "bottom",
+    });
+
+    // Finalize the PDF and end the stream
+    doc.end();
+
+    // Return a promise that resolves to the PDF buffer
+    return new Promise((resolve, reject) => {
+      doc.on("end", () => {
+        const pdfData = Buffer.concat(buffers);
+        resolve(pdfData);
+      });
+      doc.on("error", reject);
+    });
+  }
 }
 
-module.exports = Appointment;
+module.exports = { Appointment, appointmentEmitter };
