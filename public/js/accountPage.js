@@ -1,5 +1,14 @@
-// Get the infocard and toggle between the editable input and not editable one
-let username = document.getElementById("personal-name");
+// Get Sign Out btn
+const signOutBtn = document.getElementById("sign-out-btn");
+
+// Function for sign out to work
+signOutBtn.addEventListener("onclick", function () {
+  // Remove patient details from local storage
+  localStorage.removeItem(patientDetails);
+
+  // Redirect to Home Page
+  document.location.href = "../index.html";
+});
 
 // Get the data from the local storage
 document.addEventListener("DOMContentLoaded", function () {
