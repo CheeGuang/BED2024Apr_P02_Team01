@@ -11,8 +11,6 @@ const patientController = require("./controllers/patientController");
 const patientRoutes = express.Router();
 
 // ========== Routes ==========
-// Get all patients
-patientRoutes.get("/", patientController.getAllPatients);
 
 // Search patients
 patientRoutes.get("/search", patientController.searchPatients);

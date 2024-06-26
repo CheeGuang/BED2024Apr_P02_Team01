@@ -88,6 +88,51 @@
             allow="camera; microphone; fullscreen; speaker; display-capture; compute-pressure"
             style="height: 700px; width: 100%"
           ></iframe>
+          <div
+            id="success-message"
+            class="alert alert-success mt-3"
+            style="display: none"
+          >
+            Appointment updated successfully!
+          </div>
+          <form id="appointment-form" class="mt-4">
+            <div class="mb-3">
+              <label for="diagnosis" class="form-label">Diagnosis</label>
+              <input
+                type="text"
+                class="form-control"
+                id="diagnosis"
+                name="diagnosis"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="mcenddate" class="form-label">MC End Date</label>
+              <input
+                type="date"
+                class="form-control"
+                id="mcenddate"
+                name="mcenddate"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="doctornotes" class="form-label">Doctor Notes</label>
+              <textarea
+                class="form-control"
+                id="doctornotes"
+                name="doctornotes"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Medicines</label>
+              <div id="medicine-checkboxes" class="medicine-checkboxes"></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
           <!-- END OF CONTENT -->
         </div>
       </div>

@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const startDateTime = new Date(
           appointment.StartDateTime
         ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+        console.log(startDateTime);
         const formattedDate = new Date(
           appointment.StartDateTime
         ).toLocaleDateString("en-GB", {
@@ -50,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
           month: "long",
           year: "numeric",
         });
+
         const illnessDescription = appointment.IllnessDescription
           ? appointment.IllnessDescription.length > 14
             ? appointment.IllnessDescription.substring(0, 14) + "..."
@@ -57,47 +60,47 @@ document.addEventListener("DOMContentLoaded", function () {
           : "NIL";
 
         card.innerHTML = `
-                <div class="card-body">
-                  <div class="icon-container">
-                    <i class="fas fa-calendar-alt"></i>
-                    <strong>${formattedDate}</strong>
-                  </div>
-                  <span class="date-time">Time: ${startDateTime}</span>
-                  <span>Description: ${illnessDescription}</span>
-                  <div class="btn-container">
-                    ${
-                      category !== "history"
-                        ? '<button class="btn btn-dark btn-custom cancel-button" data-id="' +
-                          appointment.AppointmentID +
-                          '">Cancel</button>'
-                        : ""
-                    }
-                    ${
-                      category === "today"
-                        ? '<button class="btn btn-dark btn-custom join-meeting-button" data-id="' +
-                          appointment.AppointmentID +
-                          '">Join Meeting</button>'
-                        : ""
-                    }
-                    ${
-                      category === "upcoming"
-                        ? '<button class="btn btn-dark btn-custom">Reschedule</button>'
-                        : ""
-                    }
-                    ${
-                      category === "history"
-                        ? '<a href="#" class="btn btn-dark btn-custom btn-download"><i class="fas fa-download"></i> Download MC</a>'
-                        : ""
-                    }
-                  </div>
-                </div>
-              `;
+          <div class="card-body">
+            <div class="icon-container">
+              <i class="fas fa-calendar-alt"></i>
+              <strong>${formattedDate}</strong>
+            </div>
+            <span class="date-time">Time: ${startDateTime}</span>
+            <span>Description: ${illnessDescription}</span>
+            <div class="btn-container">
+              ${
+                category !== "history"
+                  ? '<button class="btn btn-dark btn-custom cancel-button" data-id="' +
+                    appointment.AppointmentID +
+                    '">Cancel</button>'
+                  : ""
+              }
+              ${
+                category === "today"
+                  ? '<button class="btn btn-dark btn-custom join-meeting-button" data-id="' +
+                    appointment.AppointmentID +
+                    '">Join Meeting</button>'
+                  : ""
+              }
+              ${
+                category === "upcoming"
+                  ? '<button class="btn btn-dark btn-custom">Reschedule</button>'
+                  : ""
+              }
+              ${
+                category === "history"
+                  ? '<a href="#" class="btn btn-dark btn-custom btn-download"><i class="fas fa-download"></i> Download MC</a>'
+                  : ""
+              }
+            </div>
+          </div>
+        `;
         return card;
       };
 
       // Categorize appointments
       data.forEach((appointment) => {
-        // Calculate StartDateTime as EndDateTime - 2hrs
+        // Calculate StartDateTime as endDateTime - 1hr
         const endDateTime = new Date(appointment.endDateTime);
         const startDateTime = new Date(endDateTime.getTime() - 60 * 60 * 1000);
         appointment.StartDateTime = startDateTime;

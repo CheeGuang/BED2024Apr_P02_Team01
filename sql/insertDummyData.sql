@@ -21,8 +21,8 @@ VALUES
 ('Cetirizine', 'Antihistamine for allergy relief.', 7.00, '1 tablet once daily', 'cetirizine.jpg');
 
 -- Insert dummy data into Appointment table
-INSERT INTO Appointment (PatientID, DoctorID, StartDateTime, EndDateTime, PatientURL, HostRoomURL, IllnessDescription, Diagnosis, MCStartDate, MCEndDate, DoctorNotes)
-VALUES (1, 1, '2024-06-25 09:00:00', '2024-06-25 09:30:00', 'http://patienturl.com', 'http://hostroomurl.com', 'Fever and headache', 'Common cold', '2024-06-25', '2024-06-27', 'Rest and stay hydrated.');
+INSERT INTO Appointment (PatientID, DoctorID, endDateTime, PatientURL, HostRoomURL, IllnessDescription, Diagnosis, MCStartDate, MCEndDate, DoctorNotes)
+VALUES (1, 1, '2024-06-25 09:00:00', 'http://patienturl.com', 'http://hostroomurl.com', 'Fever and headache', 'Common cold', '2024-06-25', '2024-06-27', 'Rest and stay hydrated.');
 
 -- Insert dummy data into PatientMedicine table
 INSERT INTO PatientMedicine (PatientID, MedicineID)

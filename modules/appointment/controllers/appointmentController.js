@@ -1,10 +1,5 @@
-// ========== Packages ==========
-// Initializing Moment Time Package for handling date/time manipulation
 const moment = require("moment-timezone");
-// Appointment Model Configuration
 const Appointment = require("../../../models/appointment.js");
-
-// ========== API Key ==========
 const API_KEY = process.env.appointmentAPIKey;
 
 /**
@@ -15,28 +10,40 @@ const API_KEY = process.env.appointmentAPIKey;
 const createAppointment = async (req, res) => {
   try {
     const apiUrl = "https://api.whereby.dev/v1/meetings";
-    const { endDate, illnessDescription, PatientID } = req.body;
+    const { startDate, endDate, illnessDescription, PatientID } = req.body;
 
     console.log(illnessDescription);
 
-    // Parsing and formatting end date time to ensure it's in ISO 8601 format
-    const formattedEndDate = moment.tz(endDate, "Asia/Singapore").toISOString();
+    // Parsing the start and end dates to moment objects
+    const startDateTime = moment.tz(startDate, "Asia/Singapore");
+    const endDateTime = moment.tz(endDate, "Asia/Singapore");
+
+    // Ensure that Start Date Time is no earlier than now
+    const now = moment().tz("Asia/Singapore").subtract(1, "minute");
+
+    console.log(startDateTime);
+    console.log(now);
+
+    if (startDateTime.isBefore(now)) {
+      throw new Error("Start time must be in the future.");
+    }
 
     // Ensure that End Date Time of meeting is no earlier than 59 minutes from now
     const oneHourFromNow = moment().tz("Asia/Singapore").add(59, "minutes");
-    if (moment(formattedEndDate).isBefore(oneHourFromNow)) {
+    if (endDateTime.isBefore(oneHourFromNow)) {
       throw new Error("End time must be at least 1 hour away from now.");
     }
 
     // Ensure that End Date Time of meeting is within one week from now
     const oneWeekFromNow = moment().tz("Asia/Singapore").add(7, "days");
-    if (moment(formattedEndDate).isAfter(oneWeekFromNow)) {
+    if (endDateTime.isAfter(oneWeekFromNow)) {
       throw new Error("End time must be within 1 week from now.");
     }
 
     // Request data for creating appointment
     const requestData = {
-      endDate: moment(formattedEndDate).utc().format(), // Using converted end date time in UTC format
+      startDate: startDateTime.utc().format(), // Using converted start date time in UTC format
+      endDate: endDateTime.utc().format(), // Using converted end date time in UTC format
       fields: ["hostRoomUrl"],
     };
 
@@ -70,7 +77,8 @@ const createAppointment = async (req, res) => {
     // Post room data into Appointment Table in SQL Database
     const newAppointmentData = {
       PatientID: PatientID,
-      endDateTime: formattedEndDate, // Use the formatted Singapore date-time string
+      startDateTime: startDateTime.toISOString(), // Use the formatted Singapore date-time string for start date
+      endDateTime: endDateTime.toISOString(), // Use the formatted Singapore date-time string for end date
       PatientURL: roomData.roomUrl,
       HostRoomURL: roomData.hostRoomUrl,
       IllnessDescription: illnessDescription,
@@ -254,6 +262,117 @@ const updateDoctorId = async (req, res) => {
   }
 };
 
+/**
+ * Controller to add medicines to an appointment.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+const addMedicinesToAppointment = async (req, res) => {
+  const appointmentId = parseInt(req.params.id);
+  const { MedicineIDs } = req.body;
+
+  if (!Array.isArray(MedicineIDs)) {
+    return res.status(400).json({
+      status: "Failed",
+      message: "MedicineIDs must be an array",
+    });
+  }
+
+  try {
+    await Appointment.addMedicinesToAppointment(appointmentId, MedicineIDs);
+    res.status(200).json({
+      status: "Success",
+      message: "Medicines added successfully to the appointment",
+    });
+  } catch (error) {
+    console.error("Error adding medicines to appointment:", error);
+    res.status(500).send("Error adding medicines to appointment");
+  }
+};
+
+/**
+ * Controller to update the medicines for an appointment.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+const updateMedicinesForAppointment = async (req, res) => {
+  const appointmentId = parseInt(req.params.id);
+  const { MedicineIDs } = req.body;
+
+  if (!Array.isArray(MedicineIDs)) {
+    return res.status(400).json({
+      status: "Failed",
+      message: "MedicineIDs must be an array",
+    });
+  }
+
+  try {
+    await Appointment.updateMedicinesForAppointment(appointmentId, MedicineIDs);
+    res.status(200).json({
+      status: "Success",
+      message: "Medicines updated successfully for the appointment",
+    });
+  } catch (error) {
+    console.error("Error updating medicines for appointment:", error);
+    res.status(500).send("Error updating medicines for appointment");
+  }
+};
+
+/**
+ * Controller to get all medicines for an appointment.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+const getMedicinesForAppointment = async (req, res) => {
+  const appointmentId = parseInt(req.params.id);
+
+  try {
+    const medicines = await Appointment.getMedicinesForAppointment(
+      appointmentId
+    );
+    if (medicines.length === 0) {
+      return res.status(404).send("No medicines found for this appointment");
+    }
+    res.json(medicines);
+  } catch (error) {
+    console.error("Error retrieving medicines for appointment:", error);
+    res.status(500).send("Error retrieving medicines for appointment");
+  }
+};
+
+/**
+ * Controller to update an appointment with medicines.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+const updateAppointmentWithMedicines = async (req, res) => {
+  const appointmentId = parseInt(req.params.id);
+  const { Diagnosis, MCStartDate, MCEndDate, DoctorNotes, MedicineIDs } =
+    req.body;
+
+  if (!Array.isArray(MedicineIDs)) {
+    return res.status(400).json({
+      status: "Failed",
+      message: "MedicineIDs must be an array",
+    });
+  }
+
+  try {
+    await Appointment.updateAppointmentWithMedicines(
+      appointmentId,
+      { Diagnosis, MCStartDate, MCEndDate, DoctorNotes },
+      MedicineIDs
+    );
+    res.status(200).json({
+      status: "Success",
+      message: "Appointment and medicines updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating appointment with medicines:", error);
+    res.status(500).send("Error updating appointment with medicines");
+  }
+};
+
 module.exports = {
   getAllAppointments,
   createAppointment,
@@ -264,4 +383,8 @@ module.exports = {
   deleteAppointment,
   updateDoctorId,
   getUnassignedAppointments,
+  addMedicinesToAppointment,
+  updateMedicinesForAppointment,
+  getMedicinesForAppointment,
+  updateAppointmentWithMedicines,
 };
