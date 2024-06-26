@@ -211,6 +211,37 @@ const clearCart = async (req, res) => {
   }
 };
 
+const processMedicinePayment = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { totalAmount } = req.body; // The total amount including GST
+
+  try {
+    const patient = await Patient.getPatientById(patientId);
+    if (!patient) {
+      return res.status(404).json({ status: "Failed", message: "Patient not found" });
+    }
+
+    if (patient.eWalletAmount < totalAmount) {
+      return res.status(400).json({ status: "Failed", message: "Insufficient e-wallet balance" });
+    }
+
+    const updatedPatient = await Patient.updateEWalletAmount(patientId, -totalAmount); // Deduct the total amount
+
+    // Clear the cart after payment
+    await Patient.clearCart(patientId);
+
+    res.json({
+      status: "Success",
+      message: "Payment Successful. Your Medicine will be shipped within 5 working days",
+      eWalletAmount: updatedPatient.eWalletAmount,
+    });
+  } catch (error) {
+    console.error(`Error processing payment for Patient ID ${patientId}:`, error);
+    res.status(500).json({ status: "Failed", message: "Internal server error" });
+  }
+};
+
+
 module.exports = {
   createPatient,
   getPatientById,
@@ -223,4 +254,6 @@ module.exports = {
   getGuestPatient,
   getEWalletAmount,
   updateEWalletAmount,
+  processMedicinePayment, // Add this line
 };
+

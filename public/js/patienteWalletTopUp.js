@@ -42,7 +42,7 @@ async function confirmTopUp() {
   const topUpAmount = parseFloat(document.getElementById("topup-amount").value);
   const patientId = JSON.parse(
     localStorage.getItem("patientDetails")
-  ).PatientID; // Fetch patient ID from local storage
+  ).PatientID;
 
   if (isNaN(topUpAmount) || topUpAmount <= 0) {
     showNotification("Please enter a valid top-up amount", "error");

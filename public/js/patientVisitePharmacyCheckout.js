@@ -1,11 +1,16 @@
 const cartItemsList = document.getElementById("cart-items");
 const totalPriceElement = document.getElementById("total-price");
+const gstAmountElement = document.getElementById("gst-amount");
 const clearCartButton = document.getElementById("clear-cart-button");
 
 // Function to display a cart item
 function displayCartItem(name, quantity, price) {
   const listItem = document.createElement("li");
-  listItem.textContent = `${name} (x${quantity}) - $${price.toFixed(2)}`;
+  listItem.className =
+    "list-group-item d-flex justify-content-between align-items-center";
+  listItem.innerHTML = `${name} (x${quantity}) <span>$${price.toFixed(
+    2
+  )}</span>`;
   cartItemsList.appendChild(listItem);
 }
 
@@ -15,7 +20,11 @@ function calculateTotalPrice(cart) {
   for (const item in cart) {
     total += cart[item].Price * cart[item].Quantity;
   }
-  totalPriceElement.textContent = `Total Price: $${total.toFixed(2)}`;
+  const gstAmount = total * 0.09;
+  const finalTotal = total + gstAmount;
+
+  gstAmountElement.textContent = `$${gstAmount.toFixed(2)}`;
+  totalPriceElement.textContent = `$${finalTotal.toFixed(2)}`;
 }
 
 // Function to fetch and display cart items from the database
@@ -45,8 +54,13 @@ async function fetchCartItems() {
       }
       calculateTotalPrice(cart);
     } else {
-      cartItemsList.textContent = "No items in your cart.";
-      totalPriceElement.textContent = "";
+      const emptyCartMessage = document.createElement("li");
+      emptyCartMessage.className =
+        "list-group-item d-flex justify-content-between align-items-center";
+      emptyCartMessage.innerHTML = "No Items In Cart <span></span>";
+      cartItemsList.appendChild(emptyCartMessage);
+      totalPriceElement.textContent = "$0.00";
+      gstAmountElement.textContent = "$0.00";
     }
   } catch (error) {
     console.error("Error fetching cart items:", error.message);
@@ -79,8 +93,14 @@ async function clearCart() {
     }
 
     // Clear the frontend cart display
-    cartItemsList.textContent = "No items in your cart.";
-    totalPriceElement.textContent = "";
+    cartItemsList.innerHTML = "";
+    const emptyCartMessage = document.createElement("li");
+    emptyCartMessage.className =
+      "list-group-item d-flex justify-content-between align-items-center";
+    emptyCartMessage.innerHTML = "No Items in Cart <span></span>";
+    cartItemsList.appendChild(emptyCartMessage);
+    totalPriceElement.textContent = "$0.00";
+    gstAmountElement.textContent = "$0.00";
   } catch (error) {
     console.error("Error clearing cart:", error.message);
   }
@@ -90,4 +110,62 @@ async function clearCart() {
 clearCartButton.addEventListener("click", clearCart);
 
 // Fetch and display cart items when the page loads
-window.onload = fetchCartItems;
+window.onload = () => {
+  fetchCartItems();
+  loadBalance();
+};
+
+function showNotification(message, type) {
+  const notification = document.getElementById("notification");
+  notification.textContent = message;
+  notification.className = `notification ${type} show`;
+  setTimeout(() => {
+    notification.className = "notification";
+  }, 3000);
+}
+
+// Function to clear the cart after successful payment
+function clearCartUI() {
+  document.getElementById("cart-items").innerHTML =
+    '<li class="list-group-item d-flex justify-content-between align-items-center">No Items in Cart<span></span></li>';
+  document.getElementById("gst-amount").textContent = "$0.00";
+  document.getElementById("total-price").textContent = "$0.00";
+}
+
+// Event listener for Pay Using E-Wallet button
+document
+  .getElementById("pay-ewallet-button")
+  .addEventListener("click", async () => {
+    const totalAmount = parseFloat(
+      document.getElementById("total-price").textContent.replace("$", "")
+    );
+    const patientId = JSON.parse(
+      localStorage.getItem("patientDetails")
+    ).PatientID;
+
+    try {
+      const response = await fetch(
+        `${window.location.origin}/api/patient/${patientId}/processPayment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ totalAmount }),
+        }
+      );
+
+      const result = await response.json();
+      if (result.status === "Success") {
+        showNotification(result.message, "success");
+        document.getElementById(
+          "current-balance"
+        ).textContent = `S$${result.eWalletAmount.toFixed(2)}`;
+        clearCartUI(); // Clear the cart UI immediately after payment success
+      } else {
+        showNotification(result.message, "error");
+      }
+    } catch (error) {
+      showNotification("Error processing payment", "error");
+    }
+  });

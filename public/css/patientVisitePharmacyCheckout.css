@@ -1,63 +1,126 @@
-.order-summary {
+.card {
   background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  margin: 50px auto;
-  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-.order-summary h2 {
-  text-align: center;
-  margin-bottom: 20px;
+.card-title {
+  font-size: 24px;
 }
 
-.order-summary .item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.order-summary .item p {
-  margin: 0;
-}
-
-.order-summary .total {
-  font-weight: bold;
-}
-
-.order-summary .ewallet {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.order-summary .ewallet p:last-child {
-  color: #ccc;
-}
-
-.order-summary button {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
+.list-group-item {
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-  width: 100%;
+  padding: 10px 20px;
+}
+
+.font-weight-bold {
+  font-weight: bold;
 }
 
 .back-button {
   background-color: transparent;
   border: none;
-  margin-top: 20px;
 }
 
 .fa-arrow-left {
   color: #1a252f;
 }
 
-.fa-arrow-left {
-  margin-bottom: 20px;
-  color: var(--font-color);
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.w-45 {
+  width: 45%;
+}
+
+.btn-primary {
+  background-color: #1d4f91;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btn-outline-primary {
+  border-color: #1d4f91;
+  color: #1d4f91;
+}
+
+.text-muted {
+  color: #6c757d;
+}
+
+.list-group-item > span {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.e-wallet-title {
+  font-size: 1.25rem; /* Larger font size for E-Wallet */
+}
+
+.balance-text {
+  font-size: 1rem; /* Smaller font size for Balance */
+}
+
+.text-end {
+  text-align: right;
+}
+
+#cart-items .list-group-item {
+  justify-content: space-between;
+}
+
+#top-up-button {
+  width: auto;
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 70px; /* Adjust based on your header height */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.notification.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.notification.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+  color: #721c24;
 }
