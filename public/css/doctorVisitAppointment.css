@@ -1,0 +1,69 @@
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.iframe-container {
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.iframe-container iframe {
+  width: 100%;
+  height: 700px;
+  border: none;
+}
+.card {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.card h2 {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+  color: #343a40;
+  margin-bottom: 10px;
+}
+.form-label {
+  font-weight: 500;
+  color: #495057;
+}
+.form-control {
+  border-radius: 6px;
+}
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  border-radius: 6px;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+#success-message {
+  display: none;
+  border-radius: 6px;
+}
+.medicine-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.medicine-checkboxes label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+}
+.medicine-checkboxes input {
+  margin-right: 10px;
+}
+#btn-submit {
+  margin-top: 10px;
+  width: 100%;
+  height: 40px;
+}

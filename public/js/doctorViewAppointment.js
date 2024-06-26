@@ -136,9 +136,9 @@ document.addEventListener("DOMContentLoaded", function () {
           fetch(`${baseUrl}/api/appointment/${appointmentID}`)
             .then((response) => response.json())
             .then((appointment) => {
-              window.location.href = `doctorVisitAppointment.html?hostRoomURL=${encodeURIComponent(
-                appointment.HostRoomURL
-              )}`;
+              window.location.href = `doctorVisitAppointment.html?appointmentID=${encodeURIComponent(
+                appointmentID
+              )}&hostRoomURL=${encodeURIComponent(appointment.HostRoomURL)}`;
             })
             .catch((error) =>
               console.error("Error fetching appointment details:", error)

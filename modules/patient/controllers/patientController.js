@@ -74,16 +74,6 @@ const createPatient = async (req, res) => {
   }
 };
 
-const getAllPatients = async (req, res) => {
-  try {
-    const patients = await Patient.getAllPatients();
-    res.json(patients);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error retrieving patients");
-  }
-};
-
 const getPatientById = async (req, res) => {
   const patientId = parseInt(req.params.id);
   try {
@@ -222,7 +212,6 @@ const clearCart = async (req, res) => {
 };
 
 module.exports = {
-  getAllPatients,
   createPatient,
   getPatientById,
   updatePatient,
