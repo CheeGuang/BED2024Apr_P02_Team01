@@ -4,7 +4,7 @@ const signOutBtn = document.getElementById("sign-out-btn");
 // Function for sign out to work
 signOutBtn.addEventListener("click", function () {
   // Remove patient details from local storage
-  localStorage.removeItem(patientDetails);
+  localStorage.removeItem("patientDetails");
 
   // Redirect to Home Page
   document.location.href = "../index.html";
