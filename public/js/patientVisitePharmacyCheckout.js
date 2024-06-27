@@ -118,10 +118,15 @@ window.onload = () => {
 function showNotification(message, type) {
   const notification = document.getElementById("notification");
   notification.textContent = message;
+  const notification = document.getElementById('notification');
   notification.className = `notification ${type} show`;
+  notification.innerText = message;
+
   setTimeout(() => {
     notification.className = "notification";
   }, 3000);
+    notification.classList.remove('show');
+  }, 3000); // Show the notification for 3 seconds
 }
 
 // Function to clear the cart after successful payment
@@ -142,6 +147,15 @@ document
     const patientId = JSON.parse(
       localStorage.getItem("patientDetails")
     ).PatientID;
+document.getElementById('pay-ewallet-button').addEventListener('click', async () => {
+  const cartItems = document.getElementById('cart-items').children;
+  if (cartItems.length === 0 || (cartItems.length === 1 && cartItems[0].innerText.includes('No Items in Cart'))) {
+    showNotification('Cart is Empty', 'error');
+    return;
+  }
+
+  const totalAmount = parseFloat(document.getElementById('total-price').textContent.replace('$', ''));
+  const patientId = JSON.parse(localStorage.getItem("patientDetails")).PatientID;
 
     try {
       const response = await fetch(
@@ -169,3 +183,12 @@ document
       showNotification("Error processing payment", "error");
     }
   });
+  } catch (error) {
+      showNotification('Error processing payment', 'error');
+  }
+});
+
+document.getElementById('back-button').addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent the default anchor behavior
+  history.back(); // Go back to the previous page
+});

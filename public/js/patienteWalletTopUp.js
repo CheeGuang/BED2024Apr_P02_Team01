@@ -1,3 +1,8 @@
+document.getElementById('back-button').addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent the default anchor behavior
+  history.back(); // Go back to the previous page
+});
+
 async function loadBalance() {
   let currentBalanceElement = document.getElementById("current-balance");
   const patientId = JSON.parse(

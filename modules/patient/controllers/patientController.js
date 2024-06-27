@@ -222,7 +222,7 @@ const processMedicinePayment = async (req, res) => {
     }
 
     if (patient.eWalletAmount < totalAmount) {
-      return res.status(400).json({ status: "Failed", message: "Insufficient e-wallet balance" });
+      return res.status(400).json({ status: "Failed", message: "Insufficient E-Wallet Balance. Please Top-Up." });
     }
 
     const updatedPatient = await Patient.updateEWalletAmount(patientId, -totalAmount); // Deduct the total amount
