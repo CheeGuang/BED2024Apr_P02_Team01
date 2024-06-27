@@ -26,8 +26,8 @@ VALUES (1, 1, '2024-06-25 09:00:00', 'http://patienturl.com', 'http://hostroomur
 
 -- Insert dummy data into PatientMedicine table
 INSERT INTO PatientMedicine (PatientID, MedicineID)
-VALUES (1, 1);
+VALUES (1, 1), (1, 2), (1, 3);
 
 -- Insert dummy data into AppointmentMedicine table
 INSERT INTO AppointmentMedicine (AppointmentID, MedicineID)
-VALUES (1, 1);
+VALUES (1, 1), (1, 2), (1, 3);
