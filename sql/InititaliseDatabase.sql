@@ -63,7 +63,7 @@ CREATE TABLE Medicine (
     Image NVARCHAR(255)
 );
 
--- Create Appointment table
+-- Create Appointment table with medical certificate details
 CREATE TABLE Appointment (
     AppointmentID INT IDENTITY(1,1) PRIMARY KEY,
     PatientID INT,
@@ -108,14 +108,13 @@ CREATE TABLE ChatHistory (
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID)
 );
 
-
 -- Insert dummy data into Patient table
 INSERT INTO Patient (Email, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI, googleId, givenName, familyName, profilePicture, Cart)
-VALUES ('john.doe@example.com', '1234567890', '1980-01-01', 'Male', '123 Main St', 100.00, 'resetCode123', 1000.00, 'googleId123', 'John', 'Doe', 'profile.jpg', NULL);
+VALUES ('john.doe@example.com', '1234567890', '1980-01-01', 'Male', '123 Main St', 100.00, 'resetCode123', 1000.00, 'googleId123', 'John', 'Doe', './images/LoginIconLight.png', NULL);
 
 -- Insert dummy data into Doctor table
 INSERT INTO Doctor (Email, ContactNumber, DOB, Gender, Profession, resetPasswordCode, googleId, givenName, familyName, profilePicture)
-VALUES ('dr.jane.smith@example.com', '0987654321', '1975-05-20', 'Female', 'General Practitioner', 'resetCode456', 'googleId456', 'Jane', 'Smith', 'profile.jpg');
+VALUES ('dr.jane.smith@example.com', '0987654321', '1975-05-20', 'Female', 'General Practitioner', 'resetCode456', 'googleId456', 'Jane', 'Smith', './images/LoginIconLight.png');
 
 -- Insert provided data into Medicine table
 INSERT INTO Medicine (Name, Description, Price, RecommendedDosage, Image)
@@ -142,7 +141,6 @@ VALUES (1, 1), (1, 2), (1, 3);
 -- Insert dummy data into AppointmentMedicine table
 INSERT INTO AppointmentMedicine (AppointmentID, MedicineID)
 VALUES (1, 1), (1, 2), (1, 3);
-
 
 -- Select all data from Patient table
 SELECT * FROM Patient;
