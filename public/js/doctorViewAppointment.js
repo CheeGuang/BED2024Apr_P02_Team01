@@ -32,8 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
       cardClass = "card-today";
       buttonsHTML = `
               <div class="btn-container">
-                <button class="btn btn-dark btn-custom cancel-btn">Cancel</button>
-                <button class="btn btn-dark btn-custom join-meeting-btn" data-appointment-id="${appointment.AppointmentID}">Join Meeting</button>
+                <button class="btn btn-dark btn-custom join-meeting-btn" style="width: 100%;" data-appointment-id="${appointment.AppointmentID}">Join Meeting</button>
               </div>
             `;
     } else if (category === "upcoming") {
