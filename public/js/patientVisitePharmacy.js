@@ -13,7 +13,7 @@ function createMedicineCard(medicine) {
           <p class="shipping">
             <i class="fas fa-truck shipping-icon"></i> Free shipping
           </p>
-          <button type="button" class="btn btn-primary add-to-cart-btn" data-product="${medicine.Name.toLowerCase().replace(
+          <button type="button" class="btn btn-dark-blue add-to-cart-btn" data-product="${medicine.Name.toLowerCase().replace(
             / /g,
             ""
           )}" data-price="${
@@ -33,7 +33,6 @@ function addToCart(event) {
   const patientId = JSON.parse(
     localStorage.getItem("patientDetails")
   ).PatientID;
-
 
   if (!patientId) {
     console.error("Error: Patient ID not found in local storage");
@@ -97,8 +96,19 @@ function addToCart(event) {
 
 // Fetch the medicines from the backend and display them
 async function fetchMedicines() {
+  const patientId = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID;
+
+  if (!patientId) {
+    console.error("Error: Patient ID not found in local storage");
+    return;
+  }
+
   try {
-    const response = await fetch(`${window.location.origin}/api/medicine`);
+    const response = await fetch(
+      `${window.location.origin}/api/medicine/patient/${patientId}`
+    );
     const medicines = await response.json();
     const medicineCardsContainer = document.getElementById("medicine-cards");
 
