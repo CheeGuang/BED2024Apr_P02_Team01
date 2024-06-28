@@ -42,7 +42,16 @@ document
 
     // Validate PCHI
     if (parseInt(pchi) > 1200) {
-      errorMessage.textContent = "PCHI must be 1200 or below.";
+      errorMessage.textContent =
+        "Household Monthly Income Per Person must be $1200 or below.";
+      errorMessage.classList.remove("d-none");
+      return;
+    }
+
+    // Validate PCHI
+    if (parseInt(pchi) <= 0) {
+      errorMessage.textContent =
+        "Household Monthly Income Per Person must be above $0.";
       errorMessage.classList.remove("d-none");
       return;
     }

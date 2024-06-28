@@ -3,6 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (patientDetails && patientDetails.givenName) {
     document.getElementById(
       "welcomeMessage"
-    ).textContent = `Welcome, ${patientDetails.givenName}!`;
+    ).textContent = `Welcome, ${patientDetails.givenName} ${patientDetails.familyName}!`;
   }
 });

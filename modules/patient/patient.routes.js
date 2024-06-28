@@ -45,6 +45,9 @@ patientRoutes.put("/:patientId/cart", patientController.updatePatientCart);
 // Clear the cart for a specific patient by ID
 patientRoutes.put("/:patientId/clear-cart", patientController.clearCart);
 
+// Process medicine payment for a specific patient by ID
+patientRoutes.post("/:id/processPayment", patientController.processMedicinePayment);
+
 // ========== Export ==========
 // Export the patient routes to be used in other parts of the application
 module.exports = patientRoutes;

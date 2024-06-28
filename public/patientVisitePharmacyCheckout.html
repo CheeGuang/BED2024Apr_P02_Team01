@@ -62,6 +62,7 @@
     <script src="./js/navbarFooter.js" defer></script>
 
     <!-- INSERT PAGE'S JS HERE \/-->
+    <script src="./js/patienteWalletTopUp.js" defer></script>
     <script src="./js/patientVisitePharmacyCheckout.js" defer></script>
     <!-- END OF PAGE'S JS /\-->
 
@@ -80,25 +81,72 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-12">
-          <!-- INSERT CONTENT HERE -->
-          <div class="col-6 d-flex align-items-center">
+          <div class="d-flex align-items-center mb-4">
             <button type="button" class="back-button me-3">
               <a href="patientVisitePharmacy.html">
                 <i class="fas fa-arrow-left"></i>
               </a>
             </button>
-            <div>
-              <h1 class="mb-0">Back to ePharmacy</h1>
+            <h1 class="mb-0">Back to ePharmacy</h1>
+          </div>
+          <div class="card p-4">
+            <div class="card-body">
+              <h2 class="card-title text-center mb-4">Consultation Billing</h2>
+              <ul class="list-group mb-3" id="cart-items">
+                <!-- Cart items will be injected here -->
+              </ul>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                GST 9%
+                <span id="gst-amount">$0.00</span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center font-weight-bold"
+              >
+                Total
+                <span id="total-price">$0.00</span>
+              </li>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <div>
+                  <span class="fw-bold e-wallet-title">E-Wallet</span>
+                  <p class="mb-0 balance-text">Balance</p>
+                </div>
+                <span class="fw-bold" id="current-balance">S$100.00</span>
+              </div>
+              <div
+                class="d-flex justify-content-end align-items-center mb-3 mt-1"
+              >
+                <a
+                  href="patienteWalletTopUp.html"
+                  class="btn btn-primary btn-sm"
+                  id="top-up-button"
+                  >Top Up</a
+                >
+              </div>
+              <div class="d-flex flex-column">
+                <button
+                  id="clear-cart-button"
+                  class="btn btn-secondary mb-2 w-100"
+                >
+                  Clear Cart
+                </button>
+                <button id="pay-ewallet-button" class="btn btn-primary w-100">
+                  Pay Using E-Wallet
+                </button>
+              </div>
+              <div class="text-center mt-4">
+                <span>
+                  By placing your order, you agree to our company
+                  <a href="./patientPrivacyPolicy.html">Privacy policy</a> and
+                  <a href="./patientConditionsOfUse.html">Conditions of use</a>.
+                </span>
+              </div>
             </div>
+            <!-- END OF CONTENT -->
           </div>
-          <div class="order-summary">
-            <h2>Order Summary</h2>
-            <ul id="cart-items"></ul>
-            <p style="margin-top: 5px" id="total-price"></p>
-            <button id="clear-cart-button">Clear Cart</button>
-            <button>Pay Using E-Wallet</button>
-          </div>
-          <!-- END OF CONTENT -->
         </div>
       </div>
     </div>
@@ -108,5 +156,8 @@
         class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary"
       ></div>
     </footer>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
   </body>
 </html>
