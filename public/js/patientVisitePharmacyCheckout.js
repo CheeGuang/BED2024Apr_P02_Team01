@@ -54,17 +54,21 @@ async function fetchCartItems() {
       }
       calculateTotalPrice(cart);
     } else {
-      const emptyCartMessage = document.createElement("li");
-      emptyCartMessage.className =
-        "list-group-item d-flex justify-content-between align-items-center";
-      emptyCartMessage.innerHTML = "No Items In Cart <span></span>";
-      cartItemsList.appendChild(emptyCartMessage);
-      totalPriceElement.textContent = "$0.00";
-      gstAmountElement.textContent = "$0.00";
+      displayEmptyCartMessage();
     }
   } catch (error) {
     console.error("Error fetching cart items:", error.message);
   }
+}
+
+function displayEmptyCartMessage() {
+  const emptyCartMessage = document.createElement("li");
+  emptyCartMessage.className =
+    "list-group-item d-flex justify-content-between align-items-center";
+  emptyCartMessage.innerHTML = "No Items In Cart <span></span>";
+  cartItemsList.appendChild(emptyCartMessage);
+  totalPriceElement.textContent = "$0.00";
+  gstAmountElement.textContent = "$0.00";
 }
 
 async function clearCart() {
@@ -94,13 +98,7 @@ async function clearCart() {
 
     // Clear the frontend cart display
     cartItemsList.innerHTML = "";
-    const emptyCartMessage = document.createElement("li");
-    emptyCartMessage.className =
-      "list-group-item d-flex justify-content-between align-items-center";
-    emptyCartMessage.innerHTML = "No Items in Cart <span></span>";
-    cartItemsList.appendChild(emptyCartMessage);
-    totalPriceElement.textContent = "$0.00";
-    gstAmountElement.textContent = "$0.00";
+    displayEmptyCartMessage();
   } catch (error) {
     console.error("Error clearing cart:", error.message);
   }
@@ -130,17 +128,58 @@ function showNotification(message, type) {
 }
 
 // Function to clear the cart after successful payment
+async function clearCartAfterPayment() {
+  const patientId = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID;
+
+  if (!patientId) {
+    console.error("Error: Patient ID not found in local storage");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${window.location.origin}/api/patient/${patientId}/clear-cart`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to clear cart after payment");
+    }
+
+    // Clear the frontend cart display
+    clearCartUI();
+  } catch (error) {
+    console.error("Error clearing cart after payment:", error.message);
+  }
+}
+
 function clearCartUI() {
-  document.getElementById("cart-items").innerHTML =
-    '<li class="list-group-item d-flex justify-content-between align-items-center">No Items in Cart<span></span></li>';
-  document.getElementById("gst-amount").textContent = "$0.00";
-  document.getElementById("total-price").textContent = "$0.00";
+  cartItemsList.innerHTML = "";
+  displayEmptyCartMessage();
 }
 
 // Event listener for Pay Using E-Wallet button
 document
   .getElementById("pay-ewallet-button")
   .addEventListener("click", async () => {
+    const cartItems = document.getElementById("cart-items").children;
+
+    if (
+      cartItems.length === 0 ||
+      (cartItems.length === 1 &&
+        cartItems[0].innerText.includes("No Items In Cart"))
+    ) {
+      showNotification("Cart is Empty", "error");
+      return;
+    }
+
     const totalAmount = parseFloat(
       document.getElementById("total-price").textContent.replace("$", "")
     );
@@ -153,16 +192,6 @@ document
 
     if (totalAmount > currentBalance) {
       showNotification("Insufficient balance in E-Wallet", "error");
-      return;
-    }
-
-    const cartItems = document.getElementById("cart-items").children;
-    if (
-      cartItems.length === 0 ||
-      (cartItems.length === 1 &&
-        cartItems[0].innerText.includes("No Items in Cart"))
-    ) {
-      showNotification("Cart is Empty", "error");
       return;
     }
 
@@ -179,12 +208,12 @@ document
       );
 
       const result = await response.json();
-      if (result.status === "Success") {
+      if (response.ok) {
         showNotification(result.message, "success");
         document.getElementById(
           "current-balance"
-        ).textContent = `S$${result.eWalletAmount.toFixed(2)}`;
-        clearCartUI(); // Clear the cart UI immediately after payment success
+        ).textContent = `S$${parseFloat(result.eWalletAmount).toFixed(2)}`;
+        await clearCartAfterPayment(); // Clear the cart after payment success
       } else {
         showNotification(result.message, "error");
       }
@@ -199,3 +228,40 @@ document
     event.preventDefault(); // Prevent the default anchor behavior
     history.back(); // Go back to the previous page
   });
+
+async function loadBalance() {
+  const currentBalanceElement = document.getElementById("current-balance");
+  const patientId = JSON.parse(
+    localStorage.getItem("patientDetails")
+  ).PatientID;
+
+  if (!patientId) {
+    alert("Patient ID not found");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${window.location.origin}/api/patient/${patientId}/eWalletAmount`
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`E-wallet amount retrieved: ${data.eWalletAmount}`);
+      currentBalanceElement.textContent =
+        "S$" + parseFloat(data.eWalletAmount).toFixed(2);
+
+      // Update local storage balance
+      localStorage.setItem(
+        "eWalletBalance",
+        parseFloat(data.eWalletAmount).toFixed(2)
+      );
+    } else {
+      const errorData = await response.json();
+      console.error("Failed to load e-wallet amount:", errorData);
+      alert("Failed to load e-wallet amount.");
+    }
+  } catch (error) {
+    console.error("Error loading e-wallet amount:", error);
+    alert("An error occurred while loading e-wallet amount.");
+  }
+}

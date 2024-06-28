@@ -1,18 +1,25 @@
-document.getElementById('back-button').addEventListener('click', function(event) {
-  event.preventDefault(); // Prevent the default anchor behavior
-  history.back(); // Go back to the previous page
-});
+document
+  .getElementById("back-button")
+  .addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default anchor behavior
+    history.back(); // Go back to the previous page
+  });
 
 async function loadBalance() {
   let currentBalanceElement = document.getElementById("current-balance");
-  const patientId = JSON.parse(
-    localStorage.getItem("patientDetails")
-  ).PatientID;
+  const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+  const patientId = patientDetails.PatientID;
 
   if (!patientId) {
     alert("Patient ID not found");
     return;
   }
+
+  // Dynamically add account name
+  const accountName = `${patientDetails.givenName} ${patientDetails.familyName}`;
+  document.getElementById(
+    "account-name"
+  ).textContent = `Account Holder Name: ${accountName}`;
 
   try {
     const response = await fetch(
@@ -45,9 +52,8 @@ window.onload = loadBalance;
 
 async function confirmTopUp() {
   const topUpAmount = parseFloat(document.getElementById("topup-amount").value);
-  const patientId = JSON.parse(
-    localStorage.getItem("patientDetails")
-  ).PatientID;
+  const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+  const patientId = patientDetails.PatientID;
 
   if (isNaN(topUpAmount) || topUpAmount <= 0) {
     showNotification("Please enter a valid top-up amount", "error");

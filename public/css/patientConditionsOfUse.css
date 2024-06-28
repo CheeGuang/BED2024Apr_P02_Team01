@@ -1,0 +1,37 @@
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+  background-color: #f8f9fa;
+  color: #212529;
+}
+h2 {
+  font-family: "Quicksand", sans-serif;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+p,
+ul {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+ul {
+  padding-left: 20px;
+}
+ul li {
+  margin-bottom: 10px;
+}
+.row {
+  margin-bottom: 20px;
+}
+span {
+  margin-bottom: 50px;
+}
+.back-button {
+  background-color: transparent;
+  border: none;
+}
+
+.fa-arrow-left {
+  color: #1a252f;
+}
