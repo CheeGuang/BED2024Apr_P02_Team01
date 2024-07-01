@@ -246,6 +246,31 @@ class Patient {
     }
   }
 
+  // static async updateAccountName(id, name) {
+
+  // }
+  static async updateAccountContact(id, contact) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Patient SET ContactNumber = @contact WHERE PatientID = @id`;
+    const request = connection.request();
+    request.input("id", id);
+    request.input("contact", contact);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getPatientById(id);
+  }
+
+  // static async updateAccountDOB(id, dob) {
+
+  // }
+  // static async updateAccountAddress(id, address) {
+
+  // }
+
   static async updateEWalletAmount(id, amount) {
     const connection = await sql.connect(dbConfig);
 

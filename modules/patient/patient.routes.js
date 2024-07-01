@@ -33,6 +33,9 @@ patientRoutes.get("/:id", patientController.getPatientById);
 // Update a specific patient by ID
 patientRoutes.put("/:id", patientController.updatePatient);
 
+// Update the contact of a specific patient by ID
+patientRoutes.put("/updateContact/:id", patientController.updateAccountContact);
+
 // Delete a specific patient by ID
 patientRoutes.delete("/:id", patientController.deletePatient);
 
@@ -46,7 +49,10 @@ patientRoutes.put("/:patientId/cart", patientController.updatePatientCart);
 patientRoutes.put("/:patientId/clear-cart", patientController.clearCart);
 
 // Process medicine payment for a specific patient by ID
-patientRoutes.post("/:id/processPayment", patientController.processMedicinePayment);
+patientRoutes.post(
+  "/:id/processPayment",
+  patientController.processMedicinePayment
+);
 
 // ========== Export ==========
 // Export the patient routes to be used in other parts of the application

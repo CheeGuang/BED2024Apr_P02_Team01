@@ -1,6 +1,10 @@
+//Get Local Storage
+const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+
 // Get Sign Out btn
 const signOutBtn = document.getElementById("sign-out-btn");
 
+// Get input fields
 const personalName = document.getElementById("personal-name");
 const username = document.getElementById("username");
 const email = document.getElementById("email");
@@ -20,8 +24,6 @@ signOutBtn.addEventListener("click", function () {
 
 // Get the data from the local storage
 document.addEventListener("DOMContentLoaded", function () {
-  const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
-
   if (patientDetails) {
     // Avatar
     if (patientDetails.profilePicture) {
@@ -43,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Email
     if (patientDetails.Email) {
-      email.placeholder = patientDetails.Email;
+      email.textContent = patientDetails.Email;
     }
 
     // Contact Number
@@ -80,7 +82,42 @@ function ToggleEditableMode(iconID, inputID) {
 
   if (ipControl.disabled) {
     document.getElementById(iconID).className = "fa fa-pencil-square-o";
+
+    // If user edited the contact info
+    if (contact.value != contact.placeholder) {
+      UpdateContactRecord();
+    }
   } else {
     document.getElementById(iconID).className = "fa-regular fa-floppy-disk";
+  }
+}
+
+// Call Controller to update the database
+
+async function UpdateContactRecord() {
+  // Make the PUT request to the API
+  console.log("Patient ID: " + patientDetails.PatientID);
+  try {
+    const response = await fetch(
+      `${window.location.origin}/api/patient/updateContact/${patientDetails.PatientID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ contact: contact.value }),
+      }
+    );
+
+    const result = await response.json();
+
+    if (response.ok) {
+      contact.placeholder = `S$${result.ContactNumber}`;
+      localStorage.setItem("ContactNumber", result.ContactNumber);
+    } else {
+      console.error("Error updating patient", result.error);
+    }
+  } catch (error) {
+    console.error("Error:", error);
   }
 }

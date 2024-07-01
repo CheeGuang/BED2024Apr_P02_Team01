@@ -135,6 +135,22 @@ const deletePatient = async (req, res) => {
   }
 };
 
+const updateAccountContact = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { contact } = req.body;
+
+  try {
+    const success = await Patient.updateAccountContact(patientId, contact);
+    if (!success) {
+      return res.status(404).send("Patient not found");
+    }
+    res.status(204).send("Patient's contact record updated");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient's contact");
+  }
+};
+
 const searchPatients = async (req, res) => {
   const searchTerm = req.query.searchTerm; // Extract search term from query params
   try {
@@ -218,35 +234,49 @@ const processMedicinePayment = async (req, res) => {
   try {
     const patient = await Patient.getPatientById(patientId);
     if (!patient) {
-      return res.status(404).json({ status: "Failed", message: "Patient not found" });
+      return res
+        .status(404)
+        .json({ status: "Failed", message: "Patient not found" });
     }
 
     if (patient.eWalletAmount < totalAmount) {
-      return res.status(400).json({ status: "Failed", message: "Insufficient E-Wallet Balance. Please Top-Up." });
+      return res.status(400).json({
+        status: "Failed",
+        message: "Insufficient E-Wallet Balance. Please Top-Up.",
+      });
     }
 
-    const updatedPatient = await Patient.updateEWalletAmount(patientId, -totalAmount); // Deduct the total amount
+    const updatedPatient = await Patient.updateEWalletAmount(
+      patientId,
+      -totalAmount
+    ); // Deduct the total amount
 
     // Clear the cart after payment
     await Patient.clearCart(patientId);
 
     res.json({
       status: "Success",
-      message: "Payment Successful. Your Medicine will be shipped within 5 working days",
+      message:
+        "Payment Successful. Your Medicine will be shipped within 5 working days",
       eWalletAmount: updatedPatient.eWalletAmount,
     });
   } catch (error) {
-    console.error(`Error processing payment for Patient ID ${patientId}:`, error);
-    res.status(500).json({ status: "Failed", message: "Internal server error" });
+    console.error(
+      `Error processing payment for Patient ID ${patientId}:`,
+      error
+    );
+    res
+      .status(500)
+      .json({ status: "Failed", message: "Internal server error" });
   }
 };
-
 
 module.exports = {
   createPatient,
   getPatientById,
   updatePatient,
   deletePatient,
+  updateAccountContact,
   searchPatients,
   googleLogin,
   updatePatientCart,
@@ -256,4 +286,3 @@ module.exports = {
   updateEWalletAmount,
   processMedicinePayment, // Add this line
 };
-
