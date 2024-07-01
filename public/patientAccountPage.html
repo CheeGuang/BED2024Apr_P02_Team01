@@ -79,7 +79,8 @@
           <!-- INSERT CONTENT HERE -->
           <section id="logoutSect" class="col-10 mx-auto">
             <h1>SYNCHEALTH ACCOUNT</h1>
-            <div id="logoutBtn">
+
+            <div id="buttons">
               <button
                 id="sign-out-btn"
                 type="button"
@@ -106,80 +107,105 @@
           </section>
 
           <section class="personalInfoContainer col-10">
-            <div class="infoContainer card" style="background-color: #fcf3e3">
+            <div class="infoContainer card">
               <div class="card-body">
                 <div class="header">
                   <h5 class="card-title">Name</h5>
-                  <i class="fa fa-pencil-square-o"></i>
+                  <i
+                    id="name-icon"
+                    class="fa fa-pencil-square-o"
+                    onclick="ToggleEditableMode('name-icon', 'personal-name')"
+                  ></i>
                 </div>
 
-                <p class="card-text text-muted mt-3" id="personal-name">Name</p>
+                <input
+                  type="text"
+                  class="form-control mt-3"
+                  id="personal-name"
+                  placeholder="Name"
+                  disabled
+                />
               </div>
             </div>
 
-            <div class="infoContainer card" style="background-color: #fcf3e3">
+            <div class="infoContainer card">
               <div class="card-body">
                 <div class="header">
                   <h5 class="card-title">Contact</h5>
-                  <i class="fa fa-pencil-square-o"></i>
+                  <i
+                    id="contact-icon"
+                    class="fa fa-pencil-square-o"
+                    onclick="ToggleEditableMode('contact-icon', 'contact')"
+                  ></i>
                 </div>
 
-                <p class="card-text text-muted mt-3" id="contact">99998888</p>
+                <input
+                  type="number"
+                  class="form-control mt-3"
+                  id="contact"
+                  placeholder="99998888"
+                  disabled
+                />
               </div>
             </div>
 
-            <div class="infoContainer card" style="background-color: #fcf3e3">
+            <div class="infoContainer card">
               <div class="card-body">
                 <div class="header">
                   <h5 class="card-title">Date Of Birth</h5>
-                  <i class="fa fa-pencil-square-o"></i>
+                  <i
+                    id="dob-icon"
+                    class="fa fa-pencil-square-o"
+                    onclick="ToggleEditableMode('dob-icon', 'dob')"
+                  ></i>
                 </div>
 
-                <p class="card-text text-muted mt-3" id="dob">Date of Birth</p>
-
-                <!-- <input
+                <input
                   type="date"
                   class="form-control mt-3"
                   id="dob"
                   name="dob"
-                  style="background-color: #fcf3e3"
-                  required
-                /> -->
+                  placeholder="01/01/2000"
+                  disabled
+                />
               </div>
             </div>
 
-            <div class="infoContainer card" style="background-color: #fcf3e3">
+            <div class="infoContainer card">
               <div class="card-body">
                 <div class="header">
                   <h5 class="card-title">Gender</h5>
-                  <i class="fa fa-pencil-square-o"></i>
                 </div>
 
-                <p class="card-text text-muted mt-3" id="gender">Gender</p>
-
-                <!-- <select
+                <input
+                  type="text"
                   class="form-control mt-3"
                   id="gender"
                   name="gender"
-                  style="background-color: #fcf3e3"
-                  required
-                >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select> -->
+                  placeholder="gender"
+                  disabled
+                />
               </div>
             </div>
 
-            <div class="infoContainer card" style="background-color: #fcf3e3">
+            <div class="infoContainer card">
               <div class="card-body">
                 <div class="header">
                   <h5 class="card-title">Address</h5>
-                  <i class="fa fa-pencil-square-o"></i>
+                  <i
+                    id="address-icon"
+                    class="fa fa-pencil-square-o"
+                    onclick="ToggleEditableMode('address-icon', 'address')"
+                  ></i>
                 </div>
 
-                <p class="card-text text-muted mt-3" id="address">
-                  Boon Lay Drive Blk 40 #17-09 Singapore 640040
-                </p>
+                <input
+                  type="text"
+                  class="form-control mt-3"
+                  id="address"
+                  placeholder="Address"
+                  disabled
+                />
               </div>
             </div>
           </section>

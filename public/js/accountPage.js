@@ -1,6 +1,14 @@
 // Get Sign Out btn
 const signOutBtn = document.getElementById("sign-out-btn");
 
+const personalName = document.getElementById("personal-name");
+const username = document.getElementById("username");
+const email = document.getElementById("email");
+const contact = document.getElementById("contact");
+const dob = document.getElementById("dob");
+const address = document.getElementById("address");
+const gender = document.getElementById("gender");
+
 // Function for sign out to work
 signOutBtn.addEventListener("click", function () {
   // Remove patient details from local storage
@@ -23,39 +31,56 @@ document.addEventListener("DOMContentLoaded", function () {
     // Patient Name
     if (patientDetails.givenName) {
       if (patientDetails.familyName) {
-        document.getElementById("personal-name").textContent =
+        personalName.placeholder =
           patientDetails.givenName + ` ${patientDetails.familyName}`;
-        document.getElementById("username").textContent =
+        username.textContent =
           patientDetails.givenName + ` ${patientDetails.familyName}`;
       } else {
-        document.getElementById("personal-name").textContent =
-          patientDetails.givenName;
-        document.getElementById("username").textContent =
-          patientDetails.givenName;
+        personalName.placeholder = patientDetails.givenName;
+        username.textContent = patientDetails.givenName;
       }
     }
 
     // Email
     if (patientDetails.Email) {
-      document.getElementById("email").textContent = patientDetails.Email;
+      email.placeholder = patientDetails.Email;
     }
 
     // Contact Number
     if (patientDetails.ContactNumber) {
-      document.getElementById("contact").textContent =
-        patientDetails.ContactNumber;
+      contact.placeholder = patientDetails.ContactNumber;
     }
 
     // Date of Birth
     if (patientDetails.DOB) {
       let dateWithTime = patientDetails.DOB;
       let dateWithoutTime = dateWithTime.split("T")[0];
-      document.getElementById("dob").textContent = dateWithoutTime;
+      dob.placeholder = dateWithoutTime;
     }
 
     // Address
     if (patientDetails.Address) {
-      document.getElementById("address").textContent = patientDetails.Address;
+      address.placeholder = patientDetails.Address;
+    }
+
+    // Gender
+    if (patientDetails.Gender) {
+      gender.placeholder = patientDetails.Gender;
     }
   }
+
+  // Make text editable
 });
+
+// Toggle Input Editable and Disabled Mode
+function ToggleEditableMode(iconID, inputID) {
+  const ipControl = document.getElementById(inputID);
+
+  ipControl.disabled = !ipControl.disabled;
+
+  if (ipControl.disabled) {
+    document.getElementById(iconID).className = "fa fa-pencil-square-o";
+  } else {
+    document.getElementById(iconID).className = "fa-regular fa-floppy-disk";
+  }
+}
