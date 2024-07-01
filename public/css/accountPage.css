@@ -7,11 +7,31 @@
   margin-bottom: 20px;
 }
 
-#logoutSect h1 {
+input:read-only {
+  background-color: #fcf3e3;
+  border-style: none;
+}
+input[type="text"]:disabled,
+input[type="number"]:disabled,
+input[type="date"]:disabled {
+  background-color: #fcf3e3;
+}
+
+input[type="date"] {
+  content: attr(placeholder) !important;
+}
+
+.infoContainer #logoutSect h1 {
   font-size: 13px;
 }
 
-#logoutBtn .btn {
+#buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+#buttons .btn {
   font-size: 13px;
 }
 
@@ -71,6 +91,7 @@ p {
   display: flex;
   padding: 1em;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fcf3e3;
 }
 
 .infoContainer i {
