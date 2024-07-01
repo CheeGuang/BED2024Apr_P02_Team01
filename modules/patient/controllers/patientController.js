@@ -158,6 +158,22 @@ const deletePatient = async (req, res) => {
   }
 };
 
+const updateAccountContact = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { contact } = req.body;
+
+  try {
+    const success = await Patient.updateAccountContact(patientId, contact);
+    if (!success) {
+      return res.status(404).send("Patient not found");
+    }
+    res.status(204).send("Patient's contact record updated");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient's contact");
+  }
+};
+
 const searchPatients = async (req, res) => {
   const searchTerm = req.query.searchTerm; // Extract search term from query params
   try {
@@ -283,6 +299,7 @@ module.exports = {
   getPatientById,
   updatePatient,
   deletePatient,
+  updateAccountContact,
   searchPatients,
   googleLogin,
   updatePatientCart,

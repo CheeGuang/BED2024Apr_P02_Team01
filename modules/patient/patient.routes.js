@@ -41,6 +41,9 @@ patientRoutes.get("/:id", authorizeUser, patientController.getPatientById);
 // Update a specific patient by ID
 patientRoutes.put("/:id", authorizeUser, patientController.updatePatient);
 
+// Update the contact of a specific patient by ID
+patientRoutes.put("/updateContact/:id", patientController.updateAccountContact);
+
 // Delete a specific patient by ID
 patientRoutes.delete("/:id", authorizeUser, patientController.deletePatient);
 
@@ -68,7 +71,6 @@ patientRoutes.put(
 // Process medicine payment for a specific patient by ID
 patientRoutes.post(
   "/:id/processPayment",
-  authorizeUser,
   patientController.processMedicinePayment
 );
 
