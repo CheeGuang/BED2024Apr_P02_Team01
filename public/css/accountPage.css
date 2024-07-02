@@ -13,8 +13,10 @@ input:read-only {
 }
 input[type="text"]:disabled,
 input[type="number"]:disabled,
-input[type="date"]:disabled {
+input[type="date"]:disabled,
+textarea[type="text"]:disabled {
   background-color: #fcf3e3;
+  border-style: none;
 }
 
 input[type="date"] {
@@ -76,6 +78,11 @@ input[type="date"] {
 
 #personalInfoHeader {
   margin: auto;
+}
+
+#personal-name {
+  margin-top: 25px;
+  margin-left: 10px;
 }
 
 h3,

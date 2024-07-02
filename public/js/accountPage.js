@@ -6,6 +6,8 @@ const signOutBtn = document.getElementById("sign-out-btn");
 
 // Get input fields
 const personalName = document.getElementById("personal-name");
+const fname = document.getElementById("fname");
+const lname = document.getElementById("lname");
 const username = document.getElementById("username");
 const email = document.getElementById("email");
 const contact = document.getElementById("contact");
@@ -33,12 +35,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // Patient Name
     if (patientDetails.givenName) {
       if (patientDetails.familyName) {
-        personalName.placeholder =
+        personalName.textContent =
           patientDetails.givenName + ` ${patientDetails.familyName}`;
+        // Input fields
+        fname.placeholder = patientDetails.givenName;
+        lname.placeholder = patientDetails.familyName;
+        // Top Header
         username.textContent =
           patientDetails.givenName + ` ${patientDetails.familyName}`;
       } else {
-        personalName.placeholder = patientDetails.givenName;
+        personalName.textContent = patientDetails.givenName;
+        // Input fields
+        fname.placeholder = patientDetails.givenName;
+        // Top header
         username.textContent = patientDetails.givenName;
       }
     }
@@ -93,11 +102,37 @@ function ToggleEditableMode(iconID, inputID) {
     // If user edited the contact info
     if (inputID == "contact" && contact.value != contact.placeholder) {
       UpdateContactRecord();
+    } else if (inputID == "dob" && dob.value != dob.placeholder) {
+      UpdateDOBRecord();
     } else if (inputID == "address" && address.value != address.placeholder) {
       UpdateAddressRecord();
     }
   } else {
     document.getElementById(iconID).className = "fa-regular fa-floppy-disk";
+  }
+}
+
+function ToggleEditableName() {
+  personalName_Style = getComputedStyle(personalName);
+
+  if (personalName_Style.display == "block") {
+    // Change to editable mode
+    document.getElementById("name-icon").className =
+      "fa-regular fa-floppy-disk";
+    personalName.style.display = "none";
+    fname.style.display = "block";
+    lname.style.display = "block";
+  } else {
+    // Change to not editable mode
+    document.getElementById("name-icon").className = "fa fa-pencil-square-o";
+    personalName.style.display = "block";
+    fname.style.display = "none";
+    lname.style.display = "none";
+
+    // Save changes
+    if (fname.value != fname.placeholder || lname.value != lname.placeholder) {
+      UpdateNameRecord();
+    }
   }
 }
 
@@ -113,7 +148,7 @@ async function UpdateNameRecord() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: personalName.value }),
+        body: JSON.stringify({ fname: fname.value, lname: lname.value }),
       }
     );
 
@@ -122,16 +157,12 @@ async function UpdateNameRecord() {
     // Write to local storage
     if (response.ok) {
       // Update UI
-      personalName.placeholder = `S$${result.Name}`;
-      // Update local storage
-      let splitName = result.Name.split(" ");
+      personalName.textContent = result.FirstName + ` ${result.LastName}`;
+      username.textContent = result.FirstName + ` ${result.LastName}`;
 
-      if (splitName.length > 1) {
-        patientDetails.givenName = splitName[0];
-        patientDetails.familyName = splitName[1];
-      } else {
-        patientDetails.givenName = result.Name;
-      }
+      // Update local storage
+      patientDetails.givenName = result.FirstName;
+      patientDetails.familyName = result.LastName;
       localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
     } else {
       console.error("Error updating patient name", result.error);
@@ -173,37 +204,37 @@ async function UpdateContactRecord() {
   }
 }
 
-// async function UpdateDOBRecord() {
-//   // Make the PUT request to the API
-//   console.log("Patient ID: " + patientDetails.PatientID);
-//   try {
-//     const response = await fetch(
-//       `${window.location.origin}/api/patient/updateDOB/${patientDetails.PatientID}`,
-//       {
-//         method: "PUT",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ dob: dob.value }),
-//       }
-//     );
+async function UpdateDOBRecord() {
+  // Make the PUT request to the API
+  console.log("Patient ID: " + patientDetails.PatientID);
+  try {
+    const response = await fetch(
+      `${window.location.origin}/api/patient/updateDOB/${patientDetails.PatientID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ dob: dob.value }),
+      }
+    );
 
-//     const result = await response.json();
+    const result = await response.json();
 
-//     // Write to local storage
-//     if (response.ok) {
-//       // Update UI
-//       contact.placeholder = `S$${result.DOB}`;
-//       // Update local storage
-//       patientDetails.DOB = result.DOB;
-//       localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
-//     } else {
-//       console.error("Error updating patient birth date", result.error);
-//     }
-//   } catch (error) {
-//     console.error("Error:", error);
-//   }
-// }
+    // Write to local storage
+    if (response.ok) {
+      // Update UI
+      dob.placeholder = `S$${result.DOB}`;
+      // Update local storage
+      patientDetails.DOB = result.DOB;
+      localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+    } else {
+      console.error("Error updating patient birth date", result.error);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
 
 async function UpdateAddressRecord() {
   // Make the PUT request to the API

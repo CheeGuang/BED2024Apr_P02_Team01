@@ -246,23 +246,15 @@ class Patient {
     }
   }
 
-  static async updateAccountName(id, name) {
+  static async updateAccountName(id, fname, lname) {
     const connection = await sql.connect(dbConfig);
-    // Split at spaces
-    let nameArray = name.split(" ");
 
     const request = connection.request();
     let sqlQuery = "";
-    // If length is more than 1, there is a first name and last name
-    if (nameArray.length > 1) {
-      sqlQuery = `UPDATE Patient SET givenName = @givenName AND familyName = @familyName WHERE PatientID = @id`;
-      request.input("familyName", nameArray[1]);
-    } else {
-      sqlQuery = `UPDATE Patient SET givenName = @givenName WHERE PatientID = @id`;
-    }
-
+    sqlQuery = `UPDATE Patient SET givenName = @givenName, familyName = @familyName WHERE PatientID = @id`;
     request.input("id", id);
-    request.input("givenName", nameArray[0]);
+    request.input("givenName", fname);
+    request.input("familyName", lname);
     await request.query(sqlQuery);
 
     connection.close();
@@ -290,7 +282,7 @@ class Patient {
     const sqlQuery = `UPDATE Patient SET DOB = @dob WHERE PatientID = @id`;
     const request = connection.request();
     request.input("dob", dob);
-    request.input("contact", contact);
+    request.input("id", id);
 
     await request.query(sqlQuery);
 

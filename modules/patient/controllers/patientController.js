@@ -137,16 +137,21 @@ const deletePatient = async (req, res) => {
 
 const updateAccountName = async (req, res) => {
   const patientId = parseInt(req.params.id);
-  const { name } = req.body;
+  const { fname, lname } = req.body;
 
   try {
-    const updatedName = await Patient.updateAccountName(patientId, name);
+    const updatedName = await Patient.updateAccountName(
+      patientId,
+      fname,
+      lname
+    );
     if (!updatedName) {
       return res.status(404).send("Patient not found");
     }
     res.json({
       status: "Success",
-      Name: updatedName.givenName + updatedName.familyName,
+      FirstName: updatedName.givenName,
+      LastName: updatedName.familyName,
     });
   } catch (error) {
     console.error(error);
@@ -181,13 +186,13 @@ const updateAccountDOB = async (req, res) => {
   const { dob } = req.body;
 
   try {
-    const updatedContact = await Patient.updateAccountDOB(patientId, dob);
-    if (!updatedContact) {
+    const updatedDOB = await Patient.updateAccountDOB(patientId, dob);
+    if (!updatedDOB) {
       return res.status(404).send("Patient not found");
     }
     res.json({
       status: "Success",
-      DOB: updatedContact.DOB,
+      DOB: updatedDOB.DOB,
     });
   } catch (error) {
     console.error(error);
@@ -200,16 +205,16 @@ const updateAccountAddress = async (req, res) => {
   const { address } = req.body;
 
   try {
-    const updatedContact = await Patient.updateAccountAddress(
+    const updatedAddress = await Patient.updateAccountAddress(
       patientId,
       address
     );
-    if (!updatedContact) {
+    if (!updatedAddress) {
       return res.status(404).send("Patient not found");
     }
     res.json({
       status: "Success",
-      Address: updatedContact.Address,
+      Address: updatedAddress.Address,
     });
   } catch (error) {
     console.error(error);
