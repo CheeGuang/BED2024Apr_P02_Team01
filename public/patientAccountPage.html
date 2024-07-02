@@ -114,16 +114,24 @@
                   <i
                     id="name-icon"
                     class="fa fa-pencil-square-o"
-                    onclick="ToggleEditableMode('name-icon', 'personal-name')"
+                    onclick="ToggleEditableName()"
                   ></i>
                 </div>
+                <p id="personal-name" style="display: block" for="">Name</p>
+                <input
+                  type="text"
+                  class="form-control mt-3"
+                  id="fname"
+                  placeholder="First Name"
+                  style="display: none"
+                />
 
                 <input
                   type="text"
                   class="form-control mt-3"
-                  id="personal-name"
-                  placeholder="Name"
-                  disabled
+                  id="lname"
+                  placeholder="Last Name"
+                  style="display: none"
                 />
               </div>
             </div>
@@ -161,11 +169,12 @@
                 </div>
 
                 <input
-                  type="date"
+                  type="text"
                   class="form-control mt-3"
                   id="dob"
                   name="dob"
                   placeholder="01/01/2000"
+                  onfocus="(this.type='date')"
                   disabled
                 />
               </div>
@@ -199,13 +208,13 @@
                   ></i>
                 </div>
 
-                <input
+                <textarea
                   type="text"
                   class="form-control mt-3"
                   id="address"
                   placeholder="Address"
                   disabled
-                />
+                ></textarea>
               </div>
             </div>
           </section>
