@@ -246,29 +246,29 @@ class Patient {
     }
   }
 
-  // static async updateAccountName(id, name) {
-  //   const connection = await sql.connect(dbConfig);
-  //   // Split at spaces
-  //   let nameArray = name.split(" ")
-  //   // If length is more than 1, there is a first name and last name
+  static async updateAccountName(id, name) {
+    const connection = await sql.connect(dbConfig);
+    // Split at spaces
+    let nameArray = name.split(" ");
 
-  //   if(nameArray.length > 1) {
-  //     const sqlQuery = `UPDATE Patient SET givenName = @givenName AND familyName = @familyName WHERE PatientID = @id`;
-  //   }
-  //   else {
-  //     const sqlQuery = `UPDATE Patient SET givenName = @givenName WHERE PatientID = @id`;
-  //   }
+    const request = connection.request();
+    let sqlQuery = "";
+    // If length is more than 1, there is a first name and last name
+    if (nameArray.length > 1) {
+      sqlQuery = `UPDATE Patient SET givenName = @givenName AND familyName = @familyName WHERE PatientID = @id`;
+      request.input("familyName", nameArray[1]);
+    } else {
+      sqlQuery = `UPDATE Patient SET givenName = @givenName WHERE PatientID = @id`;
+    }
 
-  //   const request = connection.request();
-  //   request.input("id", id);
-  //   request.input("givenName", nameArray[0]);
+    request.input("id", id);
+    request.input("givenName", nameArray[0]);
+    await request.query(sqlQuery);
 
-  //   await request.query(sqlQuery);
+    connection.close();
+    return this.getPatientById(id);
+  }
 
-  //   connection.close();
-
-  //   return this.getPatientById(id);
-  // }
   static async updateAccountContact(id, contact) {
     const connection = await sql.connect(dbConfig);
 
@@ -284,12 +284,35 @@ class Patient {
     return this.getPatientById(id);
   }
 
-  // static async updateAccountDOB(id, dob) {
+  static async updateAccountDOB(id, dob) {
+    const connection = await sql.connect(dbConfig);
 
-  // }
-  // static async updateAccountAddress(id, address) {
+    const sqlQuery = `UPDATE Patient SET DOB = @dob WHERE PatientID = @id`;
+    const request = connection.request();
+    request.input("dob", dob);
+    request.input("contact", contact);
 
-  // }
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getPatientById(id);
+  }
+
+  static async updateAccountAddress(id, address) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Patient SET Address = @address WHERE PatientID = @id`;
+    const request = connection.request();
+    request.input("id", id);
+    request.input("address", address);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getPatientById(id);
+  }
 
   static async updateEWalletAmount(id, amount) {
     const connection = await sql.connect(dbConfig);
