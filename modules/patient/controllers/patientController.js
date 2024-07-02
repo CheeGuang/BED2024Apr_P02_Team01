@@ -163,11 +163,17 @@ const updateAccountContact = async (req, res) => {
   const { contact } = req.body;
 
   try {
-    const success = await Patient.updateAccountContact(patientId, contact);
-    if (!success) {
+    const updatedContact = await Patient.updateAccountContact(
+      patientId,
+      contact
+    );
+    if (!updatedContact) {
       return res.status(404).send("Patient not found");
     }
-    res.status(204).send("Patient's contact record updated");
+    res.json({
+      status: "Success",
+      ContactNumber: updatedContact.ContactNumber,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error updating patient's contact");
