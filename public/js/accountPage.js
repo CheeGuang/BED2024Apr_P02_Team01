@@ -15,6 +15,7 @@ const dob = document.getElementById("dob");
 const address = document.getElementById("address");
 const gender = document.getElementById("gender");
 
+const errorMessage = document.getElementById("errorMessage");
 // Function for sign out to work
 signOutBtn.addEventListener("click", function () {
   // Remove patient details from local storage
@@ -92,20 +93,47 @@ function ToggleEditableMode(iconID, inputID) {
   if (ipControl.disabled) {
     document.getElementById(iconID).className = "fa fa-pencil-square-o";
 
-    //If user edited name info
-    // if (
-    //   inputID == "personal-name" &&
-    //   personalName.value != personalName.placeholder
-    // ) {
-    //   //UpdateNameRecord();
-    // }
     // If user edited the contact info
     if (inputID == "contact" && contact.value != contact.placeholder) {
-      UpdateContactRecord();
+      // Remove Error Message
+      if (!errorMessage.classList.contains("d-none")) {
+        errorMessage.classList.add("d-none");
+      }
+      if (
+        contact.value == " " ||
+        contact.value == null ||
+        contact.value == ""
+      ) {
+        // Make no changes
+      } else if (!/^([89]\d{7})$/.test(contact.value)) {
+        // Validate contact number
+        errorMessage.textContent =
+          "Contact number must start with 8 or 9 and be 8 digits.";
+        errorMessage.classList.remove("d-none");
+      } else {
+        UpdateContactRecord();
+      }
     } else if (inputID == "dob" && dob.value != dob.placeholder) {
-      UpdateDOBRecord();
+      // Remove Error Message
+      if (!errorMessage.classList.contains("d-none")) {
+        errorMessage.classList.add("d-none");
+      }
+      if (dob >= today) {
+        errorMessage.textContent = "Date of Birth must be before today.";
+        errorMessage.classList.remove("d-none");
+      } else {
+        UpdateDOBRecord();
+      }
     } else if (inputID == "address" && address.value != address.placeholder) {
-      UpdateAddressRecord();
+      if (
+        address.value == null ||
+        address.value == "" ||
+        address.value == " "
+      ) {
+        // Do nothing
+      } else {
+        UpdateAddressRecord();
+      }
     }
   } else {
     document.getElementById(iconID).className = "fa-regular fa-floppy-disk";
