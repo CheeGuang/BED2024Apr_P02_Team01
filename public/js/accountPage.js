@@ -111,9 +111,13 @@ async function UpdateContactRecord() {
 
     const result = await response.json();
 
+    // Write to local storage
     if (response.ok) {
+      // Update UI
       contact.placeholder = `S$${result.ContactNumber}`;
-      localStorage.setItem("ContactNumber", result.ContactNumber);
+      // Update local storage
+      patientDetails.ContactNumber = result.ContactNumber;
+      localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
     } else {
       console.error("Error updating patient", result.error);
     }

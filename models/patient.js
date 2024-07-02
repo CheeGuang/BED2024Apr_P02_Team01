@@ -247,7 +247,27 @@ class Patient {
   }
 
   // static async updateAccountName(id, name) {
+  //   const connection = await sql.connect(dbConfig);
+  //   // Split at spaces
+  //   let nameArray = name.split(" ")
+  //   // If length is more than 1, there is a first name and last name
 
+  //   if(nameArray.length > 1) {
+  //     const sqlQuery = `UPDATE Patient SET givenName = @givenName AND familyName = @familyName WHERE PatientID = @id`;
+  //   }
+  //   else {
+  //     const sqlQuery = `UPDATE Patient SET givenName = @givenName WHERE PatientID = @id`;
+  //   }
+
+  //   const request = connection.request();
+  //   request.input("id", id);
+  //   request.input("givenName", nameArray[0]);
+
+  //   await request.query(sqlQuery);
+
+  //   connection.close();
+
+  //   return this.getPatientById(id);
   // }
   static async updateAccountContact(id, contact) {
     const connection = await sql.connect(dbConfig);
