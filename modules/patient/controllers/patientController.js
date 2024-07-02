@@ -158,6 +158,25 @@ const deletePatient = async (req, res) => {
   }
 };
 
+const updateAccountName = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { name } = req.body;
+
+  try {
+    const updatedName = await Patient.updateAccountContact(patientId, name);
+    if (!updatedName) {
+      return res.status(404).send("Patient not found");
+    }
+    res.json({
+      status: "Success",
+      Name: updatedName.givenName + updatedName.familyName,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient's name");
+  }
+};
+
 const updateAccountContact = async (req, res) => {
   const patientId = parseInt(req.params.id);
   const { contact } = req.body;
@@ -173,6 +192,47 @@ const updateAccountContact = async (req, res) => {
     res.json({
       status: "Success",
       ContactNumber: updatedContact.ContactNumber,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient's contact");
+  }
+};
+
+const updateAccountDOB = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { dob } = req.body;
+
+  try {
+    const updatedContact = await Patient.updateAccountDOB(patientId, dob);
+    if (!updatedContact) {
+      return res.status(404).send("Patient not found");
+    }
+    res.json({
+      status: "Success",
+      DOB: updatedContact.DOB,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient's birthdate");
+  }
+};
+
+const updateAccountAddress = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { address } = req.body;
+
+  try {
+    const updatedContact = await Patient.updateAccountAddress(
+      patientId,
+      address
+    );
+    if (!updatedContact) {
+      return res.status(404).send("Patient not found");
+    }
+    res.json({
+      status: "Success",
+      Address: updatedContact.Address,
     });
   } catch (error) {
     console.error(error);
@@ -305,7 +365,10 @@ module.exports = {
   getPatientById,
   updatePatient,
   deletePatient,
+  updateAccountName,
   updateAccountContact,
+  updateAccountDOB,
+  updateAccountAddress,
   searchPatients,
   googleLogin,
   updatePatientCart,
