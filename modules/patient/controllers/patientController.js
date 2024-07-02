@@ -140,7 +140,7 @@ const updateAccountName = async (req, res) => {
   const { name } = req.body;
 
   try {
-    const updatedName = await Patient.updateAccountContact(patientId, name);
+    const updatedName = await Patient.updateAccountName(patientId, name);
     if (!updatedName) {
       return res.status(404).send("Patient not found");
     }

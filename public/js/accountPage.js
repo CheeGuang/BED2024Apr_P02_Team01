@@ -83,9 +83,18 @@ function ToggleEditableMode(iconID, inputID) {
   if (ipControl.disabled) {
     document.getElementById(iconID).className = "fa fa-pencil-square-o";
 
+    //If user edited name info
+    // if (
+    //   inputID == "personal-name" &&
+    //   personalName.value != personalName.placeholder
+    // ) {
+    //   //UpdateNameRecord();
+    // }
     // If user edited the contact info
-    if (contact.value != contact.placeholder) {
+    if (inputID == "contact" && contact.value != contact.placeholder) {
       UpdateContactRecord();
+    } else if (inputID == "address" && address.value != address.placeholder) {
+      UpdateAddressRecord();
     }
   } else {
     document.getElementById(iconID).className = "fa-regular fa-floppy-disk";
@@ -93,6 +102,44 @@ function ToggleEditableMode(iconID, inputID) {
 }
 
 // Call Controller to update the database
+async function UpdateNameRecord() {
+  // Make the PUT request to the API
+  console.log("Patient ID: " + patientDetails.PatientID);
+  try {
+    const response = await fetch(
+      `${window.location.origin}/api/patient/updateName/${patientDetails.PatientID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: personalName.value }),
+      }
+    );
+
+    const result = await response.json();
+
+    // Write to local storage
+    if (response.ok) {
+      // Update UI
+      personalName.placeholder = `S$${result.Name}`;
+      // Update local storage
+      let splitName = result.Name.split(" ");
+
+      if (splitName.length > 1) {
+        patientDetails.givenName = splitName[0];
+        patientDetails.familyName = splitName[1];
+      } else {
+        patientDetails.givenName = result.Name;
+      }
+      localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+    } else {
+      console.error("Error updating patient name", result.error);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
 
 async function UpdateContactRecord() {
   // Make the PUT request to the API
@@ -119,7 +166,71 @@ async function UpdateContactRecord() {
       patientDetails.ContactNumber = result.ContactNumber;
       localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
     } else {
-      console.error("Error updating patient", result.error);
+      console.error("Error updating patient contact", result.error);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+// async function UpdateDOBRecord() {
+//   // Make the PUT request to the API
+//   console.log("Patient ID: " + patientDetails.PatientID);
+//   try {
+//     const response = await fetch(
+//       `${window.location.origin}/api/patient/updateDOB/${patientDetails.PatientID}`,
+//       {
+//         method: "PUT",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ dob: dob.value }),
+//       }
+//     );
+
+//     const result = await response.json();
+
+//     // Write to local storage
+//     if (response.ok) {
+//       // Update UI
+//       contact.placeholder = `S$${result.DOB}`;
+//       // Update local storage
+//       patientDetails.DOB = result.DOB;
+//       localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+//     } else {
+//       console.error("Error updating patient birth date", result.error);
+//     }
+//   } catch (error) {
+//     console.error("Error:", error);
+//   }
+// }
+
+async function UpdateAddressRecord() {
+  // Make the PUT request to the API
+  console.log("Patient ID: " + patientDetails.PatientID);
+  try {
+    const response = await fetch(
+      `${window.location.origin}/api/patient/updateAddress/${patientDetails.PatientID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ address: address.value }),
+      }
+    );
+
+    const result = await response.json();
+
+    // Write to local storage
+    if (response.ok) {
+      // Update UI
+      address.placeholder = `S$${result.Address}`;
+      // Update local storage
+      patientDetails.Address = result.Address;
+      localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+    } else {
+      console.error("Error updating patient address", result.error);
     }
   } catch (error) {
     console.error("Error:", error);
