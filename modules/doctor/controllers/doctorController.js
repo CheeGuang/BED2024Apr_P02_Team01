@@ -87,6 +87,97 @@ const updateDoctor = async (req, res) => {
   }
 };
 
+const updateDocAccountName = async (req, res) => {
+  const doctorId = parseInt(req.params.id);
+  const { fname, lname } = req.body;
+
+  try {
+    const updatedName = await Doctor.updateDocAccountName(
+      doctorId,
+      fname,
+      lname
+    );
+    if (!updatedName) {
+      return res.status(404).send("Doctor not found");
+    }
+    res.json({
+      status: "Success",
+      FirstName: updatedName.givenName,
+      LastName: updatedName.familyName,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating doctor's name");
+  }
+};
+
+const updateDocAccountContact = async (req, res) => {
+  const doctorId = parseInt(req.params.id);
+  const { contact } = req.body;
+
+  try {
+    const updatedContact = await Doctor.updateDocAccountContact(
+      doctorId,
+      contact
+    );
+    if (!updatedContact) {
+      return res.status(404).send("Doctor not found");
+    }
+    res.json({
+      status: "Success",
+      ContactNumber: updatedContact.ContactNumber,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating doctor's contact");
+  }
+};
+
+const updateDocAccountDOB = async (req, res) => {
+  const doctorId = parseInt(req.params.id);
+  const { dob } = req.body;
+
+  try {
+    const updatedDOB = await Doctor.updateDocAccountDOB(doctorId, dob);
+    if (!updatedDOB) {
+      return res.status(404).send("Doctor not found");
+    }
+    res.json({
+      status: "Success",
+      DOB: updatedDOB.DOB,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating doctor's birthdate");
+  }
+};
+
+const updateDocAccountProfession = async (req, res) => {
+  const doctorId = parseInt(req.params.id);
+  const { profession } = req.body;
+
+  try {
+    const updatedProfession = await Doctor.updateDocAccountProfession(
+      doctorId,
+      profession
+    );
+    if (!updatedProfession) {
+      return res.status(404).send("Doctor not found");
+    }
+    res.json({
+      status: "Success",
+      profession: updatedProfession.Profession,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating doctor's profession");
+  }
+};
+
+module.exports = {
+  updateDoctor,
+};
+
 const deleteDoctor = async (req, res) => {
   const doctorId = parseInt(req.params.id);
 
@@ -167,6 +258,10 @@ module.exports = {
   createDoctor,
   getDoctorById,
   updateDoctor,
+  updateDocAccountName,
+  updateDocAccountContact,
+  updateDocAccountDOB,
+  updateDocAccountProfession,
   deleteDoctor,
   googleLogin,
   getGuestDoctor,
