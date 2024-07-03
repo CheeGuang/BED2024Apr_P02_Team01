@@ -1,6 +1,8 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { google } = require("googleapis"); // this is for google calendar
 const Patient = require("./models/patient"); // Ensure this path is correct
+const { OAuth2Client } = require("google-auth-library");
 require("dotenv").config();
 
 passport.use(
@@ -9,6 +11,7 @@ passport.use(
       clientID: process.env.googleClientSecret,
       clientSecret: process.env.googleClientSecret,
       callbackURL: "/auth/google/callback",
+      scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"], // Request access to google calendar API
     },
     async (accessToken, refreshToken, profile, done) => {
       const { sub, email, given_name, family_name, picture } = profile._json;
@@ -26,6 +29,11 @@ passport.use(
         givenName: given_name,
         familyName: family_name,
         profilePicture: picture, // Updated field name
+
+        // These are for google calendar -
+        //might need to save in database to access Google Calendar on behalf of the user
+        accessToken: accessToken,
+        refreshToken: refreshToken,
       };
 
       try {
@@ -51,4 +59,19 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-module.exports = passport;
+// Additional setup for Google Calendar API
+const oauth2Client = new google.auth.OAuth2(
+  process.env.googleClientID,
+  process.env.googleClientSecret,
+  "http://localhost:3000/auth/google/callback" // Adjust according to setup
+);
+
+google.options({ auth: oauth2Client });
+
+const calendar = google.calendar({ version: "v3" });
+
+module.exports = {
+  passport,
+  calendar,
+  oauth2Client,
+};

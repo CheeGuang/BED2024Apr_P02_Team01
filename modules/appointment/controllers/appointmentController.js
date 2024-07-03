@@ -1,4 +1,5 @@
 const moment = require("moment-timezone");
+require("dotenv").config();
 const {
   Appointment,
   appointmentEmitter,
@@ -98,6 +99,8 @@ const createAppointment = async (req, res) => {
         roomURL: createdAppointment.roomUrl,
         hostRoomUrl: createdAppointment.hostRoomUrl,
       });
+
+      next(); // Call the middleware
     } catch (error) {
       console.error("Error saving appointment to database:", error);
       res.status(500).send("Error creating appointment in the database");
