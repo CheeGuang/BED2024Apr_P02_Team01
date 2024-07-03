@@ -113,7 +113,7 @@
                   <h5 class="card-title">Name</h5>
                   <i
                     id="name-icon"
-                    class="fa fa-pencil-square-o"
+                    class="fa fa-pencil-square-o fa-lg"
                     onclick="ToggleEditableName()"
                   ></i>
                 </div>
@@ -142,7 +142,7 @@
                   <h5 class="card-title">Contact</h5>
                   <i
                     id="contact-icon"
-                    class="fa fa-pencil-square-o"
+                    class="fa fa-pencil-square-o fa-lg"
                     onclick="ToggleEditableMode('contact-icon', 'contact')"
                   ></i>
                 </div>
@@ -164,7 +164,7 @@
                   <h5 class="card-title">Date Of Birth</h5>
                   <i
                     id="dob-icon"
-                    class="fa fa-pencil-square-o"
+                    class="fa fa-pencil-square-o fa-lg"
                     onclick="ToggleEditableMode('dob-icon', 'dob')"
                   ></i>
                 </div>
@@ -179,6 +179,10 @@
                   disabled
                 />
               </div>
+              <div
+                id="dob-errorMessage"
+                class="alert alert-danger d-none"
+              ></div>
             </div>
 
             <div class="infoContainer card">
@@ -196,7 +200,6 @@
                   disabled
                 />
               </div>
-              <div id="errorMessage" class="alert alert-danger d-none"></div>
             </div>
 
             <div class="infoContainer card">
@@ -205,7 +208,7 @@
                   <h5 class="card-title">Address</h5>
                   <i
                     id="address-icon"
-                    class="fa fa-pencil-square-o"
+                    class="fa fa-pencil-square-o fa-lg"
                     onclick="ToggleEditableMode('address-icon', 'address')"
                   ></i>
                 </div>

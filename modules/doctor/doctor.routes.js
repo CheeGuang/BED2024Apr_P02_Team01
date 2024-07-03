@@ -18,6 +18,16 @@ doctorRoutes.post("/googleLogin", doctorController.googleLogin);
 doctorRoutes.get("/guest", doctorController.getGuestDoctor);
 doctorRoutes.get("/:id", doctorController.getDoctorById);
 doctorRoutes.put("/:id", doctorController.updateDoctor); // PUT for updating doctors
+doctorRoutes.put("/updateName/:id", doctorController.updateDocAccountName);
+doctorRoutes.put(
+  "/updateContact/:id",
+  doctorController.updateDocAccountContact
+);
+doctorRoutes.put("/updateDOB/:id", doctorController.updateDocAccountDOB);
+doctorRoutes.put(
+  "/updateProfession/:id",
+  doctorController.updateDocAccountProfession
+);
 doctorRoutes.delete("/:id", doctorController.deleteDoctor); // DELETE for deleting doctors
 // ========== Export ==========
 module.exports = doctorRoutes;

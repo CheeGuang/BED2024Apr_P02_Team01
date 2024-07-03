@@ -217,6 +217,65 @@ class Doctor {
     console.log("New user created and retrieved:", newDoctor);
     return newDoctor;
   }
+
+  static async updateDocAccountName(id, fname, lname) {
+    const connection = await sql.connect(dbConfig);
+
+    const request = connection.request();
+    let sqlQuery = `UPDATE Doctor SET givenName = @givenName, familyName = @familyName WHERE DoctorID = @id`;
+    request.input("id", id);
+    request.input("givenName", fname);
+    request.input("familyName", lname);
+    await request.query(sqlQuery);
+
+    connection.close();
+    return this.getDoctorById(id);
+  }
+
+  static async updateDocAccountContact(id, contact) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Doctor SET ContactNumber = @contact WHERE DoctorID = @id`;
+    const request = connection.request();
+    request.input("id", id);
+    request.input("contact", contact);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getDoctorById(id);
+  }
+
+  static async updateDocAccountDOB(id, dob) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Doctor SET DOB = @dob WHERE DoctorID = @id`;
+    const request = connection.request();
+    request.input("id", id);
+    request.input("dob", dob);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getDoctorById(id);
+  }
+
+  static async updateDocAccountProfession(id, profession) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Doctor SET Profession = @profession WHERE DoctorID = @id`;
+    const request = connection.request();
+    request.input("id", id);
+    request.input("profession", profession);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getDoctorById(id);
+  }
 }
 
 module.exports = Doctor;

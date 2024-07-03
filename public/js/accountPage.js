@@ -16,6 +16,7 @@ const address = document.getElementById("address");
 const gender = document.getElementById("gender");
 
 const errorMessage = document.getElementById("errorMessage");
+const dob_errorMessage = document.getElementById("dob-errorMessage");
 // Function for sign out to work
 signOutBtn.addEventListener("click", function () {
   // Remove patient details from local storage
@@ -114,15 +115,17 @@ function ToggleEditableMode(iconID, inputID) {
         UpdateContactRecord();
       }
     } else if (inputID == "dob" && dob.value != dob.placeholder) {
-      // Remove Error Message
-      if (!errorMessage.classList.contains("d-none")) {
-        errorMessage.classList.add("d-none");
-      }
-      if (dob >= today) {
-        errorMessage.textContent = "Date of Birth must be before today.";
-        errorMessage.classList.remove("d-none");
+      if (!dob_errorMessage.classList.contains("d-none")) {
+        dob_errorMessage.classList.add("d-none");
       } else {
-        UpdateDOBRecord();
+        const todayDate = new Date();
+        const datePickerValue = new Date(dob.value);
+        if (todayDate < datePickerValue) {
+          dob_errorMessage.textContent = "Date of Birth must be before today.";
+          dob_errorMessage.classList.remove("d-none");
+        } else {
+          UpdateDOBRecord();
+        }
       }
     } else if (inputID == "address" && address.value != address.placeholder) {
       if (
