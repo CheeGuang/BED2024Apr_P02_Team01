@@ -99,8 +99,8 @@ const createAppointment = async (req, res) => {
         roomURL: createdAppointment.roomUrl,
         hostRoomUrl: createdAppointment.hostRoomUrl,
       });
-
-      next(); // Call the middleware
+      // Create google calendar event
+      Appointment.createGoogleCalendarEvent(createdAppointment.endDateTime);
     } catch (error) {
       console.error("Error saving appointment to database:", error);
       res.status(500).send("Error creating appointment in the database");

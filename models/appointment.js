@@ -5,6 +5,8 @@ class AppointmentEmitter extends EventEmitter {}
 const appointmentEmitter = new AppointmentEmitter();
 const PDFDocument = require("pdfkit"); // Import the pdfkit library
 const path = require("path");
+const { google } = require("googleapis"); // Import googleapis library
+const passport = require("../auth"); // Import passport
 
 /**
  * Class representing an Appointment.
@@ -282,6 +284,55 @@ class Appointment {
     await request.query(sqlQuery); // Execute the query
     connection.close(); // Close the database connection
     return this.getAppointmentById(AppointmentID); // Return the updated appointment by its ID
+  }
+
+  // Google Calendar function
+  static async createGoogleCalendarEvent(appointmentData) {
+    try {
+      const { endDateTime } = appointmentData;
+
+      const oauth2Client = new google.auth.OAuth2();
+      oauth2Client.setCredentials({
+        access_token: passport.access_token,
+      });
+
+      const calendar = google.calendar({ version: "v3", auth: oauth2Client });
+
+      //allocate 15mins consultation time
+      const eventEndDateTimeObj = moment()
+        .tz(endDateTime, "Asia/Singapore")
+        .add(15, "minutes");
+
+      const event = {
+        summary: "SyncHealth Teleconsult",
+        start: {
+          dateTime: endDateTime,
+          timeZone: "Asia/Singapore",
+        },
+        end: {
+          dateTime: eventEndDateTimeObj.toISOString(),
+          timeZone: "Asia/Singapore",
+        },
+        reminders: {
+          useDefault: false,
+          overrides: [
+            { method: "email", minutes: 120 },
+            { method: "popup", minutes: 60 },
+          ],
+        },
+      };
+
+      const response = await calendar.events.insert({
+        calendarId: "primary",
+        resource: event,
+      });
+
+      console.log("Event created: %s", response.data.htmlLink);
+      return response.data.htmlLink;
+    } catch (error) {
+      console.error("Error creating Google Calendar event:", error);
+      throw new Error("Error creating Google Calendar event");
+    }
   }
 
   /**

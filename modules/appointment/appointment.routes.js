@@ -2,7 +2,6 @@
 // Initializing express
 const express = require("express");
 const { appointmentEmitter } = require("../../models/appointment");
-const createGoogleCalendarEvent = require("../middlewares/createGoogleCalendarEvent");
 
 // ========== Controllers ==========
 // Initializing appointmentController
@@ -17,11 +16,7 @@ const appointmentRoutes = express.Router();
 appointmentRoutes.get("/", appointmentController.getAllAppointments);
 
 // Create a new appointment
-appointmentRoutes.post(
-  "/create",
-  appointmentController.createAppointment,
-  createGoogleCalendarEvent
-);
+appointmentRoutes.post("/create", appointmentController.createAppointment);
 
 // Get all unassigned appointments (appointments with no assigned doctor)
 appointmentRoutes.get(
