@@ -32,8 +32,8 @@ passport.use(
 
         // These are for google calendar -
         //might need to save in database to access Google Calendar on behalf of the user
-        // accessToken: accessToken,
-        // refreshToken: refreshToken,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
       };
 
       try {
@@ -47,8 +47,8 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  accessToken: user.accessToken;
-  refreshToken: user.refreshToken;
+  // accessToken: user.accessToken;
+  // refreshToken: user.refreshToken;
   done(null, user.PatientID);
 });
 

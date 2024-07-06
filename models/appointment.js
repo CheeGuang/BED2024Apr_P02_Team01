@@ -287,13 +287,23 @@ class Appointment {
   }
 
   // Google Calendar function
-  static async createGoogleCalendarEvent(appointmentData) {
+  static async createGoogleCalendarEvent(
+    appointmentData,
+    accessToken,
+    refreshToken
+  ) {
     try {
       const { endDateTime } = appointmentData;
 
-      const oauth2Client = new google.auth.OAuth2();
+      const oauth2Client = new google.auth.OAuth2(
+        process.env.googleClientId,
+        process.env.googleClientSecret,
+        "http://localhost:8000/auth/google/callback" // Adjust according to your setup
+      );
+
       oauth2Client.setCredentials({
-        access_token: passport.access_token,
+        access_token: accessToken,
+        refresh_token: refreshToken,
       });
 
       const calendar = google.calendar({ version: "v3", auth: oauth2Client });

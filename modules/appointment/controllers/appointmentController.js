@@ -92,15 +92,22 @@ const createAppointment = async (req, res) => {
       const createdAppointment = await Appointment.createAppointment(
         newAppointmentData
       );
+
+      const { accessToken, refreshToken } = req.user; // Assuming tokens are stored in req.user
+      const calendarEventLink = await Appointment.createGoogleCalendarEvent(
+        createdAppointment,
+        accessToken,
+        refreshToken
+      );
+
       // Handling Response
       res.status(200).json({
         status: "Success",
         message: "Appointment added successfully",
         roomURL: createdAppointment.roomUrl,
         hostRoomUrl: createdAppointment.hostRoomUrl,
+        calendarEventLink: calendarEventLink,
       });
-      // Create google calendar event
-      Appointment.createGoogleCalendarEvent(createdAppointment.endDateTime);
     } catch (error) {
       console.error("Error saving appointment to database:", error);
       res.status(500).send("Error creating appointment in the database");
