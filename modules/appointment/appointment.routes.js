@@ -99,11 +99,7 @@ appointmentRoutes.get(
 );
 
 // Endpoint to listen for updates (SSE)
-appointmentRoutes.get(
-  "/:id/updates",
-  authorizeUser,
-  appointmentController.handleSSEUpdates
-);
+appointmentRoutes.get("/:id/updates", appointmentController.handleSSEUpdates);
 
 // ========== Export Route ==========
 // Export the appointment routes to be used in other parts of the application

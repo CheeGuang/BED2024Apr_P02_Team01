@@ -397,11 +397,6 @@ const getAppointmentDetailsById = async (req, res) => {
   }
 };
 
-/**
- * Controller to handle SSE connections for appointment updates.
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- */
 const handleSSEUpdates = (req, res) => {
   const appointmentId = req.params.id;
   console.log(
@@ -413,21 +408,12 @@ const handleSSEUpdates = (req, res) => {
   res.setHeader("Connection", "keep-alive");
 
   const onUpdate = (data) => {
-    console.log(`Received update for appointment ID: ${data.AppointmentID}`);
-    console.log(`data.AppointmentID: ${data.AppointmentID}`);
-    console.log(`appointmentId: ${appointmentId}`);
     if (data.AppointmentID == appointmentId) {
-      console.log(`Sending update for appointment ID: ${appointmentId}`);
       res.write(`data: ${JSON.stringify(data)}\n\n`);
-    } else {
-      console.log(
-        `Update received for different appointment ID: ${data.AppointmentID}`
-      );
     }
   };
 
   appointmentEmitter.on("appointmentUpdated", onUpdate);
-  console.log(`Listener added for appointment ID: ${appointmentId}`);
 
   req.on("close", () => {
     appointmentEmitter.removeListener("appointmentUpdated", onUpdate);

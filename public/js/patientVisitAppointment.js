@@ -79,7 +79,33 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add event listener to Download MC Button
   document.getElementById("downloadMC").addEventListener("click", function () {
     const mcUrl = `${apiBaseUrl}/medicalCertificate`;
-    window.open(mcUrl, "_blank"); // Open the generated PDF in a new tab
+
+    fetch(mcUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "SyncHealth-MedicalCertificate.pdf"; // you can specify a custom file name here
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Error downloading medical certificate:", error);
+      });
   });
 
   // Function to show notification
