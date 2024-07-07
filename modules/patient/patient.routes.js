@@ -17,10 +17,10 @@ const patientRoutes = express.Router();
 // ========== Routes ==========
 
 // Search patients
-patientRoutes.get("/search", patientController.searchPatients);
+patientRoutes.get("/search", authorizeUser, patientController.searchPatients);
 
 // Create a new patient
-patientRoutes.post("/", patientController.createPatient);
+patientRoutes.post("/", authorizeUser, patientController.createPatient);
 
 // Google login for patients
 patientRoutes.post("/googleLogin", patientController.googleLogin);
@@ -29,16 +29,20 @@ patientRoutes.post("/googleLogin", patientController.googleLogin);
 patientRoutes.get("/guest", patientController.getGuestPatient);
 
 // Top up e-wallet amount for a patient by ID
-patientRoutes.put("/topup/:id", patientController.updateEWalletAmount);
+patientRoutes.put(
+  "/topup/:id",
+  authorizeUser,
+  patientController.updateEWalletAmount
+);
 
 // Get a specific patient by ID
-patientRoutes.get("/:id", patientController.getPatientById);
+patientRoutes.get("/:id", authorizeUser, patientController.getPatientById);
 
 // Update a specific patient by ID
-patientRoutes.put("/:id", patientController.updatePatient);
+patientRoutes.put("/:id", authorizeUser, patientController.updatePatient);
 
 // Delete a specific patient by ID
-patientRoutes.delete("/:id", patientController.deletePatient);
+patientRoutes.delete("/:id", authorizeUser, patientController.deletePatient);
 
 // Get e-wallet amount for a specific patient by ID
 patientRoutes.get(

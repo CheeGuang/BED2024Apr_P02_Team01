@@ -17,7 +17,11 @@ const appointmentRoutes = express.Router();
 
 // ========== Routes ==========
 // Get all appointments
-appointmentRoutes.get("/", appointmentController.getAllAppointments);
+appointmentRoutes.get(
+  "/",
+  authorizeUser,
+  appointmentController.getAllAppointments
+);
 
 // Create a new appointment
 appointmentRoutes.post(
@@ -34,13 +38,25 @@ appointmentRoutes.get(
 );
 
 // Get a specific appointment by its ID
-appointmentRoutes.get("/:id", appointmentController.getAppointmentById);
+appointmentRoutes.get(
+  "/:id",
+  authorizeUser,
+  appointmentController.getAppointmentById
+);
 
 // Update a specific appointment by its ID
-appointmentRoutes.put("/:id", appointmentController.updateAppointment);
+appointmentRoutes.put(
+  "/:id",
+  authorizeUser,
+  appointmentController.updateAppointment
+);
 
 // Delete a specific appointment by its ID
-appointmentRoutes.delete("/:id", appointmentController.deleteAppointment);
+appointmentRoutes.delete(
+  "/:id",
+  authorizeUser,
+  appointmentController.deleteAppointment
+);
 
 // Get all appointments for a specific patient by their ID
 appointmentRoutes.get(
@@ -72,16 +88,22 @@ appointmentRoutes.put(
 
 appointmentRoutes.get(
   "/:id/details",
+  authorizeUser,
   appointmentController.getAppointmentDetailsById
 );
 
 appointmentRoutes.get(
   "/:id/medicalCertificate",
+  authorizeUser,
   appointmentController.generateMedicalCertificate
 );
 
 // Endpoint to listen for updates (SSE)
-appointmentRoutes.get("/:id/updates", appointmentController.handleSSEUpdates);
+appointmentRoutes.get(
+  "/:id/updates",
+  authorizeUser,
+  appointmentController.handleSSEUpdates
+);
 
 // ========== Export Route ==========
 // Export the appointment routes to be used in other parts of the application

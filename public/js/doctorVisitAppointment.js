@@ -16,7 +16,13 @@ document.addEventListener("DOMContentLoaded", function () {
   mcEndDateInput.setAttribute("min", todayDate);
 
   // Fetch all medicines from the medicine table
-  fetch(`${window.location.origin}/api/medicine`)
+  fetch(`${window.location.origin}/api/medicine`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      "Content-Type": "application/json",
+    },
+  })
     .then((response) => response.json())
     .then((medicines) => {
       const medicineCheckboxes = document.getElementById("medicine-checkboxes");
