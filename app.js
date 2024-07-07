@@ -27,7 +27,8 @@ const dbConfig = require("./dbConfig");
 const session = require("express-session");
 // Initialising passport
 const passport = require("./auth"); // Ensure the correct path
-
+// Initialising Authorizaton Middleware
+const authMiddleware = require("./middlewares/authMiddleware"); // Adjust the path to where your middleware is located
 // ========== Set-Up ==========
 // Initiating app
 const app = express();
@@ -70,6 +71,11 @@ app.use("/api/medicine", medicineRoutes);
 
 // Chatbot Routes Route
 app.use("/api/chatbot", chatbotController);
+
+// Check Auth Endpoint
+app.get("/api/checkAuth", authMiddleware, (req, res) => {
+  res.status(200).json({ message: "Authenticated" });
+});
 
 // End of all routes
 app.all("*", (req, res, next) => {

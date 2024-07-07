@@ -32,3 +32,18 @@
 .btn-block:hover {
   transform: scale(1.05);
 }
+.notification {
+  position: fixed;
+  top: 70px; /* Adjust based on your header height */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  opacity: 0;
+}

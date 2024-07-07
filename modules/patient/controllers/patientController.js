@@ -52,16 +52,16 @@ const googleLogin = async (req, res) => {
       email: user.Email,
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
       algorithm: "HS256",
       expiresIn: "3600s", // This should be inside the options object
     });
 
-    console.log(`JWT Token: ${token}`);
+    console.log(`JWT Token: ${jwtToken}`);
 
     res.status(200).json({
       user,
-      token: token,
+      token: jwtToken,
     });
     console.log("Response sent successfully");
   } catch (error) {
