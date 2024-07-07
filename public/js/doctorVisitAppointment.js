@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           method: "PUT",
           headers: {
+            Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(requestBody),

@@ -29,6 +29,7 @@ appointmentRoutes.post(
 // Get all unassigned appointments (appointments with no assigned doctor)
 appointmentRoutes.get(
   "/unassigned",
+  authorizeUser,
   appointmentController.getUnassignedAppointments
 );
 
@@ -51,30 +52,21 @@ appointmentRoutes.get(
 // Get all appointments for a specific doctor by their ID
 appointmentRoutes.get(
   "/getByDoctorID/:id",
+  authorizeUser,
   appointmentController.getAppointmentsByDoctorId
 );
 
 // Update the doctor ID of a specific appointment by its ID
 appointmentRoutes.put(
   "/:id/updateDoctorId",
+  authorizeUser,
   appointmentController.updateDoctorId
-);
-
-// Add medicines to a specific appointment by its ID
-appointmentRoutes.post(
-  "/:id/addMedicines",
-  appointmentController.addMedicinesToAppointment
-);
-
-// Get all medicines for a specific appointment by its ID
-appointmentRoutes.get(
-  "/:id/medicines",
-  appointmentController.getMedicinesForAppointment
 );
 
 // Update the medicines for a specific appointment by its ID
 appointmentRoutes.put(
   "/:id/updateWithMedicines",
+  authorizeUser,
   appointmentController.updateAppointmentWithMedicines
 );
 
