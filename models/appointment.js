@@ -306,6 +306,10 @@ class Appointment {
         refresh_token: refreshToken,
       });
 
+      console.log(accessToken);
+      console.log(refreshToken);
+      console.log(eventEndDateTimeObj.toISOString());
+
       const calendar = google.calendar({ version: "v3", auth: oauth2Client });
 
       //allocate 15mins consultation time
