@@ -1,6 +1,5 @@
 const Patient = require("../../../models/patient.js");
-const QRCode = require("qrcode");
-const { v4: uuidv4 } = require("uuid");
+const jwt = require("jsonwebtoken");
 
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.googleId);
@@ -48,13 +47,21 @@ const googleLogin = async (req, res) => {
     let user = await Patient.findOrCreateGoogleUser(userData);
     console.log("User found or created:", user);
 
+    const payload = {
+      PatientID: user.PatientID,
+      email: user.Email,
+    };
+
+    const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+      expiresIn: "3600s", // This should be inside the options object
+    });
+
+    console.log(`JWT Token: ${jwtToken}`);
+
     res.status(200).json({
-      googleId: sub,
-      email,
-      givenName: given_name,
-      familyName: family_name,
-      profilePicture: picture,
       user,
+      token: jwtToken,
     });
     console.log("Response sent successfully");
   } catch (error) {
@@ -94,7 +101,23 @@ const getGuestPatient = async (req, res) => {
     if (!patient) {
       return res.status(404).send("Patient not found");
     }
-    res.json(patient);
+
+    const payload = {
+      PatientID: patient.PatientID,
+      email: patient.Email,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+      expiresIn: "3600s", // This should be inside the options object
+    });
+
+    console.log(`JWT Token: ${token}`);
+
+    res.json({
+      user: patient,
+      token: token,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error retrieving patient");
@@ -218,29 +241,42 @@ const processMedicinePayment = async (req, res) => {
   try {
     const patient = await Patient.getPatientById(patientId);
     if (!patient) {
-      return res.status(404).json({ status: "Failed", message: "Patient not found" });
+      return res
+        .status(404)
+        .json({ status: "Failed", message: "Patient not found" });
     }
 
     if (patient.eWalletAmount < totalAmount) {
-      return res.status(400).json({ status: "Failed", message: "Insufficient E-Wallet Balance. Please Top-Up." });
+      return res.status(400).json({
+        status: "Failed",
+        message: "Insufficient E-Wallet Balance. Please Top-Up.",
+      });
     }
 
-    const updatedPatient = await Patient.updateEWalletAmount(patientId, -totalAmount); // Deduct the total amount
+    const updatedPatient = await Patient.updateEWalletAmount(
+      patientId,
+      -totalAmount
+    ); // Deduct the total amount
 
     // Clear the cart after payment
     await Patient.clearCart(patientId);
 
     res.json({
       status: "Success",
-      message: "Payment Successful. Your Medicine will be shipped within 5 working days",
+      message:
+        "Payment Successful. Your Medicine will be shipped within 5 working days",
       eWalletAmount: updatedPatient.eWalletAmount,
     });
   } catch (error) {
-    console.error(`Error processing payment for Patient ID ${patientId}:`, error);
-    res.status(500).json({ status: "Failed", message: "Internal server error" });
+    console.error(
+      `Error processing payment for Patient ID ${patientId}:`,
+      error
+    );
+    res
+      .status(500)
+      .json({ status: "Failed", message: "Internal server error" });
   }
 };
-
 
 module.exports = {
   createPatient,
@@ -256,4 +292,3 @@ module.exports = {
   updateEWalletAmount,
   processMedicinePayment, // Add this line
 };
-

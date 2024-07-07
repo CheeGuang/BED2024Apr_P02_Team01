@@ -12,7 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("Base URL:", baseUrl);
 
   // Fetch all patient appointments that match PatientID
-  fetch(`${baseUrl}/api/appointment/getByPatientID/${PatientID}`)
+  fetch(`${baseUrl}/api/appointment/getByPatientID/${PatientID}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      "Content-Type": "application/json",
+    },
+  })
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetched appointment data:", data);
@@ -161,6 +167,10 @@ document.addEventListener("DOMContentLoaded", function () {
           showLoading();
           fetch(`${baseUrl}/api/appointment/${appointmentID}`, {
             method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+              "Content-Type": "application/json",
+            },
           })
             .then((response) => {
               if (response.ok) {
@@ -202,7 +212,13 @@ document.addEventListener("DOMContentLoaded", function () {
             appointmentID
           );
           showLoading();
-          fetch(`${baseUrl}/api/appointment/${appointmentID}`)
+          fetch(`${baseUrl}/api/appointment/${appointmentID}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+              "Content-Type": "application/json",
+            },
+          })
             .then((response) => response.json())
             .then((appointmentData) => {
               hideLoading();

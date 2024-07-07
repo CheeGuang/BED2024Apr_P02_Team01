@@ -40,7 +40,14 @@ async function fetchCartItems() {
 
   try {
     const response = await fetch(
-      `${window.location.origin}/api/patient/${patientId}`
+      `${window.location.origin}/api/patient/${patientId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
     if (!response.ok) {
       throw new Error("Failed to fetch patient data");
@@ -87,6 +94,7 @@ async function clearCart() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
           "Content-Type": "application/json",
         },
       }
@@ -144,6 +152,7 @@ async function clearCartAfterPayment() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
           "Content-Type": "application/json",
         },
       }
@@ -201,6 +210,7 @@ document
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ totalAmount }),
@@ -222,13 +232,6 @@ document
     }
   });
 
-document
-  .getElementById("back-button")
-  .addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent the default anchor behavior
-    history.back(); // Go back to the previous page
-  });
-
 async function loadBalance() {
   const currentBalanceElement = document.getElementById("current-balance");
   const patientId = JSON.parse(
@@ -242,7 +245,14 @@ async function loadBalance() {
 
   try {
     const response = await fetch(
-      `${window.location.origin}/api/patient/${patientId}/eWalletAmount`
+      `${window.location.origin}/api/patient/${patientId}/eWalletAmount`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
     if (response.ok) {
       const data = await response.json();

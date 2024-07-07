@@ -83,8 +83,11 @@ document
         if (data.error) {
           console.error("Error updating patient", data.error);
         } else {
-          localStorage.setItem("patientDetails", JSON.stringify(data));
-          localStorage.setItem("PatientID", data.PatientID);
+          localStorage.setItem("patientDetails", JSON.stringify(data.user));
+
+          localStorage.setItem("JWTAuthToken", data.token);
+
+          localStorage.setItem("PatientID", data.user.PatientID);
           window.location.href = "../patientHomePage.html"; // Redirect to home page or another page after sign-up
         }
       })

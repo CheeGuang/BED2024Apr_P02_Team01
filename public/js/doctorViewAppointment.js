@@ -74,7 +74,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Fetch appointments by DoctorID
-  fetch(`${baseUrl}/api/appointment/getByDoctorID/${doctorID}`)
+  fetch(`${baseUrl}/api/appointment/getByDoctorID/${doctorID}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      "Content-Type": "application/json",
+    },
+  })
     .then((response) => response.json())
     .then((data) => {
       const todayAppointmentsContainer =
@@ -142,7 +148,13 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll(".join-meeting-btn").forEach((button) => {
         button.addEventListener("click", function () {
           const appointmentID = this.getAttribute("data-appointment-id");
-          fetch(`${baseUrl}/api/appointment/${appointmentID}`)
+          fetch(`${baseUrl}/api/appointment/${appointmentID}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+              "Content-Type": "application/json",
+            },
+          })
             .then((response) => response.json())
             .then((appointment) => {
               window.location.href = `doctorVisitAppointment.html?appointmentID=${encodeURIComponent(

@@ -40,7 +40,13 @@ function addToCart(event) {
   }
 
   // Fetch patient's current cart to check for existing items
-  fetch(`${window.location.origin}/api/patient/${patientId}`)
+  fetch(`${window.location.origin}/api/patient/${patientId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      "Content-Type": "application/json",
+    },
+  })
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to fetch patient data");
@@ -66,6 +72,7 @@ function addToCart(event) {
       return fetch(`${window.location.origin}/api/patient/${patientId}/cart`, {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(cart),
@@ -107,8 +114,16 @@ async function fetchMedicines() {
 
   try {
     const response = await fetch(
-      `${window.location.origin}/api/medicine/patient/${patientId}`
+      `${window.location.origin}/api/medicine/patient/${patientId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
+
     const medicines = await response.json();
     const medicineCardsContainer = document.getElementById("medicine-cards");
 

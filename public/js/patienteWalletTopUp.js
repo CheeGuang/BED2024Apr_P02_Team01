@@ -23,7 +23,14 @@ async function loadBalance() {
 
   try {
     const response = await fetch(
-      `${window.location.origin}/api/patient/${patientId}/eWalletAmount`
+      `${window.location.origin}/api/patient/${patientId}/eWalletAmount`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
     if (response.ok) {
       const data = await response.json();
@@ -85,6 +92,7 @@ async function updateBalanceFromQR() {
         {
           method: "PUT",
           headers: {
+            Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ amount: topUpAmount }),

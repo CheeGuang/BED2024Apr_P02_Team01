@@ -6,6 +6,10 @@ const express = require("express");
 // Initializing patientController
 const patientController = require("./controllers/patientController");
 
+// ========== Middleware ==========
+// Initializing authMiddleware
+const authorizeUser = require("../../middlewares/authMiddleware");
+
 // ========== Set-up ==========
 // Initializing patientRoutes
 const patientRoutes = express.Router();
@@ -13,10 +17,10 @@ const patientRoutes = express.Router();
 // ========== Routes ==========
 
 // Search patients
-patientRoutes.get("/search", patientController.searchPatients);
+patientRoutes.get("/search", authorizeUser, patientController.searchPatients);
 
 // Create a new patient
-patientRoutes.post("/", patientController.createPatient);
+patientRoutes.post("/", authorizeUser, patientController.createPatient);
 
 // Google login for patients
 patientRoutes.post("/googleLogin", patientController.googleLogin);
@@ -25,28 +29,48 @@ patientRoutes.post("/googleLogin", patientController.googleLogin);
 patientRoutes.get("/guest", patientController.getGuestPatient);
 
 // Top up e-wallet amount for a patient by ID
-patientRoutes.put("/topup/:id", patientController.updateEWalletAmount);
+patientRoutes.put(
+  "/topup/:id",
+  authorizeUser,
+  patientController.updateEWalletAmount
+);
 
 // Get a specific patient by ID
-patientRoutes.get("/:id", patientController.getPatientById);
+patientRoutes.get("/:id", authorizeUser, patientController.getPatientById);
 
 // Update a specific patient by ID
-patientRoutes.put("/:id", patientController.updatePatient);
+patientRoutes.put("/:id", authorizeUser, patientController.updatePatient);
 
 // Delete a specific patient by ID
-patientRoutes.delete("/:id", patientController.deletePatient);
+patientRoutes.delete("/:id", authorizeUser, patientController.deletePatient);
 
 // Get e-wallet amount for a specific patient by ID
-patientRoutes.get("/:id/eWalletAmount", patientController.getEWalletAmount);
+patientRoutes.get(
+  "/:id/eWalletAmount",
+  authorizeUser,
+  patientController.getEWalletAmount
+);
 
 // Update the cart for a specific patient by ID
-patientRoutes.put("/:patientId/cart", patientController.updatePatientCart);
+patientRoutes.put(
+  "/:patientId/cart",
+  authorizeUser,
+  patientController.updatePatientCart
+);
 
 // Clear the cart for a specific patient by ID
-patientRoutes.put("/:patientId/clear-cart", patientController.clearCart);
+patientRoutes.put(
+  "/:patientId/clear-cart",
+  authorizeUser,
+  patientController.clearCart
+);
 
 // Process medicine payment for a specific patient by ID
-patientRoutes.post("/:id/processPayment", patientController.processMedicinePayment);
+patientRoutes.post(
+  "/:id/processPayment",
+  authorizeUser,
+  patientController.processMedicinePayment
+);
 
 // ========== Export ==========
 // Export the patient routes to be used in other parts of the application
