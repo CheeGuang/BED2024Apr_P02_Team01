@@ -167,6 +167,10 @@ document.addEventListener("DOMContentLoaded", function () {
           showLoading();
           fetch(`${baseUrl}/api/appointment/${appointmentID}`, {
             method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+              "Content-Type": "application/json",
+            },
           })
             .then((response) => {
               if (response.ok) {
@@ -208,7 +212,13 @@ document.addEventListener("DOMContentLoaded", function () {
             appointmentID
           );
           showLoading();
-          fetch(`${baseUrl}/api/appointment/${appointmentID}`)
+          fetch(`${baseUrl}/api/appointment/${appointmentID}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+              "Content-Type": "application/json",
+            },
+          })
             .then((response) => response.json())
             .then((appointmentData) => {
               hideLoading();

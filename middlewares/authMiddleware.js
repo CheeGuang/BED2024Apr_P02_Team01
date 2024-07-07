@@ -60,6 +60,21 @@ function verifyJWT(req, res, next) {
         endpointRegex.test(requestedEndpoint)
       );
 
+      // Check if the requested endpoint requires a PatientID or DoctorID
+      if (
+        requestedEndpoint.startsWith("/api/appointment") ||
+        requestedEndpoint.startsWith("/api/patient") ||
+        requestedEndpoint.startsWith("/api/doctor") ||
+        requestedEndpoint.startsWith("/api/medicine")
+      ) {
+        if (!userPatientId && !userDoctorId) {
+          console.log(
+            "User does not have a PatientID or DoctorID for this endpoint."
+          );
+          return res.status(403).json({ message: "Forbidden" });
+        }
+      }
+
       if (isPatientEndpoint && !userPatientId) {
         console.log("User does not have a patient ID for this endpoint.");
         return res.status(403).json({ message: "Forbidden" });

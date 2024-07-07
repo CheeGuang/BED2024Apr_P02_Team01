@@ -307,6 +307,7 @@ class Appointment {
    * @returns {Promise<boolean>} A promise that resolves to true if the appointment was deleted, otherwise false.
    */
   static async deleteAppointment(AppointmentID) {
+    console.log(AppointmentID);
     const connection = await sql.connect(dbConfig); // Establish a connection to the database
     const sqlQuery = `DELETE FROM Appointment WHERE AppointmentID = @AppointmentID`; // SQL query to delete an appointment by its ID
     const request = connection.request(); // Create a request object

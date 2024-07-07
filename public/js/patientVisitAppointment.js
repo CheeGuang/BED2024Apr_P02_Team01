@@ -17,7 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Fetch and display appointment details
   function fetchAppointmentDetails() {
-    fetch(`${apiBaseUrl}/details`)
+    fetch(`${apiBaseUrl}/details`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched appointment details:", data);
