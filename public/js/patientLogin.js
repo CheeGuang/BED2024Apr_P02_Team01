@@ -22,7 +22,7 @@ function handleCredentialResponse(response) {
 
         localStorage.setItem("patientDetails", JSON.stringify(data.user));
 
-        localStorage.setItem("JWTAuthToken", data.token);
+        localStorage.setItem("PatientJWTAuthToken", data.token);
 
         if (!data.user.Address) {
           console.log(
@@ -67,7 +67,7 @@ async function proceedAsGuest() {
     const patientDetails = await response.json();
     localStorage.setItem("patientDetails", JSON.stringify(patientDetails.user));
 
-    localStorage.setItem("JWTAuthToken", patientDetails.token);
+    localStorage.setItem("PatientJWTAuthToken", patientDetails.token);
 
     window.location.href = "patientHomePage.html";
   } catch (error) {

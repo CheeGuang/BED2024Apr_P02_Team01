@@ -32,7 +32,7 @@ function handleCredentialResponse(response) {
           );
           localStorage.setItem("doctorDetails", JSON.stringify(data.user));
 
-          localStorage.setItem("JWTAuthToken", data.token);
+          localStorage.setItem("DoctorJWTAuthToken", data.token);
 
           localStorage.setItem("DoctorID", data.user.DoctorID);
           window.location.href = "../doctorHomePage.html";
@@ -67,7 +67,7 @@ async function proceedAsGuest() {
     const doctorDetails = await response.json();
     localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails.user));
 
-    localStorage.setItem("JWTAuthToken", doctorDetails.token);
+    localStorage.setItem("DoctorJWTAuthToken", doctorDetails.token);
 
     window.location.href = "doctorHomePage.html";
   } catch (error) {

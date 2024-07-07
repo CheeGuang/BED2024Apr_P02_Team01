@@ -27,7 +27,9 @@ async function loadBalance() {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
       }
@@ -92,7 +94,9 @@ async function updateBalanceFromQR() {
         {
           method: "PUT",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+            Authorization: `Bearer ${localStorage.getItem(
+              "PatientJWTAuthToken"
+            )}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ amount: topUpAmount }),

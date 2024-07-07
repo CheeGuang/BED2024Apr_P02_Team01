@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch(`${baseUrl}/api/appointment/getByPatientID/${PatientID}`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      Authorization: `Bearer ${localStorage.getItem("PatientJWTAuthToken")}`,
       "Content-Type": "application/json",
     },
   })
@@ -168,7 +168,9 @@ document.addEventListener("DOMContentLoaded", function () {
           fetch(`${baseUrl}/api/appointment/${appointmentID}`, {
             method: "DELETE",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+              Authorization: `Bearer ${localStorage.getItem(
+                "PatientJWTAuthToken"
+              )}`,
               "Content-Type": "application/json",
             },
           })
@@ -215,7 +217,9 @@ document.addEventListener("DOMContentLoaded", function () {
           fetch(`${baseUrl}/api/appointment/${appointmentID}`, {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+              Authorization: `Bearer ${localStorage.getItem(
+                "PatientJWTAuthToken"
+              )}`,
               "Content-Type": "application/json",
             },
           })
@@ -264,7 +268,9 @@ document.addEventListener("DOMContentLoaded", function () {
           fetch(mcUrl, {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+              Authorization: `Bearer ${localStorage.getItem(
+                "PatientJWTAuthToken"
+              )}`,
               "Content-Type": "application/json",
             },
           })

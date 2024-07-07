@@ -43,7 +43,7 @@ function addToCart(event) {
   fetch(`${window.location.origin}/api/patient/${patientId}`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      Authorization: `Bearer ${localStorage.getItem("PatientJWTAuthToken")}`,
       "Content-Type": "application/json",
     },
   })
@@ -72,7 +72,9 @@ function addToCart(event) {
       return fetch(`${window.location.origin}/api/patient/${patientId}/cart`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(cart),
@@ -118,7 +120,9 @@ async function fetchMedicines() {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
       }

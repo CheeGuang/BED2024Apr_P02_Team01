@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch(`${baseUrl}/api/appointment/unassigned/`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
       "Content-Type": "application/json",
     },
   })
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "PUT",
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem(
-                    "JWTAuthToken"
+                    "DoctorJWTAuthToken"
                   )}`,
                   "Content-Type": "application/json",
                 },

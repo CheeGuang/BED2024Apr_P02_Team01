@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             localStorage.setItem("doctorDetails", JSON.stringify(data.user));
 
-            localStorage.setItem("JWTAuthToken", data.token);
+            localStorage.setItem("DoctorJWTAuthToken", data.token);
 
             localStorage.setItem("DoctorID", data.user.DoctorID);
             window.location.href = "../doctorHomePage.html"; // Redirect to home page after sign-up

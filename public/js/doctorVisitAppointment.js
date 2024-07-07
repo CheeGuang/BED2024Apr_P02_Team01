@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch(`${window.location.origin}/api/medicine`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
       "Content-Type": "application/json",
     },
   })
@@ -95,7 +95,9 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           method: "PUT",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+            Authorization: `Bearer ${localStorage.getItem(
+              "DoctorJWTAuthToken"
+            )}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(requestBody),

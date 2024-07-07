@@ -44,7 +44,9 @@ async function fetchCartItems() {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
       }
@@ -94,7 +96,9 @@ async function clearCart() {
       {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
       }
@@ -152,7 +156,9 @@ async function clearCartAfterPayment() {
       {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
       }
@@ -210,7 +216,9 @@ document
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+            Authorization: `Bearer ${localStorage.getItem(
+              "PatientJWTAuthToken"
+            )}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ totalAmount }),
@@ -249,7 +257,9 @@ async function loadBalance() {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
       }

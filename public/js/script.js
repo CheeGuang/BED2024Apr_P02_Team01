@@ -16,8 +16,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Check if redirected due to invalid JWT and show notification if flag is set
     if (sessionStorage.getItem("invalidJWT") === "true") {
-      displayNotification();
+      const previousPage = sessionStorage.getItem("previousPage");
+      if (
+        previousPage &&
+        previousPage.includes("patient") &&
+        localStorage.getItem("PatientJWTAuthToken")
+      ) {
+        displayNotification();
+      } else if (
+        previousPage &&
+        previousPage.includes("doctor") &&
+        localStorage.getItem("DoctorJWTAuthToken")
+      ) {
+        displayNotification();
+      }
       sessionStorage.removeItem("invalidJWT");
+      sessionStorage.removeItem("previousPage");
     }
 
     // Skip authentication check if the current page is in the skipAuthPages list
@@ -26,23 +40,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
+      const token = currentPage.includes("patient")
+        ? localStorage.getItem("PatientJWTAuthToken")
+        : localStorage.getItem("DoctorJWTAuthToken");
+
       const response = await fetch("/api/checkAuth", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        // If the response is not OK, set invalid JWT flag and redirect to index.html
+        // If the response is not OK, set invalid JWT flag, store previous page and redirect to index.html
         sessionStorage.setItem("invalidJWT", "true");
+        sessionStorage.setItem("previousPage", currentPage);
         window.location.href = "index.html";
       }
     } catch (error) {
       console.error("Error checking authentication status:", error);
-      // Set invalid JWT flag and redirect to index.html in case of an error
+      // Set invalid JWT flag, store previous page and redirect to index.html in case of an error
       sessionStorage.setItem("invalidJWT", "true");
+      sessionStorage.setItem("previousPage", currentPage);
       window.location.href = "index.html";
     }
   };

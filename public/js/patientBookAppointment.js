@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(`${baseUrl}/api/appointment/create`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+        Authorization: `Bearer ${localStorage.getItem("PatientJWTAuthToken")}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
