@@ -93,12 +93,12 @@ const createAppointment = async (req, res) => {
         newAppointmentData
       );
 
-      const { accessToken, refreshToken } = req.user; // Assuming tokens are stored in req.user
-      const calendarEventLink = await Appointment.createGoogleCalendarEvent(
-        createdAppointment,
-        accessToken,
-        refreshToken
-      );
+      // const { accessToken, refreshToken } = req.user; // Assuming tokens are stored in req.user
+      // const calendarEventLink = await Appointment.createGoogleCalendarEvent(
+      //   createdAppointment,
+      //   accessToken,
+      //   refreshToken
+      // );
 
       // Handling Response
       res.status(200).json({
