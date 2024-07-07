@@ -74,7 +74,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Fetch appointments by DoctorID
-  fetch(`${baseUrl}/api/appointment/getByDoctorID/${doctorID}`)
+  fetch(`${baseUrl}/api/appointment/getByDoctorID/${doctorID}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      "Content-Type": "application/json",
+    },
+  })
     .then((response) => response.json())
     .then((data) => {
       const todayAppointmentsContainer =

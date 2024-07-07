@@ -67,7 +67,7 @@ async function proceedAsGuest() {
     const doctorDetails = await response.json();
     localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails.user));
 
-    localStorage.setItem("JWTAuthToken", JSON.stringify(doctorDetails.token));
+    localStorage.setItem("JWTAuthToken", doctorDetails.token);
 
     window.location.href = "doctorHomePage.html";
   } catch (error) {

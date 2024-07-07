@@ -3,7 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const baseUrl = window.location.origin;
 
   // Fetch unassigned appointments
-  fetch(`${baseUrl}/api/appointment/unassigned/`)
+  fetch(`${baseUrl}/api/appointment/unassigned/`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      "Content-Type": "application/json",
+    },
+  })
     .then((response) => response.json())
     .then((data) => {
       const appointmentContainer = document.getElementById(
@@ -86,6 +92,9 @@ document.addEventListener("DOMContentLoaded", function () {
               {
                 method: "PUT",
                 headers: {
+                  Authorization: `Bearer ${localStorage.getItem(
+                    "JWTAuthToken"
+                  )}`,
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ DoctorID: doctorId }),
