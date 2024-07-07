@@ -54,8 +54,17 @@ const createAppointment = async (req, res) => {
     console.log(requestData);
 
     // Making POST request to Whereby API
-    function getResponse() {
-      return fetch(apiUrl, {
+    async function getResponse() {
+      // return fetch(apiUrl, {
+      //   method: "POST",
+      //   headers: {
+      //     Authorization: `Bearer ${API_KEY}`,
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(requestData),
+      // });
+
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${API_KEY}`,
@@ -63,16 +72,24 @@ const createAppointment = async (req, res) => {
         },
         body: JSON.stringify(requestData),
       });
+
+      if (!response.ok) {
+        console.error("Error from Whereby API:", response.statusText);
+        throw new Error("Failed to create meeting with Whereby API");
+      }
+
+      return response.json();
     }
 
     // Fetch the response from the API
-    const roomData = await getResponse().then(async (res) => {
-      console.log("Status code:", res.status);
-      const data = await res.json();
-      console.log("Room URL:", data.roomUrl);
-      console.log("Host room URL:", data.hostRoomUrl);
-      return data;
-    });
+    // const roomData = await getResponse().then(async (res) => {
+    //   console.log("Status code:", res.status);
+    //   const data = await res.json();
+    //   console.log("Room URL:", data.roomUrl);
+    //   console.log("Host room URL:", data.hostRoomUrl);
+    //   return data;
+    // });
+    const roomData = await getResponse();
 
     // Ensure that room is created
     if (!roomData.roomUrl || !roomData.hostRoomUrl)
@@ -93,12 +110,12 @@ const createAppointment = async (req, res) => {
         newAppointmentData
       );
 
-      // const { accessToken, refreshToken } = req.user; // Assuming tokens are stored in req.user
-      // const calendarEventLink = await Appointment.createGoogleCalendarEvent(
-      //   createdAppointment,
-      //   accessToken,
-      //   refreshToken
-      // );
+      const { accessToken, refreshToken } = req.user; // Assuming tokens are stored in req.user
+      const calendarEventLink = await Appointment.createGoogleCalendarEvent(
+        createdAppointment,
+        accessToken,
+        refreshToken
+      );
 
       // Handling Response
       res.status(200).json({
@@ -106,7 +123,7 @@ const createAppointment = async (req, res) => {
         message: "Appointment added successfully",
         roomURL: createdAppointment.roomUrl,
         hostRoomUrl: createdAppointment.hostRoomUrl,
-        //calendarEventLink: calendarEventLink,
+        calendarEventLink: calendarEventLink,
       });
     } catch (error) {
       console.error("Error saving appointment to database:", error);
