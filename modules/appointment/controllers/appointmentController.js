@@ -106,7 +106,7 @@ const createAppointment = async (req, res) => {
         message: "Appointment added successfully",
         roomURL: createdAppointment.roomUrl,
         hostRoomUrl: createdAppointment.hostRoomUrl,
-        calendarEventLink: calendarEventLink,
+        //calendarEventLink: calendarEventLink,
       });
     } catch (error) {
       console.error("Error saving appointment to database:", error);
