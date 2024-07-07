@@ -6,6 +6,10 @@ const express = require("express");
 // Initializing patientController
 const patientController = require("./controllers/patientController");
 
+// ========== Middleware ==========
+// Initializing authMiddleware
+const authorizeUser = require("../../middlewares/authMiddleware");
+
 // ========== Set-up ==========
 // Initializing patientRoutes
 const patientRoutes = express.Router();
@@ -37,16 +41,32 @@ patientRoutes.put("/:id", patientController.updatePatient);
 patientRoutes.delete("/:id", patientController.deletePatient);
 
 // Get e-wallet amount for a specific patient by ID
-patientRoutes.get("/:id/eWalletAmount", patientController.getEWalletAmount);
+patientRoutes.get(
+  "/:id/eWalletAmount",
+  authorizeUser,
+  patientController.getEWalletAmount
+);
 
 // Update the cart for a specific patient by ID
-patientRoutes.put("/:patientId/cart", patientController.updatePatientCart);
+patientRoutes.put(
+  "/:patientId/cart",
+  authorizeUser,
+  patientController.updatePatientCart
+);
 
 // Clear the cart for a specific patient by ID
-patientRoutes.put("/:patientId/clear-cart", patientController.clearCart);
+patientRoutes.put(
+  "/:patientId/clear-cart",
+  authorizeUser,
+  patientController.clearCart
+);
 
 // Process medicine payment for a specific patient by ID
-patientRoutes.post("/:id/processPayment", patientController.processMedicinePayment);
+patientRoutes.post(
+  "/:id/processPayment",
+  authorizeUser,
+  patientController.processMedicinePayment
+);
 
 // ========== Export ==========
 // Export the patient routes to be used in other parts of the application

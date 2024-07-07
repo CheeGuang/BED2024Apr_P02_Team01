@@ -1,6 +1,7 @@
 const Doctor = require("../../../models/doctor.js");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.googleId);
+const jwt = require("jsonwebtoken");
 
 const getAllDoctors = async (req, res) => {
   try {
@@ -28,11 +29,22 @@ const getDoctorById = async (req, res) => {
 
 const getGuestDoctor = async (req, res) => {
   try {
-    const doctor = await Doctor.getGuestDoctor();
-    if (!doctor) {
+    const user = await Doctor.getGuestDoctor();
+    if (!user) {
       return res.status(404).send("Doctor not found");
     }
-    res.json(doctor);
+
+    const payload = {
+      DoctorID: user.DoctorID,
+      email: user.Email,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+      expiresIn: "3600s", // This should be inside the options object
+    });
+
+    res.json({ user, token });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error retrieving doctor");
@@ -73,10 +85,6 @@ const updateDoctor = async (req, res) => {
     console.error("Error updating doctor:", error);
     res.status(500).send("Error updating doctor");
   }
-};
-
-module.exports = {
-  updateDoctor,
 };
 
 const deleteDoctor = async (req, res) => {
@@ -135,13 +143,18 @@ const googleLogin = async (req, res) => {
     let user = await Doctor.findOrCreateGoogleUser(userData);
     console.log("User found or created:", user);
 
+    const payload = {
+      DoctorID: user.DoctorID,
+      email: user.Email,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "3600s",
+    });
+
     res.status(200).json({
-      googleId: sub,
-      email,
-      givenName: given_name,
-      familyName: family_name,
-      profilePicture: picture,
       user,
+      token,
     });
     console.log("Response sent successfully");
   } catch (error) {
