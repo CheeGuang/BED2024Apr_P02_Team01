@@ -85,8 +85,12 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error updating doctor", data.error);
           } else {
             console.log("Doctor data updated successfully", data);
-            localStorage.setItem("doctorDetails", JSON.stringify(data));
-            localStorage.setItem("DoctorID", data.DoctorID);
+
+            localStorage.setItem("doctorDetails", JSON.stringify(data.user));
+
+            localStorage.setItem("JWTAuthToken", data.token);
+
+            localStorage.setItem("DoctorID", data.user.DoctorID);
             window.location.href = "../doctorHomePage.html"; // Redirect to home page after sign-up
           }
         })
