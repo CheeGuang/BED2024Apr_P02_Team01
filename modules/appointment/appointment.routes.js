@@ -7,6 +7,10 @@ const { appointmentEmitter } = require("../../models/appointment");
 // Initializing appointmentController
 const appointmentController = require("./controllers/appointmentController");
 
+// ========== Middleware ==========
+// Initializing authMiddleware
+const authorizeUser = require("../../middlewares/authMiddleware");
+
 // ========== Set-up ==========
 // Initializing appointmentRoutes
 const appointmentRoutes = express.Router();
@@ -16,7 +20,11 @@ const appointmentRoutes = express.Router();
 appointmentRoutes.get("/", appointmentController.getAllAppointments);
 
 // Create a new appointment
-appointmentRoutes.post("/create", appointmentController.createAppointment);
+appointmentRoutes.post(
+  "/create",
+  authorizeUser,
+  appointmentController.createAppointment
+);
 
 // Get all unassigned appointments (appointments with no assigned doctor)
 appointmentRoutes.get(
@@ -36,6 +44,7 @@ appointmentRoutes.delete("/:id", appointmentController.deleteAppointment);
 // Get all appointments for a specific patient by their ID
 appointmentRoutes.get(
   "/getByPatientID/:id",
+  authorizeUser,
   appointmentController.getAppointmentsByPatientId
 );
 
@@ -57,26 +66,16 @@ appointmentRoutes.post(
   appointmentController.addMedicinesToAppointment
 );
 
-// Update the medicines for a specific appointment by its ID
-appointmentRoutes.put(
-  "/:id/updateMedicines",
-  appointmentController.updateMedicinesForAppointment
-);
-
 // Get all medicines for a specific appointment by its ID
 appointmentRoutes.get(
   "/:id/medicines",
   appointmentController.getMedicinesForAppointment
 );
 
+// Update the medicines for a specific appointment by its ID
 appointmentRoutes.put(
   "/:id/updateWithMedicines",
   appointmentController.updateAppointmentWithMedicines
-);
-
-appointmentRoutes.post(
-  "/:id/medicineToAppointment",
-  appointmentController.addMedicinesToAppointment
 );
 
 appointmentRoutes.get(

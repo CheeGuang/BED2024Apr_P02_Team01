@@ -12,7 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("Base URL:", baseUrl);
 
   // Fetch all patient appointments that match PatientID
-  fetch(`${baseUrl}/api/appointment/getByPatientID/${PatientID}`)
+  fetch(`${baseUrl}/api/appointment/getByPatientID/${PatientID}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("JWTAuthToken")}`,
+      "Content-Type": "application/json",
+    },
+  })
     .then((response) => response.json())
     .then((data) => {
       console.log("Fetched appointment data:", data);

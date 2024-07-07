@@ -20,7 +20,6 @@ function handleCredentialResponse(response) {
         console.log(
           "Authentication successful, storing doctor details in localStorage"
         );
-        localStorage.setItem("doctorDetails", JSON.stringify(data.user));
 
         if (!data.user.ContactNumber) {
           console.log(
@@ -31,6 +30,10 @@ function handleCredentialResponse(response) {
           console.log(
             "ContactNumber is present, redirecting to doctorHomePage.html"
           );
+          localStorage.setItem("doctorDetails", JSON.stringify(data.user));
+
+          localStorage.setItem("JWTAuthToken", data.token);
+
           localStorage.setItem("DoctorID", data.user.DoctorID);
           window.location.href = "../doctorHomePage.html";
         }
@@ -62,7 +65,10 @@ async function proceedAsGuest() {
       throw new Error("Network response was not ok");
     }
     const doctorDetails = await response.json();
-    localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+    localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails.user));
+
+    localStorage.setItem("JWTAuthToken", JSON.stringify(doctorDetails.token));
+
     window.location.href = "doctorHomePage.html";
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);

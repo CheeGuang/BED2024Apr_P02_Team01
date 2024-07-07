@@ -6,6 +6,10 @@ const express = require("express");
 // Initialising dbConfig file
 const medicineController = require("./controllers/medicineController");
 
+// ========== Middleware ==========
+// Initializing authMiddleware
+const authorizeUser = require("../../middlewares/authMiddleware");
+
 // ========== Set-up ==========
 // Initialising medicineRoutes
 const medicineRoutes = express.Router();
@@ -19,10 +23,12 @@ medicineRoutes.put("/:id", medicineController.updateMedicine); // PUT for updati
 medicineRoutes.delete("/:id", medicineController.deleteMedicine); // DELETE for deleting medicines
 medicineRoutes.get(
   "/patient/:patientId",
+  authorizeUser,
   medicineController.getMedicinesByPatientId
 ); // GET medicine by patient id
 medicineRoutes.put(
   "/patient/:patientId",
+  authorizeUser,
   medicineController.updatePatientMedicine
 ); // GET medicine by patient id
 

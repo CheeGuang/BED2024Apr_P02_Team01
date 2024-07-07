@@ -27,7 +27,7 @@ class User {
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "3600s",
+      expiresIn: "3600s", // This should be inside the options object
     });
 
     return { user, token };
