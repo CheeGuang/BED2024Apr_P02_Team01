@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         illnessDescription: illnessDescription,
         PatientID: PatientID,
       }),
+      credentials: "include", // Chatgpt: Add this line to include cookies in the request
     })
       .then((response) => response.json())
       .then((data) => {

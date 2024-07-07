@@ -4,6 +4,7 @@ const {
   Appointment,
   appointmentEmitter,
 } = require("../../../models/appointment");
+const passport = require("passport");
 const API_KEY = process.env.appointmentAPIKey;
 
 /**
@@ -55,16 +56,7 @@ const createAppointment = async (req, res) => {
 
     // Making POST request to Whereby API
     async function getResponse() {
-      // return fetch(apiUrl, {
-      //   method: "POST",
-      //   headers: {
-      //     Authorization: `Bearer ${API_KEY}`,
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(requestData),
-      // });
-
-      const response = await fetch(apiUrl, {
+      return fetch(apiUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${API_KEY}`,
@@ -73,23 +65,33 @@ const createAppointment = async (req, res) => {
         body: JSON.stringify(requestData),
       });
 
-      if (!response.ok) {
-        console.error("Error from Whereby API:", response.statusText);
-        throw new Error("Failed to create meeting with Whereby API");
-      }
+      // By chatgpt
+      // const response = await fetch(apiUrl, {
+      //   method: "POST",
+      //   headers: {
+      //     Authorization: `Bearer ${API_KEY}`,
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(requestData),
+      // });
 
-      return response.json();
+      // if (!response.ok) {
+      //   console.error("Error from Whereby API:", response.statusText);
+      //   throw new Error("Failed to create meeting with Whereby API");
+      // }
+
+      // return response.json();
     }
 
     // Fetch the response from the API
-    // const roomData = await getResponse().then(async (res) => {
-    //   console.log("Status code:", res.status);
-    //   const data = await res.json();
-    //   console.log("Room URL:", data.roomUrl);
-    //   console.log("Host room URL:", data.hostRoomUrl);
-    //   return data;
-    // });
-    const roomData = await getResponse();
+    const roomData = await getResponse().then(async (res) => {
+      console.log("Status code:", res.status);
+      const data = await res.json();
+      console.log("Room URL:", data.roomUrl);
+      console.log("Host room URL:", data.hostRoomUrl);
+      return data;
+    });
+    // const roomData = await getResponse(); by chatgpt
 
     // Ensure that room is created
     if (!roomData.roomUrl || !roomData.hostRoomUrl)

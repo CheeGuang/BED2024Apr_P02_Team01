@@ -55,7 +55,13 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await Patient.getPatientById(id);
-    done(null, user);
+    // Ensure that tokens are included
+    const tokens = {
+      accessToken: user.accessToken,
+      refreshToken: user.refreshToken,
+    };
+    done(null, { ...user, ...tokens });
+    //done(null, user);
   } catch (err) {
     done(err, null);
   }
