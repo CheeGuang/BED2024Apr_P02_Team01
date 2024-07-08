@@ -28,6 +28,8 @@
     "path": "^0.12.7",
     "pdfkit": "^0.15.0",
     "qrcode": "^1.5.3",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^10.0.0"
   }
 }

@@ -29,6 +29,10 @@ const session = require("express-session");
 const passport = require("./auth"); // Ensure the correct path
 // Initialising Authorizaton Middleware
 const authMiddleware = require("./middlewares/authMiddleware"); // Adjust the path to where your middleware is located
+// Initialising Swagger API Packages
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+
 // ========== Set-Up ==========
 // Initiating app
 const app = express();
@@ -76,6 +80,9 @@ app.use("/api/chatbot", chatbotController);
 app.get("/api/checkAuth", authMiddleware, (req, res) => {
   res.status(200).json({ message: "Authenticated" });
 });
+
+// Serve the Swagger UI at a specific route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // End of all routes
 app.all("*", (req, res, next) => {
