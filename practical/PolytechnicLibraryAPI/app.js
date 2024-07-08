@@ -9,8 +9,12 @@ const userRoutes = require("./routes/userRoutes");
 const bookRoutes = require("./routes/bookRoutes");
 const userBookRoutes = require("./routes/userBookRoutes");
 
+// Swagger
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+
 const app = express();
-const port = process.env.PORT || 3000; // Use environment variable or default port
+const port = process.env.PORT; // Use environment variable or default port
 
 // Importing Static Middleware
 const staticMiddleware = express.static("public"); // Path to the public folder
@@ -24,6 +28,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/userBooks", userBookRoutes);
 app.use("/api/books", bookRoutes);
+
+// Serve the Swagger UI at a specific route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, async () => {
   try {
