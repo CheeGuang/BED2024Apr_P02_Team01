@@ -32,16 +32,6 @@ doctorRoutes.put(
   "/updateProfession/:id",
   doctorController.updateDocAccountProfession
 );
-doctorRoutes.put("/updateName/:id", doctorController.updateDocAccountName);
-doctorRoutes.put(
-  "/updateContact/:id",
-  doctorController.updateDocAccountContact
-);
-doctorRoutes.put("/updateDOB/:id", doctorController.updateDocAccountDOB);
-doctorRoutes.put(
-  "/updateProfession/:id",
-  doctorController.updateDocAccountProfession
-);
 doctorRoutes.delete("/:id", authorizeUser, doctorController.deleteDoctor); // DELETE for deleting doctors
 // ========== Export ==========
 module.exports = doctorRoutes;
