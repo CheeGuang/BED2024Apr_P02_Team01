@@ -1,7 +1,6 @@
 const ChasClinic = require("../../../models/chasClinic");
 
 const getMapApiKey = async (req, res) => {
-  console.log("HEHHE");
   try {
     const apiKey = await ChasClinic.getMapApiKey();
     res.status(200).json({ apiKey });
@@ -12,7 +11,7 @@ const getMapApiKey = async (req, res) => {
 
 const downloadChasClinics = async (req, res) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
+    console.log("Hi");
 
     await ChasClinic.downloadFile();
     res.status(200).json({ message: "File downloaded successfully" });

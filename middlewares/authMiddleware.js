@@ -4,11 +4,7 @@ function verifyJWT(req, res, next) {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
 
-  console.log("Authorization Header:", authHeader);
-  console.log("Extracted Token:", token);
-
   if (!token) {
-    console.log("No token provided. Unauthorized access attempt.");
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -18,11 +14,8 @@ function verifyJWT(req, res, next) {
     { algorithms: ["HS256"] },
     (err, decoded) => {
       if (err) {
-        console.log("Token verification failed:", err.message);
         return res.status(403).json({ message: "Forbidden" });
       }
-
-      console.log("Decoded Token Payload:", decoded);
 
       // Define endpoints that require PatientID in the token payload
       const patientEndpoints = [
@@ -48,10 +41,6 @@ function verifyJWT(req, res, next) {
       const userPatientId = decoded.PatientID;
       const userDoctorId = decoded.DoctorID;
 
-      console.log("Requested Endpoint:", requestedEndpoint);
-      console.log("User Patient ID:", userPatientId);
-      console.log("User Doctor ID:", userDoctorId);
-
       const isPatientEndpoint = patientEndpoints.some((endpointRegex) =>
         endpointRegex.test(requestedEndpoint)
       );
@@ -68,20 +57,15 @@ function verifyJWT(req, res, next) {
         requestedEndpoint.startsWith("/api/medicine")
       ) {
         if (!userPatientId && !userDoctorId) {
-          console.log(
-            "User does not have a PatientID or DoctorID for this endpoint."
-          );
           return res.status(403).json({ message: "Forbidden" });
         }
       }
 
       if (isPatientEndpoint && !userPatientId) {
-        console.log("User does not have a patient ID for this endpoint.");
         return res.status(403).json({ message: "Forbidden" });
       }
 
       if (isDoctorEndpoint && !userDoctorId) {
-        console.log("User does not have a doctor ID for this endpoint.");
         return res.status(403).json({ message: "Forbidden" });
       }
 
