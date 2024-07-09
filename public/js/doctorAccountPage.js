@@ -21,6 +21,7 @@ const dob_errorMessage = document.getElementById("dob-errorMessage");
 signOutBtn.addEventListener("click", function () {
   // Remove doctor details from local storage
   localStorage.removeItem("doctorDetails");
+  localStorage.removeItem("DoctorJWTAuthToken");
 
   // Redirect to Home Page
   document.location.href = "../index.html";
