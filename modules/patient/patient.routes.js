@@ -53,6 +53,18 @@ patientRoutes.put("/updateDOB/:id", patientController.updateAccountDOB);
 // Update address of a specific patient by ID
 patientRoutes.put("/updateAddress/:id", patientController.updateAccountAddress);
 
+//Update name of a specific patient by ID
+patientRoutes.put("/updateName/:id", patientController.updateAccountName);
+
+// Update contact of a specific patient by ID
+patientRoutes.put("/updateContact/:id", patientController.updateAccountContact);
+
+// Update dob of a specific patient by ID
+patientRoutes.put("/updateDOB/:id", patientController.updateAccountDOB);
+
+// Update address of a specific patient by ID
+patientRoutes.put("/updateAddress/:id", patientController.updateAccountAddress);
+
 // Delete a specific patient by ID
 patientRoutes.delete("/:id", authorizeUser, patientController.deletePatient);
 
