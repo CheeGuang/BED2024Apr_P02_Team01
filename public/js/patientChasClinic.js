@@ -175,7 +175,11 @@ document.addEventListener("DOMContentLoaded", () => {
           <h3 class="infowindow-title">${clinic.HCI_NAME}</h3>
           <p>Address: ${clinic.BLK_HSE_NO} ${clinic.STREET_NAME}, ${clinic.POSTAL_CD}</p>
           <p>Tel: ${clinic.HCI_TEL}</p>
-          <a href="${googleMapsLink}" target="_blank" style="display: block; margin-top: 10px; color: blue;">View on Google Maps</a>
+          <div class="view-link">
+            <a href="${googleMapsLink}" target="_blank" tabindex="0">
+              <span class="view-google-map">View on Google Maps</span>
+            </a>
+          </div>
         </div>`;
 
       const infowindow = new google.maps.InfoWindow({
@@ -244,4 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   fetchMapApiKey();
+
+  document.getElementById("back-button").addEventListener("click", () => {
+    window.history.back();
+  });
 });
