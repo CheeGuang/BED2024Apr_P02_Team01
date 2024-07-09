@@ -177,6 +177,9 @@ async function UpdateNameRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ fname: fname.value, lname: lname.value }),
@@ -195,11 +198,16 @@ async function UpdateNameRecord() {
       patientDetails.givenName = result.FirstName;
       patientDetails.familyName = result.LastName;
       localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+
+      // Show notification
+      showNotification("Name updated successfully", "success");
     } else {
       console.error("Error updating patient name", result.error);
+      showNotification("An error occurred while updating name", "error");
     }
   } catch (error) {
     console.error("Error:", error);
+    showNotification("An error occurred while updating name", "error");
   }
 }
 
@@ -212,6 +220,9 @@ async function UpdateContactRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ contact: contact.value }),
@@ -227,11 +238,15 @@ async function UpdateContactRecord() {
       // Update local storage
       patientDetails.ContactNumber = result.ContactNumber;
       localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+      // Show notification
+      showNotification("Contact updated successfully", "success");
     } else {
       console.error("Error updating patient contact", result.error);
+      showNotification("An error occurred while updating birth date", "error");
     }
   } catch (error) {
     console.error("Error:", error);
+    showNotification("An error occurred while updating contact", "error");
   }
 }
 
@@ -244,6 +259,9 @@ async function UpdateDOBRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ dob: dob.value }),
@@ -259,11 +277,15 @@ async function UpdateDOBRecord() {
       // Update local storage
       patientDetails.DOB = result.DOB;
       localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+      // Show notification
+      showNotification("Birth date updated successfully", "success");
     } else {
       console.error("Error updating patient birth date", result.error);
+      showNotification("An error occurred while updating birth date", "error");
     }
   } catch (error) {
     console.error("Error:", error);
+    showNotification("An error occurred while updating birth date", "error");
   }
 }
 
@@ -276,6 +298,9 @@ async function UpdateAddressRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ address: address.value }),
@@ -291,10 +316,24 @@ async function UpdateAddressRecord() {
       // Update local storage
       patientDetails.Address = result.Address;
       localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+      // Show notification
+      showNotification("Address updated successfully", "success");
     } else {
       console.error("Error updating patient address", result.error);
+      showNotification("An error occurred while updating address", "error");
     }
   } catch (error) {
     console.error("Error:", error);
+    showNotification("An error occurred while updating address", "error");
   }
+}
+
+function showNotification(message, type) {
+  const notification = document.getElementById("notification");
+  notification.className = `notification ${type} show`;
+  notification.innerText = message;
+
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 3000); // Show the notification for 3 seconds
 }

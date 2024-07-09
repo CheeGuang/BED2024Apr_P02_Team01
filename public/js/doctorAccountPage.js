@@ -190,6 +190,7 @@ async function UpdateNameRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ fname: fname.value, lname: lname.value }),
@@ -225,6 +226,7 @@ async function UpdateContactRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ contact: contact.value }),
@@ -257,6 +259,7 @@ async function UpdateDOBRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ dob: dob.value }),
@@ -289,6 +292,7 @@ async function UpdateProfessionRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ profession: profession.value }),

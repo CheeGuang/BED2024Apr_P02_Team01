@@ -42,28 +42,60 @@ patientRoutes.get("/:id", authorizeUser, patientController.getPatientById);
 patientRoutes.put("/:id", authorizeUser, patientController.updatePatient);
 
 //Update name of a specific patient by ID
-patientRoutes.put("/updateName/:id", patientController.updateAccountName);
+patientRoutes.put(
+  "/updateName/:id",
+  authorizeUser,
+  patientController.updateAccountName
+);
 
 // Update contact of a specific patient by ID
-patientRoutes.put("/updateContact/:id", patientController.updateAccountContact);
+patientRoutes.put(
+  "/updateContact/:id",
+  authorizeUser,
+  patientController.updateAccountContact
+);
 
 // Update dob of a specific patient by ID
-patientRoutes.put("/updateDOB/:id", patientController.updateAccountDOB);
+patientRoutes.put(
+  "/updateDOB/:id",
+  authorizeUser,
+  patientController.updateAccountDOB
+);
 
 // Update address of a specific patient by ID
-patientRoutes.put("/updateAddress/:id", patientController.updateAccountAddress);
+patientRoutes.put(
+  "/updateAddress/:id",
+  authorizeUser,
+  patientController.updateAccountAddress
+);
 
 //Update name of a specific patient by ID
-patientRoutes.put("/updateName/:id", patientController.updateAccountName);
+patientRoutes.put(
+  "/updateName/:id",
+  authorizeUser,
+  patientController.updateAccountName
+);
 
 // Update contact of a specific patient by ID
-patientRoutes.put("/updateContact/:id", patientController.updateAccountContact);
+patientRoutes.put(
+  "/updateContact/:id",
+  authorizeUser,
+  patientController.updateAccountContact
+);
 
 // Update dob of a specific patient by ID
-patientRoutes.put("/updateDOB/:id", patientController.updateAccountDOB);
+patientRoutes.put(
+  "/updateDOB/:id",
+  authorizeUser,
+  patientController.updateAccountDOB
+);
 
 // Update address of a specific patient by ID
-patientRoutes.put("/updateAddress/:id", patientController.updateAccountAddress);
+patientRoutes.put(
+  "/updateAddress/:id",
+  authorizeUser,
+  patientController.updateAccountAddress
+);
 
 // Delete a specific patient by ID
 patientRoutes.delete("/:id", authorizeUser, patientController.deletePatient);
