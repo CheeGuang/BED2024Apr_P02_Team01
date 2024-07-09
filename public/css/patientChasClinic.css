@@ -1,0 +1,22 @@
+.infowindow-content {
+  font-family: "Quicksand", sans-serif;
+  padding: 10px;
+}
+
+.infowindow-title {
+  font-size: 1.5rem; /* Increase the header size */
+  margin: 0 0 0.5rem 0; /* Align the title at the top */
+}
+
+.infowindow-content p {
+  margin: 0;
+  font-size: 0.875rem; /* Reduce the paragraph size */
+}
+
+.infowindow-content p:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.gm-ui-hover-effect {
+  display: none !important;
+}

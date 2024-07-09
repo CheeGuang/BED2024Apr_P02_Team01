@@ -15,7 +15,27 @@ const authorizeUser = require("../../middlewares/authMiddleware");
 const chasClinicRoutes = express.Router();
 
 // ========== Routes ==========
-// Define routes for the doctor
-chasClinicRoutes.get("/", authorizeUser, chasClinicController.getMapApiKey);
+
+chasClinicRoutes.get("/key", authorizeUser, chasClinicController.getMapApiKey);
+chasClinicRoutes.get(
+  "/download",
+  authorizeUser,
+  chasClinicController.downloadChasClinics
+);
+chasClinicRoutes.get(
+  "/random",
+  authorizeUser,
+  chasClinicController.getRandomClinics
+);
+chasClinicRoutes.get(
+  "/nearest",
+  authorizeUser,
+  chasClinicController.getNearestClinics
+);
+chasClinicRoutes.get(
+  "/bounds",
+  authorizeUser,
+  chasClinicController.getClinicsInBounds
+);
 // ========== Export ==========
 module.exports = chasClinicRoutes;
