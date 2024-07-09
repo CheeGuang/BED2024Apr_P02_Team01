@@ -17,8 +17,10 @@ const doctorRoutes = require("./modules/doctor/doctor.routes");
 const medicineRoutes = require("./modules/medicine/medicine.routes");
 // Initialising appointmentRoutes
 const appointmentRoutes = require("./modules/appointment/appointment.routes");
-// Initialising chatbotController
-const chatbotController = require("./modules/chatbot/chatbot.routes");
+// Initialising chatbotRoutes
+const chatbotRoutes = require("./modules/chatbot/chatbot.routes");
+// Initialising chasClinicRoutes
+const chasClinicRoutes = require("./modules/chasClinic/chasClinic.routes");
 // Initialising SQL
 const sql = require("mssql");
 // Initialising dbConfig file
@@ -74,7 +76,10 @@ app.use("/api/doctor", doctorRoutes);
 app.use("/api/medicine", medicineRoutes);
 
 // Chatbot Routes Route
-app.use("/api/chatbot", chatbotController);
+app.use("/api/chatbot", chatbotRoutes);
+
+// chasClinicRoutes Routes Route
+app.use("/api/chasClinicRoutes", chasClinicRoutes);
 
 // Check Auth Endpoint
 app.get("/api/checkAuth", authMiddleware, (req, res) => {
