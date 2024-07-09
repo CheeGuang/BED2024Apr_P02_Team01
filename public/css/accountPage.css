@@ -7,11 +7,40 @@
   margin-bottom: 20px;
 }
 
-#logoutSect h1 {
+input:read-only {
+  background-color: #fcf3e3;
+  border-style: none;
+}
+input[type="text"]:disabled,
+input[type="number"]:disabled,
+input[type="date"]:disabled,
+textarea[type="text"]:disabled {
+  background-color: #fcf3e3;
+  border-style: none;
+}
+
+input.docInput[type="text"]:disabled,
+input.docInput[type="number"]:disabled,
+input.docInput[type="date"]:disabled {
+  background-color: #c1e6f5;
+  border-style: none;
+}
+
+input[type="date"] {
+  content: attr(placeholder) !important;
+}
+
+.infoContainer #logoutSect h1 {
   font-size: 13px;
 }
 
-#logoutBtn .btn {
+#buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+#buttons .btn {
   font-size: 13px;
 }
 
@@ -37,16 +66,6 @@
   font-weight: 600;
 }
 
-#pointTrackingSection {
-  background-color: #ececec;
-  padding: 3rem;
-  border-radius: 25px;
-}
-
-#rebateAmt {
-  color: #ff6d00;
-}
-
 .personalInfoContainer {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -56,6 +75,11 @@
 
 #personalInfoHeader {
   margin: auto;
+}
+
+#personal-name {
+  margin-top: 25px;
+  margin-left: 10px;
 }
 
 h3,
@@ -71,6 +95,7 @@ p {
   display: flex;
   padding: 1em;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fcf3e3;
 }
 
 .infoContainer i {
@@ -91,4 +116,33 @@ p {
 
 .infoContainer p {
   font-size: 15px;
+}
+
+.notification {
+  position: fixed;
+  top: 70px; /* Adjust based on your header height */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.notification.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.notification.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+  color: #721c24;
 }

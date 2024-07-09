@@ -158,6 +158,93 @@ const deletePatient = async (req, res) => {
   }
 };
 
+const updateAccountName = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { fname, lname } = req.body;
+
+  try {
+    const updatedName = await Patient.updateAccountName(
+      patientId,
+      fname,
+      lname
+    );
+    if (!updatedName) {
+      return res.status(404).send("Patient not found");
+    }
+    res.json({
+      status: "Success",
+      FirstName: updatedName.givenName,
+      LastName: updatedName.familyName,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient's name");
+  }
+};
+
+const updateAccountContact = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { contact } = req.body;
+
+  try {
+    const updatedContact = await Patient.updateAccountContact(
+      patientId,
+      contact
+    );
+    if (!updatedContact) {
+      return res.status(404).send("Patient not found");
+    }
+    res.json({
+      status: "Success",
+      ContactNumber: updatedContact.ContactNumber,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient's contact");
+  }
+};
+
+const updateAccountDOB = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { dob } = req.body;
+
+  try {
+    const updatedDOB = await Patient.updateAccountDOB(patientId, dob);
+    if (!updatedDOB) {
+      return res.status(404).send("Patient not found");
+    }
+    res.json({
+      status: "Success",
+      DOB: updatedDOB.DOB,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient's birthdate");
+  }
+};
+
+const updateAccountAddress = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  const { address } = req.body;
+
+  try {
+    const updatedAddress = await Patient.updateAccountAddress(
+      patientId,
+      address
+    );
+    if (!updatedAddress) {
+      return res.status(404).send("Patient not found");
+    }
+    res.json({
+      status: "Success",
+      Address: updatedAddress.Address,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating patient's contact");
+  }
+};
+
 const searchPatients = async (req, res) => {
   const searchTerm = req.query.searchTerm; // Extract search term from query params
   try {
@@ -283,6 +370,10 @@ module.exports = {
   getPatientById,
   updatePatient,
   deletePatient,
+  updateAccountName,
+  updateAccountContact,
+  updateAccountDOB,
+  updateAccountAddress,
   searchPatients,
   googleLogin,
   updatePatientCart,

@@ -246,6 +246,66 @@ class Patient {
     }
   }
 
+  static async updateAccountName(id, fname, lname) {
+    const connection = await sql.connect(dbConfig);
+
+    const request = connection.request();
+    let sqlQuery = "";
+    sqlQuery = `UPDATE Patient SET givenName = @givenName, familyName = @familyName WHERE PatientID = @id`;
+    request.input("id", id);
+    request.input("givenName", fname);
+    request.input("familyName", lname);
+    await request.query(sqlQuery);
+
+    connection.close();
+    return this.getPatientById(id);
+  }
+
+  static async updateAccountContact(id, contact) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Patient SET ContactNumber = @contact WHERE PatientID = @id`;
+    const request = connection.request();
+    request.input("id", id);
+    request.input("contact", contact);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getPatientById(id);
+  }
+
+  static async updateAccountDOB(id, dob) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Patient SET DOB = @dob WHERE PatientID = @id`;
+    const request = connection.request();
+    request.input("dob", dob);
+    request.input("id", id);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getPatientById(id);
+  }
+
+  static async updateAccountAddress(id, address) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `UPDATE Patient SET Address = @address WHERE PatientID = @id`;
+    const request = connection.request();
+    request.input("id", id);
+    request.input("address", address);
+
+    await request.query(sqlQuery);
+
+    connection.close();
+
+    return this.getPatientById(id);
+  }
+
   static async updateEWalletAmount(id, amount) {
     const connection = await sql.connect(dbConfig);
 

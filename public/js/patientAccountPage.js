@@ -1,8 +1,10 @@
+//Get Local Storage
+const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+
 // Get Sign Out btn
 const signOutBtn = document.getElementById("sign-out-btn");
-const doctorDetails = JSON.parse(localStorage.getItem("doctorDetails"));
 
-// Getting input fields
+// Get input fields
 const personalName = document.getElementById("personal-name");
 const fname = document.getElementById("fname");
 const lname = document.getElementById("lname");
@@ -10,18 +12,17 @@ const username = document.getElementById("username");
 const email = document.getElementById("email");
 const contact = document.getElementById("contact");
 const dob = document.getElementById("dob");
+const address = document.getElementById("address");
 const gender = document.getElementById("gender");
-const profession = document.getElementById("profession");
 
-// Error Message
 const errorMessage = document.getElementById("errorMessage");
 const dob_errorMessage = document.getElementById("dob-errorMessage");
-
 // Function for sign out to work
 signOutBtn.addEventListener("click", function () {
-  // Remove doctor details from local storage
-  localStorage.removeItem("doctorDetails");
-  localStorage.removeItem("DoctorJWTAuthToken");
+  // Remove patient details from local storage
+  localStorage.removeItem("patientDetails");
+  localStorage.removeItem("PatientJWTAuthToken");
+  localStorage.removeItem("eWalletBalance");
 
   // Redirect to Home Page
   document.location.href = "../index.html";
@@ -29,56 +30,61 @@ signOutBtn.addEventListener("click", function () {
 
 // Get the data from the local storage
 document.addEventListener("DOMContentLoaded", function () {
-  if (doctorDetails) {
+  if (patientDetails) {
     // Avatar
-    if (doctorDetails.profilePicture) {
-      $("#avatar").attr("src", doctorDetails.profilePicture);
+    if (patientDetails.profilePicture) {
+      $("#avatar").attr("src", patientDetails.profilePicture);
     }
 
-    // Doctor Name
-    if (doctorDetails.givenName) {
-      if (doctorDetails.familyName) {
-        document.getElementById("personal-name").textContent =
-          doctorDetails.givenName + ` ${doctorDetails.familyName}`;
-        document.getElementById("username").textContent =
-          doctorDetails.givenName + ` ${doctorDetails.familyName}`;
+    // Patient Name
+    if (patientDetails.givenName) {
+      if (patientDetails.familyName) {
+        personalName.textContent =
+          patientDetails.givenName + ` ${patientDetails.familyName}`;
+        // Input fields
+        fname.placeholder = patientDetails.givenName;
+        lname.placeholder = patientDetails.familyName;
+        // Top Header
+        username.textContent =
+          patientDetails.givenName + ` ${patientDetails.familyName}`;
       } else {
-        document.getElementById("personal-name").textContent =
-          doctorDetails.givenName;
-        document.getElementById("username").textContent =
-          doctorDetails.givenName;
+        personalName.textContent = patientDetails.givenName;
+        // Input fields
+        fname.placeholder = patientDetails.givenName;
+        // Top header
+        username.textContent = patientDetails.givenName;
       }
     }
 
     // Email
-    if (doctorDetails.Email) {
-      document.getElementById("email").textContent = doctorDetails.Email;
+    if (patientDetails.Email) {
+      email.textContent = patientDetails.Email;
     }
 
     // Contact Number
-    if (doctorDetails.ContactNumber) {
-      document.getElementById("contact").placeholder =
-        doctorDetails.ContactNumber;
+    if (patientDetails.ContactNumber) {
+      contact.placeholder = patientDetails.ContactNumber;
     }
 
     // Date of Birth
-    if (doctorDetails.DOB) {
-      let dateWithTime = doctorDetails.DOB;
+    if (patientDetails.DOB) {
+      let dateWithTime = patientDetails.DOB;
       let dateWithoutTime = dateWithTime.split("T")[0];
-      document.getElementById("dob").placeholder = dateWithoutTime;
+      dob.placeholder = dateWithoutTime;
+    }
+
+    // Address
+    if (patientDetails.Address) {
+      address.placeholder = patientDetails.Address;
     }
 
     // Gender
-    if (doctorDetails.Gender) {
-      document.getElementById("gender").textContent = doctorDetails.Gender;
-    }
-
-    // Profession
-    if (doctorDetails.Profession) {
-      document.getElementById("profession").placeholder =
-        doctorDetails.Profession;
+    if (patientDetails.Gender) {
+      gender.placeholder = patientDetails.Gender;
     }
   }
+
+  // Make text editable
 });
 
 // Toggle Input Editable and Disabled Mode
@@ -110,7 +116,6 @@ function ToggleEditableMode(iconID, inputID) {
       } else {
         UpdateContactRecord();
       }
-      //Edit DOB
     } else if (inputID == "dob" && dob.value != dob.placeholder) {
       if (!dob_errorMessage.classList.contains("d-none")) {
         dob_errorMessage.classList.add("d-none");
@@ -124,19 +129,15 @@ function ToggleEditableMode(iconID, inputID) {
           UpdateDOBRecord();
         }
       }
-      //Edit Profession
-    } else if (
-      inputID == "profession" &&
-      profession.value != profession.placeholder
-    ) {
+    } else if (inputID == "address" && address.value != address.placeholder) {
       if (
-        profession.value == null ||
-        profession.value == "" ||
-        profession.value == " "
+        address.value == null ||
+        address.value == "" ||
+        address.value == " "
       ) {
         // Do nothing
       } else {
-        UpdateProfessionRecord();
+        UpdateAddressRecord();
       }
     }
   } else {
@@ -168,16 +169,19 @@ function ToggleEditableName() {
   }
 }
 
+// Call Controller to update the database
 async function UpdateNameRecord() {
   // Make the PUT request to the API
-  console.log("Doctor ID: " + doctorDetails.DoctorID);
+  console.log("Patient ID: " + patientDetails.PatientID);
   try {
     const response = await fetch(
-      `${window.location.origin}/api/doctor/updateName/${doctorDetails.DoctorID}`,
+      `${window.location.origin}/api/patient/updateName/${patientDetails.PatientID}`,
       {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ fname: fname.value, lname: lname.value }),
@@ -193,13 +197,14 @@ async function UpdateNameRecord() {
       username.textContent = result.FirstName + ` ${result.LastName}`;
 
       // Update local storage
-      doctorDetails.givenName = result.FirstName;
-      doctorDetails.familyName = result.LastName;
-      localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+      patientDetails.givenName = result.FirstName;
+      patientDetails.familyName = result.LastName;
+      localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+
       // Show notification
       showNotification("Name updated successfully", "success");
     } else {
-      console.error("Error updating doctor name", result.error);
+      console.error("Error updating patient name", result.error);
       showNotification("An error occurred while updating name", "error");
     }
   } catch (error) {
@@ -210,14 +215,16 @@ async function UpdateNameRecord() {
 
 async function UpdateContactRecord() {
   // Make the PUT request to the API
-  console.log("Doctor ID: " + doctorDetails.DoctorID);
+  console.log("Patient ID: " + patientDetails.PatientID);
   try {
     const response = await fetch(
-      `${window.location.origin}/api/doctor/updateContact/${doctorDetails.DoctorID}`,
+      `${window.location.origin}/api/patient/updateContact/${patientDetails.PatientID}`,
       {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ contact: contact.value }),
@@ -231,13 +238,13 @@ async function UpdateContactRecord() {
       // Update UI
       contact.placeholder = `S$${result.ContactNumber}`;
       // Update local storage
-      doctorDetails.ContactNumber = result.ContactNumber;
-      localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+      patientDetails.ContactNumber = result.ContactNumber;
+      localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
       // Show notification
       showNotification("Contact updated successfully", "success");
     } else {
-      console.error("Error updating doctor contact", result.error);
-      showNotification("An error occurred while updating contact", "error");
+      console.error("Error updating patient contact", result.error);
+      showNotification("An error occurred while updating birth date", "error");
     }
   } catch (error) {
     console.error("Error:", error);
@@ -247,14 +254,16 @@ async function UpdateContactRecord() {
 
 async function UpdateDOBRecord() {
   // Make the PUT request to the API
-  console.log("Doctor ID: " + doctorDetails.DoctorID);
+  console.log("Patient ID: " + patientDetails.PatientID);
   try {
     const response = await fetch(
-      `${window.location.origin}/api/doctor/updateDOB/${doctorDetails.DoctorID}`,
+      `${window.location.origin}/api/patient/updateDOB/${patientDetails.PatientID}`,
       {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ dob: dob.value }),
@@ -268,12 +277,12 @@ async function UpdateDOBRecord() {
       // Update UI
       dob.placeholder = `S$${result.DOB}`;
       // Update local storage
-      doctorDetails.DOB = result.DOB;
-      localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+      patientDetails.DOB = result.DOB;
+      localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
       // Show notification
       showNotification("Birth date updated successfully", "success");
     } else {
-      console.error("Error updating doctor birth date", result.error);
+      console.error("Error updating patient birth date", result.error);
       showNotification("An error occurred while updating birth date", "error");
     }
   } catch (error) {
@@ -282,19 +291,21 @@ async function UpdateDOBRecord() {
   }
 }
 
-async function UpdateProfessionRecord() {
+async function UpdateAddressRecord() {
   // Make the PUT request to the API
-  console.log("Doctor ID: " + doctorDetails.DoctorID);
+  console.log("Patient ID: " + patientDetails.PatientID);
   try {
     const response = await fetch(
-      `${window.location.origin}/api/doctor/updateProfession/${doctorDetails.DoctorID}`,
+      `${window.location.origin}/api/patient/updateAddress/${patientDetails.PatientID}`,
       {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("DoctorJWTAuthToken")}`,
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ profession: profession.value }),
+        body: JSON.stringify({ address: address.value }),
       }
     );
 
@@ -303,18 +314,28 @@ async function UpdateProfessionRecord() {
     // Write to local storage
     if (response.ok) {
       // Update UI
-      profession.placeholder = `S$${result.Profession}`;
+      address.placeholder = `S$${result.Address}`;
       // Update local storage
-      doctorDetails.Profession = result.Profession;
-      localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+      patientDetails.Address = result.Address;
+      localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
       // Show notification
-      showNotification("Profession updated successfully", "success");
+      showNotification("Address updated successfully", "success");
     } else {
-      console.error("Error updating doctor profession", result.error);
-      showNotification("An error occurred while updating profession", "error");
+      console.error("Error updating patient address", result.error);
+      showNotification("An error occurred while updating address", "error");
     }
   } catch (error) {
     console.error("Error:", error);
-    showNotification("An error occurred while updating profession", "error");
+    showNotification("An error occurred while updating address", "error");
   }
+}
+
+function showNotification(message, type) {
+  const notification = document.getElementById("notification");
+  notification.className = `notification ${type} show`;
+  notification.innerText = message;
+
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 3000); // Show the notification for 3 seconds
 }
