@@ -8,6 +8,10 @@
 
 This topic explores the areas for social impact across different sectors in a community/country, including healthcare, education, agriculture, food and nutrition, and the environment, due to the current developments in technology, political and climate changes.
 
+### Context:
+
+Access to quality healthcare is a significant challenge for low-income families. SyncHealth aims to bridge this gap by providing accessible and affordable telemedicine services, leveraging technology to make healthcare more inclusive and effective.
+
 ## Project Details
 
 ### Project Name: SyncHealth
