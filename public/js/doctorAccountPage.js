@@ -123,20 +123,6 @@ function ToggleEditableMode(iconID, inputID) {
           UpdateDOBRecord();
         }
       }
-
-      // Today
-      /*const today = new Date();
-      console.log("Today's date is: " + today);
-      // Remove Error Message
-      if (!dob_errorMessage.classList.contains("d-none")) {
-        dob_errorMessage.classList.add("d-none");
-      }
-      if (Date.parse(dob).getFullYear() >= today.getFullYear()) {
-        dob_errorMessage.textContent = "Date of Birth must be before today.";
-        dob_errorMessage.classList.remove("d-none");
-      } else {
-        UpdateDOBRecord();
-      }*/
       //Edit Profession
     } else if (
       inputID == "profession" &&
@@ -209,11 +195,15 @@ async function UpdateNameRecord() {
       doctorDetails.givenName = result.FirstName;
       doctorDetails.familyName = result.LastName;
       localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+      // Show notification
+      showNotification("Name updated successfully", "success");
     } else {
       console.error("Error updating doctor name", result.error);
+      showNotification("An error occurred while updating name", "error");
     }
   } catch (error) {
     console.error("Error:", error);
+    showNotification("An error occurred while updating name", "error");
   }
 }
 
@@ -242,11 +232,15 @@ async function UpdateContactRecord() {
       // Update local storage
       doctorDetails.ContactNumber = result.ContactNumber;
       localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+      // Show notification
+      showNotification("Contact updated successfully", "success");
     } else {
       console.error("Error updating doctor contact", result.error);
+      showNotification("An error occurred while updating contact", "error");
     }
   } catch (error) {
     console.error("Error:", error);
+    showNotification("An error occurred while updating contact", "error");
   }
 }
 
@@ -275,11 +269,15 @@ async function UpdateDOBRecord() {
       // Update local storage
       doctorDetails.DOB = result.DOB;
       localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+      // Show notification
+      showNotification("Birth date updated successfully", "success");
     } else {
       console.error("Error updating doctor birth date", result.error);
+      showNotification("An error occurred while updating birth date", "error");
     }
   } catch (error) {
     console.error("Error:", error);
+    showNotification("An error occurred while updating birth date", "error");
   }
 }
 
@@ -308,10 +306,14 @@ async function UpdateProfessionRecord() {
       // Update local storage
       doctorDetails.Profession = result.Profession;
       localStorage.setItem("doctorDetails", JSON.stringify(doctorDetails));
+      // Show notification
+      showNotification("Profession updated successfully", "success");
     } else {
       console.error("Error updating doctor profession", result.error);
+      showNotification("An error occurred while updating profession", "error");
     }
   } catch (error) {
     console.error("Error:", error);
+    showNotification("An error occurred while updating profession", "error");
   }
 }
