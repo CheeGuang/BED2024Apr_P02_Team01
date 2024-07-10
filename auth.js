@@ -3,6 +3,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { google } = require("googleapis"); // this is for google calendar
 const Patient = require("./models/patient"); // Ensure this path is correct
 const { OAuth2Client } = require("google-auth-library");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 // Set up nodemailer with OAuth2
@@ -20,7 +21,7 @@ const createTransporter = async () => {
   const accessToken = await new Promise((resolve, reject) => {
     oauth2Client.getAccessToken((err, token) => {
       if (err) {
-        reject("Failed to create access token :(");
+        reject("Failed to create access token");
       }
       resolve(token);
     });
@@ -102,14 +103,37 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// Additional setup for Google Calendar API
-// const oauth2Client = new google.auth.OAuth2(
-//   process.env.googleClientId,
-//   process.env.googleClientSecret,
-//   "http://localhost:8000/auth/google/callback" // Adjust according to setup
-// );
+// Function to get a new access token using the refresh token
+const getNewAccessToken = async (refreshToken) => {
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.googleClientId,
+    process.env.googleClientSecret,
+    "http://localhost:8000/auth/google/callback" // Adjust according to setup
+  );
 
-//const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
+  oauth2Client.setCredentials({ refresh_token: refreshToken });
+
+  try {
+    const tokenResponse = await oauth2Client.getAccessToken();
+    return tokenResponse.token;
+  } catch (err) {
+    console.error("Error generating new access token:", err);
+    throw err;
+  }
+};
+
+// Additional setup for Google Calendar API
+const oauth2Client = new google.auth.OAuth2(
+  process.env.googleClientId,
+  process.env.googleClientSecret,
+  "http://localhost:8000/auth/google/callback" // Adjust according to setup
+);
+
+google.options({ auth: oauth2Client });
+
+const calendar = google.calendar({ version: "v3" });
 
 module.exports = passport;
 module.exports.createTransporter = createTransporter; // This is for email
+module.exports.getNewAccessToken = getNewAccessToken; // Get a new access token
+module.exports.calendar = calendar;

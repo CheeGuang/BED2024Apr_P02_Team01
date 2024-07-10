@@ -6,7 +6,8 @@ const appointmentEmitter = new AppointmentEmitter();
 const PDFDocument = require("pdfkit"); // Import the pdfkit library
 const path = require("path");
 const { google } = require("googleapis"); // Import googleapis library
-const passport = require("../auth"); // Import passport
+const moment = require("moment-timezone");
+const { getNewAccessToken } = require("../auth"); // Import function to get new access token
 
 /**
  * Class representing an Appointment.
@@ -297,8 +298,10 @@ class Appointment {
         "http://localhost:8000/auth/google/callback" // Adjust according to your setup
       );
 
+      const accessToken = await getNewAccessToken(refreshToken);
+
       oauth2Client.setCredentials({
-        access_token: oauth2Client.getAccessToken(), // Generate an access token now
+        access_token: accessToken, // Use the newly generated access token
         refresh_token: refreshToken,
       });
 
