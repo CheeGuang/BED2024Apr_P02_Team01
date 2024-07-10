@@ -287,11 +287,7 @@ class Appointment {
   }
 
   // Google Calendar function
-  static async createGoogleCalendarEvent(
-    appointmentData,
-    accessToken,
-    refreshToken
-  ) {
+  static async createGoogleCalendarEvent(appointmentData, refreshToken) {
     try {
       const { endDateTime } = appointmentData;
 
@@ -302,11 +298,10 @@ class Appointment {
       );
 
       oauth2Client.setCredentials({
-        access_token: accessToken,
+        access_token: oauth2Client.getAccessToken(), // Generate an access token now
         refresh_token: refreshToken,
       });
 
-      console.log(accessToken);
       console.log(refreshToken);
       console.log(eventEndDateTimeObj.toISOString());
 

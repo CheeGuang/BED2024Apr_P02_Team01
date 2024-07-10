@@ -13,7 +13,7 @@ passport.use(
       callbackURL: "/auth/google/callback",
       scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"], // Request access to google calendar API
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (refreshToken, profile, done) => {
       const { sub, email, given_name, family_name, picture } = profile._json;
 
       const userData = {
@@ -31,8 +31,7 @@ passport.use(
         profilePicture: picture, // Updated field name
 
         // These are for google calendar -
-        //might need to save in database to access Google Calendar on behalf of the user
-        accessToken: accessToken,
+        // Refresh token is taken when user login, can be used to generate access token on the fly
         refreshToken: refreshToken,
       };
 
