@@ -1,4 +1,13 @@
+const {
+  getRefreshToken,
+} = require("../../modules/patient/controllers/globalVariables");
+const { getNewAccessToken } = require("../auth"); // Import function to get new access token
+
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("Patient refresh token: " + getRefreshToken());
+  console.log(
+    "Patient created access token:  " + getNewAccessToken(refreshToken)
+  );
   // Get PatientID from local storage
   const PatientID = JSON.parse(
     localStorage.getItem("patientDetails")
