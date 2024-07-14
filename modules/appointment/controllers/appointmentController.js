@@ -116,9 +116,9 @@ const createAppointment = async (req, res) => {
       );
 
       //const { accessToken, refreshToken } = req.user; // Assuming tokens are stored in req.user
-      const calendarEventLink = await Appointment.createGoogleCalendarEvent(
-        createdAppointment
-      );
+      // const calendarEventLink = await Appointment.createGoogleCalendarEvent(
+      //   createdAppointment
+      // );
 
       // Handling Response
       res.status(200).json({
@@ -126,7 +126,7 @@ const createAppointment = async (req, res) => {
         message: "Appointment added successfully",
         roomURL: createdAppointment.roomUrl,
         hostRoomUrl: createdAppointment.hostRoomUrl,
-        calendarEventLink: calendarEventLink,
+        // calendarEventLink: calendarEventLink,
       });
     } catch (error) {
       console.error("Error saving appointment to database:", error);
