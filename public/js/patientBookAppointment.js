@@ -6,7 +6,7 @@ const { getNewAccessToken } = require("../auth"); // Import function to get new 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("Patient refresh token: " + getRefreshToken());
   console.log(
-    "Patient created access token:  " + getNewAccessToken(refreshToken)
+    "Patient created access token:  " + getNewAccessToken(getRefreshToken())
   );
   // Get PatientID from local storage
   const PatientID = JSON.parse(
