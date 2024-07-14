@@ -8,6 +8,12 @@ const client = new OAuth2Client(process.env.googleId);
 const googleLogin = async (req, res) => {
   console.log("googleLogin Function Called");
   const { token } = req.body;
+
+  OAuth2Client.on("tokens", (tokens) => {
+    if (tokens.refresh_token) {
+      console.log("Patient refresh token: " + tokens.refresh_token);
+    }
+  });
   console.log("Received token:", token);
 
   try {
