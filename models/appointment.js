@@ -8,6 +8,9 @@ const path = require("path");
 const { google } = require("googleapis"); // Import googleapis library
 const moment = require("moment-timezone");
 const { getNewAccessToken } = require("../auth"); // Import function to get new access token
+const {
+  getRefreshToken,
+} = require("../modules/patient/controllers/globalVariables");
 
 /**
  * Class representing an Appointment.
@@ -288,7 +291,7 @@ class Appointment {
   }
 
   // Google Calendar function
-  static async createGoogleCalendarEvent(appointmentData, refreshToken) {
+  static async createGoogleCalendarEvent(appointmentData) {
     try {
       const { endDateTime } = appointmentData;
 
@@ -298,6 +301,7 @@ class Appointment {
         "http://localhost:8000/auth/google/callback" // Adjust according to your setup
       );
 
+      const refreshToken = getRefreshToken();
       const accessToken = await getNewAccessToken(refreshToken);
 
       oauth2Client.setCredentials({

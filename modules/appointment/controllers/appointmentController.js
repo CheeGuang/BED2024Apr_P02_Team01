@@ -4,6 +4,9 @@ const {
   Appointment,
   appointmentEmitter,
 } = require("../../../models/appointment");
+const {
+  getRefreshToken,
+} = require("../../modules/patient/controllers/globalVariables");
 const passport = require("passport");
 const API_KEY = process.env.appointmentAPIKey;
 
@@ -112,11 +115,9 @@ const createAppointment = async (req, res) => {
         newAppointmentData
       );
 
-      const { accessToken, refreshToken } = req.user; // Assuming tokens are stored in req.user
+      //const { accessToken, refreshToken } = req.user; // Assuming tokens are stored in req.user
       const calendarEventLink = await Appointment.createGoogleCalendarEvent(
-        createdAppointment,
-        accessToken,
-        refreshToken
+        createdAppointment
       );
 
       // Handling Response

@@ -1,22 +1,37 @@
 const Patient = require("../../../models/patient.js");
+const { setRefreshToken, getRefreshToken } = require("./globalVariables.js"); // Import the global variables module
 const QRCode = require("qrcode");
 const { v4: uuidv4 } = require("uuid");
 
 const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(process.env.googleId);
+const client = new OAuth2Client(
+  process.env.googleClientId,
+  process.env.googleClientSecret,
+  "postmessage"
+);
 
 const googleLogin = async (req, res) => {
   console.log("googleLogin Function Called");
   const { token } = req.body;
 
-  OAuth2Client.on("tokens", (tokens) => {
-    if (tokens.refresh_token) {
-      console.log("Patient refresh token: " + tokens.refresh_token);
-    }
-  });
-  console.log("Received token:", token);
+  // OAuth2Client.on("tokens", (tokens) => {
+  //   if (tokens.refresh_token) {
+  //     console.log("Patient refresh token: " + tokens.refresh_token);
+  //   }
+  // });
+  // console.log("Received token:", token);
 
   try {
+    // Get token
+    const r = await client.getToken(token);
+    const { tokens } = r;
+    client.setCredentials(tokens);
+
+    if (tokens.refresh_token) {
+      console.log("Patient refresh token: " + tokens.refresh_token);
+      setRefreshToken(tokens.refresh_token); // Store the refresh token
+    }
+
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.googleId,
