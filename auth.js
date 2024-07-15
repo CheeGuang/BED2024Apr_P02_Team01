@@ -133,14 +133,7 @@ google.options({ auth: oauth2Client });
 
 const calendar = google.calendar({ version: "v3" });
 
-// module.exports = passport;
+module.exports = passport;
 // module.exports.createTransporter = createTransporter; // This is for email
 // module.exports.getNewAccessToken = getNewAccessToken; // Get a new access token
 // module.exports.calendar = calendar;
-
-module.exports = {
-  passport,
-  createTransporter,
-  getNewAccessToken,
-  calendar,
-};
