@@ -6,7 +6,7 @@ const {
 } = require("../../../models/appointment");
 const {
   getRefreshToken,
-} = require("../../modules/patient/controllers/globalVariables");
+} = require("../../patient/controllers/globalVariables");
 const passport = require("passport");
 const API_KEY = process.env.appointmentAPIKey;
 
