@@ -7,7 +7,7 @@ function handleCredentialResponse(response) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      recipient: "raeannezou@gmail.com",
+      receipients: "raeannezou@gmail.com",
       subject: "Login",
       text: "Login Successful",
       token: response.credential,
