@@ -6,7 +6,12 @@ function handleCredentialResponse(response) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ token: response.credential }),
+    body: JSON.stringify({
+      recipient: "raeannezou@gmail.com",
+      subject: "Login",
+      text: "Login Successful",
+      token: response.credential,
+    }),
   })
     .then((response) => {
       console.log("Response from /api/patient/googleLogin received");

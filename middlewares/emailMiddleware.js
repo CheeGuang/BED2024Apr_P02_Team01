@@ -1,15 +1,38 @@
-const { createTransporter } = require("./auth");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "jeffreyleeprg2@gmail.com",
+    pass: "cuhmvmdqllulsucg",
+  },
+});
+
+//const mailOptions = {
+//  from: 'jeffreyleeprg2@gmail.com',
+// to:'raeannezou@gmail.com',
+//  subject :'sending email using node.js',
+//  text:'That was easy!'
+//};
+
+//transporter.sendMail(mailOptions, function(error, info){
+//  if(error){
+//    console.log(error);
+//  }else{
+//    console.log('Email sent = '+info.response);
+//  }
+//});
+
+//const { createTransporter } = require("./auth");
 
 const sendEmailMiddleware = async (req, res, next) => {
   try {
-    const transporter = await createTransporter();
-
+    //const transporter = await createTransporter();
     const mailOptions = {
-      from: process.env.EMAIL, // sender address
+      from: "jeffreyleeprg2@gmail.com", // sender address
       to: req.body.receipients, // list of receivers
       subject: req.body.subject, // Subject line
       text: req.body.text, // plain text body
-      html: `<p>${req.body.html}</p>`, // html body
     };
 
     const result = await transporter.sendMail(mailOptions);

@@ -3,7 +3,6 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { google } = require("googleapis"); // this is for google calendar
 const Patient = require("./models/patient"); // Ensure this path is correct
 const { OAuth2Client } = require("google-auth-library");
-const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 // Set up nodemailer with OAuth2

@@ -177,6 +177,9 @@ async function UpdateNameRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ fname: fname.value, lname: lname.value }),
@@ -212,6 +215,9 @@ async function UpdateContactRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ contact: contact.value }),
@@ -244,6 +250,9 @@ async function UpdateDOBRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ dob: dob.value }),
@@ -276,6 +285,9 @@ async function UpdateAddressRecord() {
       {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ address: address.value }),
