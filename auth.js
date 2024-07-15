@@ -123,15 +123,15 @@ const getNewAccessToken = async (refreshToken) => {
 };
 
 // Additional setup for Google Calendar API
-const oauth2Client = new google.auth.OAuth2(
-  process.env.googleClientId,
-  process.env.googleClientSecret,
-  "http://localhost:8000/auth/google/callback" // Adjust according to setup
-);
+//const oauth2Client = new google.auth.OAuth2(
+//  process.env.googleClientId,
+//  process.env.googleClientSecret,
+//  "http://localhost:8000/auth/google/callback" // Adjust according to setup
+//);
 
-google.options({ auth: oauth2Client });
+//google.options({ auth: oauth2Client });
 
-const calendar = google.calendar({ version: "v3" });
+//const calendar = google.calendar({ version: "v3" });
 
 module.exports = passport;
 // module.exports.createTransporter = createTransporter; // This is for email
