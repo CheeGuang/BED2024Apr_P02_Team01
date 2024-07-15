@@ -44,7 +44,7 @@ require("dotenv").config();
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.googleClientId,
+      clientID: process.env.googleClientSecret,
       clientSecret: process.env.googleClientSecret,
       callbackURL: "/auth/google/callback",
       //scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"], // Request access to google calendar API
