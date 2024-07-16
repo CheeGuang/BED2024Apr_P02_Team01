@@ -77,7 +77,7 @@ app.use("/api/medicine", medicineRoutes);
 app.use("/api/chatbot", chatbotController);
 
 // chasClinicRoutes Routes Route
-app.use("/api/chasClinic", chasClinicRoutes);
+// app.use("/api/chasClinic", chasClinicRoutes);
 
 // Check Auth Endpoint
 app.get("/api/checkAuth", authMiddleware, (req, res) => {
