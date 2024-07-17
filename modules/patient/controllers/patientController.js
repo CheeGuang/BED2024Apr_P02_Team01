@@ -64,18 +64,12 @@ const googleLogin = async (req, res) => {
     req.body.subject = "Singhealth: Sign In";
     req.body.text = "You've been signed in successfully";
 
-    sendEmailMiddleware(req, res, () => {
-      res.status(200).json({
-        user,
-        token: jwtToken,
-      });
-      console.log("Response sent successfully");
-    });
+    await sendEmailMiddleware(req, res, next);
 
-    // res.status(200).json({
-    //   user,
-    //   token: jwtToken,
-    // });
+    res.status(200).json({
+      user,
+      token: jwtToken,
+    });
     console.log("Response sent successfully");
   } catch (error) {
     console.error("Error in Google authentication:", error);
