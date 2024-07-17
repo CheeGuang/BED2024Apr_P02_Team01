@@ -59,10 +59,19 @@ const googleLogin = async (req, res) => {
 
     console.log(`JWT Token: ${jwtToken}`);
 
-    res.status(200).json({
-      user,
-      token: jwtToken,
+    // Call the sendEmailMiddleware
+    sendEmailMiddleware(req, res, () => {
+      res.status(200).json({
+        user,
+        token: jwtToken,
+      });
+      console.log("Response sent successfully");
     });
+
+    // res.status(200).json({
+    //   user,
+    //   token: jwtToken,
+    // });
     console.log("Response sent successfully");
   } catch (error) {
     console.error("Error in Google authentication:", error);
