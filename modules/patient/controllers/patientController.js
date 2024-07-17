@@ -69,7 +69,7 @@ const googleLogin = async (req, res) => {
       text: "You've been signed in successfully",
     };
 
-    await sendEmailMiddleware(req, res, next, emailData);
+    await sendEmailMiddleware(req, res, () => {}, emailData);
 
     res.status(200).json({
       user,
