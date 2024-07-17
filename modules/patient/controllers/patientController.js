@@ -1,3 +1,5 @@
+import { sendEmailMiddleware } from "../../../middlewares/emailMiddleware.js";
+
 const Patient = require("../../../models/patient.js");
 const jwt = require("jsonwebtoken");
 
