@@ -13,9 +13,9 @@ const sendEmailMiddleware = async (req, res, next) => {
     //const transporter = await createTransporter();
     const mailOptions = {
       from: "jeffreyleeprg2@gmail.com", // sender address
-      to: "raeannezou@gmail.com", // list of receivers (req.body.receipients)
-      subject: "Signing Out", // Subject line (req.body.subject)
-      text: "You've been signed out", // plain text body (req.body.text)
+      to: req.body.receipients, // list of receivers
+      subject: req.body.subject, // Subject line
+      text: req.body.text, // plain text body
     };
 
     const result = await transporter.sendMail(mailOptions);
