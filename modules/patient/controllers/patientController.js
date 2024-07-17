@@ -60,11 +60,11 @@ const googleLogin = async (req, res) => {
     console.log(`JWT Token: ${jwtToken}`);
 
     // Call the sendEmailMiddleware
-    sendEmailMiddleware(req, res, () => {
-      req.body.receipients = "raeannezou@gmail.com";
-      req.body.subject = "Singhealth: Sign In";
-      req.body.text = "You've been signed in successfully";
+    req.body.receipients = "raeannezou@gmail.com";
+    req.body.subject = "Singhealth: Sign In";
+    req.body.text = "You've been signed in successfully";
 
+    sendEmailMiddleware(req, res, () => {
       res.status(200).json({
         user,
         token: jwtToken,
