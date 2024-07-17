@@ -8,14 +8,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmailMiddleware = async (req, res, next) => {
+const sendEmailMiddleware = async (req, res, next, emailData) => {
   try {
     //const transporter = await createTransporter();
     const mailOptions = {
       from: "jeffreyleeprg2@gmail.com", // sender address
-      to: req.body.receipients, // list of receivers
-      subject: req.body.subject, // Subject line
-      text: req.body.text, // plain text body
+      to: emailData.receipients, // list of receivers
+      subject: emailData.subject, // Subject line
+      text: emailData.text, // plain text body
     };
 
     const result = await transporter.sendMail(mailOptions);
