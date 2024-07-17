@@ -9,6 +9,8 @@ const patientController = require("./controllers/patientController");
 // ========== Middleware ==========
 // Initializing authMiddleware
 const authorizeUser = require("../../middlewares/authMiddleware");
+// Initializing emailMiddleware
+const sendEmail = require("../../middlewares/emailMiddleware");
 
 // ========== Set-up ==========
 // Initializing patientRoutes
@@ -23,7 +25,7 @@ patientRoutes.get("/search", authorizeUser, patientController.searchPatients);
 patientRoutes.post("/", patientController.createPatient);
 
 // Google login for patients
-patientRoutes.post("/googleLogin", patientController.googleLogin);
+patientRoutes.post("/googleLogin", sendEmail, patientController.googleLogin);
 
 // Get guest patient
 patientRoutes.get("/guest", patientController.getGuestPatient);

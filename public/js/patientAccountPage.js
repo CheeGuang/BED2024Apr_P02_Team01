@@ -1,5 +1,3 @@
-const nodemailer = require("nodemailer");
-
 //Get Local Storage
 const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
 
@@ -26,36 +24,9 @@ signOutBtn.addEventListener("click", function () {
   localStorage.removeItem("PatientJWTAuthToken");
   localStorage.removeItem("eWalletBalance");
 
-  // Send the email here
-  sendEmail();
-
   // Redirect to Home Page
   document.location.href = "../index.html";
 });
-
-function sendEmail() {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "jeffreyleeprg2@gmail.com",
-        pass: "cuhmvmdqllulsucg",
-      },
-    });
-    const mailOptions = {
-      from: "jeffreyleeprg2@gmail.com", // sender address
-      to: "raeannezou@gmail.com", // list of receivers
-      subject: "Sign out", // Subject line
-      text: "You've been signed out!", // plain text body
-    };
-
-    const result = transporter.sendMail(mailOptions);
-    console.log("Email sent:", result);
-  } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).send("Error sending email");
-  }
-}
 
 // Get the data from the local storage
 document.addEventListener("DOMContentLoaded", function () {
