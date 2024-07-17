@@ -1,3 +1,5 @@
+const nodemailer = require("nodemailer");
+
 //Get Local Storage
 const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
 
