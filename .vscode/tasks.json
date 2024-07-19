@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Cron",
+      "type": "npm",
+      "script": "cron",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always"
+      }
+    }
+  ]
+}
