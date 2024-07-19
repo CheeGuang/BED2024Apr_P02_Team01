@@ -1,4 +1,4 @@
-import { scheduleJob } from "node-schedule";
+const { scheduleJob } = require("node-schedule");
 const Appointment = require("./models/appointment"); // Import the Appointment model
 const Doctor = require("./models/doctor"); // Import the Doctor model
 const Patient = require("./models/patient");
