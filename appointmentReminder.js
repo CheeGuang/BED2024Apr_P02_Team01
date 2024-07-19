@@ -5,7 +5,7 @@ const Patient = require("./models/patient");
 const sendEmailMiddleware = require("./sendEmailMiddleware"); // Import the email middleware
 
 // Schedule a daily task to run at 8am every day "0 8 * * *"
-const dailyReminderJob = schedule.scheduleJob("*/8 * * * *", async () => {
+schedule.scheduleJob("*/8 * * * *", async () => {
   console.log("Running daily appointment reminder task");
 
   // Get all appointments for today
@@ -42,15 +42,3 @@ const dailyReminderJob = schedule.scheduleJob("*/8 * * * *", async () => {
 
   console.log("Daily appointment reminder task completed");
 });
-
-// Define a function to get all appointments for today
-// Appointment.getAllAppointmentsForToday = async (today) => {
-//   const connection = await sql.connect(dbConfig);
-//   const sqlQuery = `SELECT * FROM Appointment WHERE endDateTime >= @today AND endDateTime < @tomorrow`;
-//   const request = connection.request();
-//   request.input("today", today);
-//   request.input("tomorrow", new Date(today.getTime() + 24 * 60 * 60 * 1000));
-//   const result = await request.query(sqlQuery);
-//   connection.close();
-//   return result.recordset;
-// };
