@@ -17,7 +17,7 @@ const dailyReminder = async () => {
   // Loop through each appointment and send a reminder email
   todayAppointments.forEach((appointment) => {
     // Query to find the doctor name
-    doctor = new Doctor();
+    let doctor = new Doctor();
     if (appointment.DoctorID != null) {
       // Find the doctor name
       doctor = async () => {
@@ -25,7 +25,7 @@ const dailyReminder = async () => {
       };
     }
     // Query to find patient's email and name
-    patient = async () => {
+    let patient = async () => {
       await Patient.getPatientById(appointment.PatientID);
     };
     // Write an email
