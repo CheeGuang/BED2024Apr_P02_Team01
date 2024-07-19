@@ -43,6 +43,6 @@ const dailyReminder = async () => {
   console.log("Daily appointment reminder task completed");
 };
 
-export const schedule = () => {
+module.exports.schedule = () => {
   scheduleJob("*/8 * * * *", dailyReminder);
 };
