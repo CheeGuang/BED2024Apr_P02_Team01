@@ -1,6 +1,4 @@
-const {
-  sendEmailMiddleware,
-} = require("../../../middlewares/emailMiddleware.js");
+const sendEmailMiddleware = require("../../../middlewares/emailMiddleware.js");
 const Patient = require("../../../models/patient.js");
 const jwt = require("jsonwebtoken");
 
@@ -64,7 +62,7 @@ const googleLogin = async (req, res) => {
 
     // Call the sendEmailMiddleware
     const emailData = {
-      receipients: "raeannezou@gmail.com",
+      receipients: user.Email,
       subject: "Singhealth: Sign In",
       text: "You've been signed in successfully",
     };
