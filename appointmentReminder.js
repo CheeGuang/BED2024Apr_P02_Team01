@@ -1,11 +1,11 @@
-const schedule = require("node-schedule");
+import { scheduleJob } from "node-schedule";
 const Appointment = require("./models/appointment"); // Import the Appointment model
 const Doctor = require("./models/doctor"); // Import the Doctor model
 const Patient = require("./models/patient");
-const sendEmailMiddleware = require("./sendEmailMiddleware"); // Import the email middleware
+const sendEmailMiddleware = require("./middlewares/emailMiddleware"); // Import the email middleware
 
 // Schedule a daily task to run at 8am every day "0 8 * * *"
-schedule.scheduleJob("*/8 * * * *", async () => {
+const dailyReminder = async () => {
   console.log("Running daily appointment reminder task");
 
   // Get all appointments for today
@@ -41,4 +41,8 @@ schedule.scheduleJob("*/8 * * * *", async () => {
   });
 
   console.log("Daily appointment reminder task completed");
-});
+};
+
+export const schedule = () => {
+  scheduleJob("*/8 * * * *", dailyReminder);
+};

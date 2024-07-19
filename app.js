@@ -38,6 +38,8 @@ const authMiddleware = require("./middlewares/authMiddleware"); // Adjust the pa
 // Initialising Swagger API Packages
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+// Importing the scheduler
+import appointmentReminderScript from "./appointmentReminder";
 
 // ========== Set-Up ==========
 // Initiating app
@@ -127,6 +129,9 @@ app.listen(port, async () => {
   console.log(`Server successfully running on http://localhost:${port}`);
   console.log("Press CTRL+C to stop the server.");
 });
+
+// ========== Schedule Daily Appointment Reminder Script ==========
+appointmentReminderScript.schedule();
 
 // Close the connection pool on SIGINT signal
 process.on("SIGINT", async () => {
