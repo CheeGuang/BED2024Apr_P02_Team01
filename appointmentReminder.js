@@ -17,16 +17,14 @@ const dailyReminder = async () => {
   // Loop through each appointment and send a reminder email
   todayAppointments.forEach((appointment) => {
     // Query to find the doctor name
-    const doctor = new Doctor();
+    doctor = new Doctor();
     if (appointment.DoctorID != null) {
       // Find the doctor name
       doctor = async () => {
         await Doctor.getDoctorById(appointment.DoctorID);
       };
     }
-
     // Query to find patient's email and name
-    const patient = new Patient();
     patient = async () => {
       await Patient.getPatientById(appointment.PatientID);
     };
