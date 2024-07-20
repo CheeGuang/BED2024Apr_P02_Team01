@@ -101,9 +101,7 @@ const createAppointment = async (req, res) => {
       const emailData = {
         receipients: patient.Email,
         subject: "Appointment Confirmation",
-        text: `Dear ${patient.givenName} ${
-          patient.familyName
-        },\n\nYou have booked an appointment on ${startDateTime.toISOString()} successfully.\n\nBest regards,\nSyncHealth Team`,
+        text: `Dear ${patient.givenName} ${patient.familyName},\n\nYou have booked an appointment on ${startDateTime} successfully.\n\nBest regards,\nSyncHealth Team`,
       };
 
       try {
