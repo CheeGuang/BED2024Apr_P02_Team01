@@ -1,4 +1,3 @@
-const sendEmailMiddleware = require("../../../middlewares/emailMiddleware.js");
 const { sendEmail } = require("../../../models/email.js");
 const Patient = require("../../../models/patient.js");
 const jwt = require("jsonwebtoken");
@@ -74,15 +73,6 @@ const googleLogin = async (req, res) => {
       .catch((error) => {
         console.error("Error sending login email: " + error);
       });
-
-    // Call the sendEmailMiddleware
-    // const emailData = {
-    //   receipients: user.Email,
-    //   subject: "Singhealth: Sign In",
-    //   text: "You've been signed in successfully",
-    // };
-
-    // await sendEmailMiddleware(req, res, () => {}, emailData);
 
     res.status(200).json({
       user,
