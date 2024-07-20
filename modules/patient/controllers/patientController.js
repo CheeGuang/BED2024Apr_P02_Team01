@@ -323,9 +323,9 @@ const updateEWalletAmount = async (req, res) => {
     // Call the sendEmailFunction
     const emailData = {
       receipients: updatedPatient.Email,
-      subject: "SyncHealth: Security Alert",
-      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet top-up of ${amount} is successful. Your new balance is ${updatedPatient.eWalletAmount} 
-      \n**Please refresh browser to see updated balance. \n\nBest regards,\nSyncHealth Team`,
+      subject: "SyncHealth: E-wallet Top Up",
+      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet top-up of $${amount} is successful. Your new balance is $${updatedPatient.eWalletAmount} 
+      \n\nBest regards,\nSyncHealth Team  \n\n**Please refresh browser to see updated balance. `,
     };
     sendEmail(emailData)
       .then((result) => {
@@ -390,6 +390,15 @@ const processMedicinePayment = async (req, res) => {
       });
     }
 
+    // Format text for medicine purchased - this is for email
+    let purchaseString = "";
+    const cart = patientData.Cart || {};
+    if (cart && Object.keys(cart).length > 0) {
+      for (const item in cart) {
+        purchaseString += `\n${item} \t ${cart[item].Quantity} \t ${cart[item].Price}`;
+      }
+    }
+
     const updatedPatient = await Patient.updateEWalletAmount(
       patientId,
       -totalAmount
@@ -397,6 +406,26 @@ const processMedicinePayment = async (req, res) => {
 
     // Clear the cart after payment
     await Patient.clearCart(patientId);
+
+    // Send Email
+    // Send cart information
+    // Call the sendEmailFunction
+    const emailData = {
+      receipients: updatedPatient.Email,
+      subject: "SyncHealth: E-wallet Payment",
+      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet payment is successful. Your new balance is $${updatedPatient.eWalletAmount}.
+      \n\n Medicine Bought: \n${purchaseString}
+      If you did not make this purchase, please contact us. \n\nBest regards,\nSyncHealth Team `,
+    };
+    sendEmail(emailData)
+      .then((result) => {
+        console.log("E-Wallet Top-up Confirmation Email sent!");
+      })
+      .catch((error) => {
+        console.error(
+          "Error sending E-Wallet Top-up Confirmation email: " + error
+        );
+      });
 
     res.json({
       status: "Success",
