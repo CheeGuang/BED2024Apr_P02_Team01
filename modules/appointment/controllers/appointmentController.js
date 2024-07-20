@@ -446,7 +446,7 @@ const generateMedicalCertificate = async (req, res) => {
 };
 
 /**
- * Controller to generate a medical certificate for an appointment.
+ * Function to send a medical certificate via email
  * @param {object} req - The request object.
  * @param {object} res - The response object.
  */
@@ -476,7 +476,6 @@ const composeEmail = async (appointmentId, pdfBuffer) => {
     await sendEmail(emailData);
   } catch (error) {
     console.error("Error sending medical certificate PDF:", error);
-    res.status(500).send("Error sending medical certificate");
   }
 };
 
