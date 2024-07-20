@@ -332,18 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log("MC Email sent successfully!");
                 showNotification("MC successfully sent!", "success");
               }
-              //return response.blob();
             }) // Response End
-            // .then((blob) => {
-            //   const url = window.URL.createObjectURL(blob);
-            //   const a = document.createElement("a");
-            //   a.style.display = "none";
-            //   a.href = url;
-            //   a.download = "SyncHealth-MedicalCertificate.pdf"; // you can specify a custom file name here
-            //   document.body.appendChild(a);
-            //   a.click();
-            //   window.URL.revokeObjectURL(url);
-            // })
             .catch((error) => {
               // Catch Start
               console.error("Error downloading medical certificate:", error);
