@@ -436,7 +436,7 @@ const generateMedicalCertificate = async (req, res) => {
       "Content-Disposition",
       `attachment; filename=SyncHealth-Medical-Certificate.pdf`
     );
-    await composeEmail(appointmentId);
+    await composeEmail(appointmentId, pdfBuffer);
     res.setHeader("Content-Type", "application/pdf");
     res.send(pdfBuffer);
   } catch (error) {
@@ -452,8 +452,7 @@ const generateMedicalCertificate = async (req, res) => {
  */
 const Patient = require("../../../models/patient");
 const Doctor = require("../../../models/doctor");
-const composeEmail = async (req, res) => {
-  const appointmentId = parseInt(req.params.id);
+const composeEmail = async (appointmentId, pdfBuffer) => {
   try {
     // Get the appointmentInfo
     const appointment = await getAppointmentById(appointmentId);
