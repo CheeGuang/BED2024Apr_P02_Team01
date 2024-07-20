@@ -36,7 +36,7 @@ patientRoutes.put(
 );
 
 // Get a specific patient by ID
-patientRoutes.get("/:id", authorizeUser, patientController.getPatientById);
+patientRoutes.get("/:id", patientController.getPatientById);
 
 // Update a specific patient by ID
 patientRoutes.put("/:id", authorizeUser, patientController.updatePatient);

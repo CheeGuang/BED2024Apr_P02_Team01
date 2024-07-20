@@ -20,7 +20,7 @@ doctorRoutes.get("/", authorizeUser, doctorController.getAllDoctors);
 doctorRoutes.post("/", authorizeUser, doctorController.createDoctor); // POST for creating doctors (can handle JSON data)
 doctorRoutes.post("/googleLogin", doctorController.googleLogin);
 doctorRoutes.get("/guest", doctorController.getGuestDoctor);
-doctorRoutes.get("/:id", authorizeUser, doctorController.getDoctorById);
+doctorRoutes.get("/:id", doctorController.getDoctorById);
 doctorRoutes.put("/:id", authorizeUser, doctorController.updateDoctor); // PUT for updating doctors
 doctorRoutes.put(
   "/updateName/:id",
