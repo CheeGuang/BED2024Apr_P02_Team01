@@ -436,10 +436,9 @@ const generateMedicalCertificate = async (req, res) => {
       "Content-Disposition",
       `attachment; filename=SyncHealth-Medical-Certificate.pdf`
     );
+    await composeEmail(appointmentId);
     res.setHeader("Content-Type", "application/pdf");
     res.send(pdfBuffer);
-
-    await composeEmail(appointmentId);
   } catch (error) {
     console.error("Error generating medical certificate PDF:", error);
     res.status(500).send("Error generating medical certificate");
