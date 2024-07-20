@@ -101,7 +101,7 @@ const createAppointment = async (req, res) => {
       // Create a confirmation Email
       const emailData = {
         receipients: patient.Email,
-        subject: "SyncHealth: Appointment Confirmation",
+        subject: "Appointment Confirmation",
         text: `Dear ${patient.givenName} ${patient.familyName},\n\nYou have booked an appointment on ${newAppointmentData.endDateTime} successfully.\n\nBest regards,\nSyncHealth Team`,
       };
       await sendEmail(emailData)
@@ -482,7 +482,7 @@ const emailMedicalCertificate = async (req, res) => {
       // Create the email
       const emailData = {
         receipients: patient.Email,
-        subject: "Medical Certificate from SyncHealth",
+        subject: "Medical Certificate",
         text: `Dear ${patient.givenName} ${patient.familyName},\n\nPlease find attached your medical certificate from Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`,
         attachments: [
           {

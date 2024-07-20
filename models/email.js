@@ -11,7 +11,10 @@ const transporter = nodemailer.createTransport({
 async function sendEmail(emailData) {
   try {
     const mailOptions = {
-      from: "jeffreyleeprg2@gmail.com", // sender address
+      from: {
+        address: "jeffreyleeprg2@gmail.com", // sender address
+        name: "SyncHealth",
+      },
       to: emailData.receipients, // list of receivers
       subject: emailData.subject, // Subject line
       text: emailData.text, // plain text body
@@ -29,7 +32,10 @@ async function sendEmail(emailData) {
 async function sendEmailWithAttachment(emailData) {
   try {
     const mailOptions = {
-      from: "jeffreyleeprg2@gmail.com", // sender address
+      from: {
+        address: "jeffreyleeprg2@gmail.com", // sender address
+        name: "SyncHealth",
+      },
       to: emailData.receipients, // list of receivers
       subject: emailData.subject, // Subject line
       text: emailData.text, // plain text body
