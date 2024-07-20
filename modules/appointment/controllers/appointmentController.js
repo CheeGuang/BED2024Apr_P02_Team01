@@ -452,6 +452,7 @@ const generateMedicalCertificate = async (req, res) => {
  */
 const Patient = require("../../../models/patient");
 const Doctor = require("../../../models/doctor");
+const { sendEmailWithAttachment } = require("../../../models/email");
 const composeEmail = async (appointmentId, pdfBuffer) => {
   try {
     // Get the appointmentInfo
@@ -473,7 +474,7 @@ const composeEmail = async (appointmentId, pdfBuffer) => {
         },
       ],
     };
-    await sendEmail(emailData);
+    await sendEmailWithAttachment(emailData);
   } catch (error) {
     console.error("Error sending medical certificate PDF:", error);
   }
