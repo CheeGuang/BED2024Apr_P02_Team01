@@ -2,7 +2,7 @@ const { scheduleJob } = require("node-schedule");
 const { Appointment } = require("./models/appointment"); // Import the Appointment model
 const Doctor = require("./models/doctor"); // Import the Doctor model
 const Patient = require("./models/patient");
-const sendEmailMiddleware = require("./middlewares/emailMiddleware"); // Import the email middleware
+const { sendEmailFunction } = require("./models/email"); // Import the email middleware
 
 // Schedule a daily task to run at 8am every day "0 8 * * *"
 const dailyReminder = async () => {
@@ -28,7 +28,7 @@ const dailyReminder = async () => {
     let patient = async () => {
       await Patient.getPatientById(appointment.PatientID);
     };
-    console.log("Patient's Email: " + patient.Email);
+
     // Write an email
     const emailData = {
       receipients: "raeannezou@gmail.com", // Send email to patient
@@ -36,12 +36,12 @@ const dailyReminder = async () => {
       text: `Hello ${patient.givenName} ${patient.familyName}, this is a reminder that you have an appointment with Dr. ${doctor.givenName} ${doctor.familyName} today at ${appointment.endDateTime}. Please get ready 15 minutes prior to your scheduled time.`,
     };
 
-    sendEmailMiddleware(null, null, null, emailData);
+    sendEmailFunction(emailData);
   });
 
   console.log("Daily appointment reminder task completed");
 };
 
 module.exports.schedule = () => {
-  scheduleJob("*/8 * * * *", dailyReminder);
+  scheduleJob("*/2 * * * *", dailyReminder);
 };
