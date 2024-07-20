@@ -23,6 +23,7 @@
     "jsonwebtoken": "^9.0.2",
     "moment-timezone": "^0.5.45",
     "mssql": "^7.2.0",
+    "nodemailer": "^6.9.14",
     "nodemon": "^3.1.0",
     "openai": "^4.52.1",
     "passport": "^0.7.0",
@@ -30,9 +31,9 @@
     "path": "^0.12.7",
     "pdfkit": "^0.15.0",
     "qrcode": "^1.5.3",
-    "tesseract.js": "^5.1.0",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1",
+    "tesseract.js": "^5.1.0",
     "uuid": "^10.0.0",
     "xml2js": "^0.6.2"
   },
