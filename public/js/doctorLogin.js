@@ -14,6 +14,7 @@ function handleCredentialResponse(response) {
     })
     .then((data) => {
       console.log("Data received:", data);
+      localStorage.setItem("doctorDetails", JSON.stringify(data.user));
       if (data.error) {
         console.error("Authentication failed", data.error);
       } else {
@@ -30,7 +31,6 @@ function handleCredentialResponse(response) {
           console.log(
             "ContactNumber is present, redirecting to doctorHomePage.html"
           );
-          localStorage.setItem("doctorDetails", JSON.stringify(data.user));
 
           localStorage.setItem("DoctorJWTAuthToken", data.token);
 
