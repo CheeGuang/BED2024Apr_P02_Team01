@@ -80,8 +80,8 @@ const updateDoctor = async (req, res) => {
     }
 
     const payload = {
-      DoctorID: updatedPatient.DoctorID,
-      email: updatedPatient.Email,
+      DoctorID: updatedDoctor.DoctorID,
+      email: updatedDoctor.Email,
     };
 
     const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -92,7 +92,7 @@ const updateDoctor = async (req, res) => {
     console.log(`JWT Token: ${jwtToken}`);
 
     res.status(200).json({
-      user,
+      user: updatedDoctor,
       token: jwtToken,
     });
     console.log("Response sent successfully");

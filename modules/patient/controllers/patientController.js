@@ -150,7 +150,7 @@ const updatePatient = async (req, res) => {
     console.log(`JWT Token: ${jwtToken}`);
 
     res.status(200).json({
-      user,
+      user: updatedPatient,
       token: jwtToken,
     });
     console.log("Response sent successfully");
