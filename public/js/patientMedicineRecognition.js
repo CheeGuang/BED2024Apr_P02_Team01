@@ -87,7 +87,7 @@ document.getElementById("sendButton").addEventListener("click", function () {
           localStorage.setItem("analysisResult", data.response);
 
           // Redirect to the results page
-          window.location.href("patientMedRecognitionResults.html");
+          window.location.href = "../patientMedRecognitionResults.html";
         } else {
           displayErrorMessage("Failed to analyze the image.");
         }
