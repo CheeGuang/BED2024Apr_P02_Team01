@@ -132,7 +132,4 @@ dist
 # package-lock.json
 package-lock.json
 
-# eng.traineddata
-eng.traineddata
-
 *chasClinic.kml
