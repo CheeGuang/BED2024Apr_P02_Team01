@@ -298,59 +298,62 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
       });
+
+      // Email Feature
+      // Add event listeners for Email MC Button
+      document.querySelectorAll(".btn-email-mc").forEach((button) => {
+        // Start
+        // Start
+        button.addEventListener("click", function () {
+          // Button Listener Start
+          // Button Listener Start
+          const appointmentID = this.getAttribute("data-id");
+          console.log(
+            "Email MC button clicked for appointmentID:",
+            appointmentID
+          );
+          const mcUrl = `${baseUrl}/api/appointment/${appointmentID}/emailMedicalCertificate`;
+
+          fetch(mcUrl, {
+            //Fetch Start
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem(
+                "PatientJWTAuthToken"
+              )}`,
+              "Content-Type": "application/json",
+            },
+          }) // Fetch End
+            .then((response) => {
+              // Response Start
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              } else {
+                console.log("MC Email sent successfully!");
+                showNotification("MC successfully sent!", "success");
+              }
+              //return response.blob();
+            }) // Response End
+            // .then((blob) => {
+            //   const url = window.URL.createObjectURL(blob);
+            //   const a = document.createElement("a");
+            //   a.style.display = "none";
+            //   a.href = url;
+            //   a.download = "SyncHealth-MedicalCertificate.pdf"; // you can specify a custom file name here
+            //   document.body.appendChild(a);
+            //   a.click();
+            //   window.URL.revokeObjectURL(url);
+            // })
+            .catch((error) => {
+              // Catch Start
+              console.error("Error downloading medical certificate:", error);
+            }); // Catch End
+        }); // Button Listener End
+      }); // End of Start
     })
     .catch((error) => {
       console.error("Error fetching appointments:", error);
     });
-
-  // Add event listeners for Email MC Button
-  document
-    .querySelectorAll(".btn-email-mc")
-    .forEach((button) => {
-      button.addEventListener("click", function () {
-        const appointmentID = this.getAttribute("data-id");
-        console.log(
-          "Email MC button clicked for appointmentID:",
-          appointmentID
-        );
-        const mcUrl = `${baseUrl}/api/appointment/${appointmentID}/emailMedicalCertificate`;
-
-        fetch(mcUrl, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem(
-              "PatientJWTAuthToken"
-            )}`,
-            "Content-Type": "application/json",
-          },
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            } else {
-              console.log("MC Email sent successfully!");
-            }
-            //return response.blob();
-          })
-          // .then((blob) => {
-          //   const url = window.URL.createObjectURL(blob);
-          //   const a = document.createElement("a");
-          //   a.style.display = "none";
-          //   a.href = url;
-          //   a.download = "SyncHealth-MedicalCertificate.pdf"; // you can specify a custom file name here
-          //   document.body.appendChild(a);
-          //   a.click();
-          //   window.URL.revokeObjectURL(url);
-          // })
-          .catch((error) => {
-            console.error("Error downloading medical certificate:", error);
-          });
-      });
-    })
-    .catch((error) => {
-      console.error("Error fetching appointments:", error);
-    });
-
   // Function to show notification
   function showNotification(message, type) {
     hideLoading(); // Ensure loading is hidden before showing notification
