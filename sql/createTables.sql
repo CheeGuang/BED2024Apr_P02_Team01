@@ -107,3 +107,15 @@ CREATE TABLE ChatHistory (
     Timestamp DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID)
 );
+
+CREATE TABLE MedicineRecognitionHistory (
+    PromptID UNIQUEIDENTIFIER PRIMARY KEY,
+    PatientID INT,
+    MedicineName NVARCHAR(MAX),
+    MainPurpose NVARCHAR(MAX),
+    SideEffects NVARCHAR(MAX),
+    RecommendedDosage NVARCHAR(MAX),
+    OtherRemarks NVARCHAR(MAX),
+    Timestamp DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID)
+);

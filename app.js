@@ -33,7 +33,7 @@ const passport = require("./auth"); // Ensure the correct path
 const app = express();
 const port = 8000;
 // Using Static Public
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 // Using JSON
 app.use(express.json());
 // Using Session I
@@ -53,6 +53,11 @@ app.use(passport.session());
 // Return index.html at default endpoint
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, ".", "public", "index.html"));
+});
+
+// Route for the results page
+app.get("/results", (req, res) => {
+  res.sendFile(path.join(__dirname, ".","public", "patientMedRecognitionResults.html"));
 });
 
 // ========== Routes ==========
