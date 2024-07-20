@@ -9,8 +9,6 @@ const patientController = require("./controllers/patientController");
 // ========== Middleware ==========
 // Initializing authMiddleware
 const authorizeUser = require("../../middlewares/authMiddleware");
-// Initializing emailMiddleware
-const sendEmail = require("../../middlewares/emailMiddleware");
 
 // ========== Set-up ==========
 // Initializing patientRoutes
