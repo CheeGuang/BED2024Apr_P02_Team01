@@ -395,7 +395,7 @@ const processMedicinePayment = async (req, res) => {
     const cart = patient.Cart || {};
     if (cart && Object.keys(cart).length > 0) {
       for (const item in cart) {
-        purchaseString += `\n${item} \t ${cart[item].Quantity} \t ${cart[item].Price}`;
+        purchaseString += `\n${item} x${cart[item].Quantity} \t$${cart[item].Price}`;
       }
     }
 
@@ -413,9 +413,9 @@ const processMedicinePayment = async (req, res) => {
     const emailData = {
       receipients: updatedPatient.Email,
       subject: "SyncHealth: E-wallet Payment",
-      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet payment is successful. Your new balance is $${updatedPatient.eWalletAmount}.
-      \n\n Medicine Bought: \n${purchaseString}
-      If you did not make this purchase, please contact us. \n\nBest regards,\nSyncHealth Team `,
+      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet payment of $${totalAmount} is successful. Your new balance is $${updatedPatient.eWalletAmount}.
+      \n\n Medicine Bought: \n${purchaseString} 
+      \n\nIf you did not make this purchase, please contact us. \n\nBest regards,\nSyncHealth Team `,
     };
     sendEmail(emailData)
       .then((result) => {
