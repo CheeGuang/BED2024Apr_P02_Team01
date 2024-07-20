@@ -27,4 +27,23 @@ const sendEmailMiddleware = async (req, res, next, emailData) => {
   }
 };
 
+const sendEmailWithAttachmentMiddleware = async (req, res, next, emailData) => {
+  try {
+    const mailOptions = {
+      from: "jeffreyleeprg2@gmail.com", // sender address
+      to: emailData.receipients, // list of receivers
+      subject: emailData.subject, // Subject line
+      text: emailData.text, // plain text body
+      attachments: emailData.attachments, // array of attachments
+    };
+
+    const result = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", result);
+    next();
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).send("Error sending email");
+  }
+};
+
 module.exports = sendEmailMiddleware;

@@ -28,9 +28,10 @@ const dailyReminder = async () => {
     let patient = async () => {
       await Patient.getPatientById(appointment.PatientID);
     };
+    console.log("Patient's Email: " + patient.Email);
     // Write an email
     const emailData = {
-      receipients: patient.Email, // Send email to patient
+      receipients: "raeannezou@gmail.com", // Send email to patient
       subject: "Synchealth Appointment Reminder",
       text: `Hello ${patient.givenName} ${patient.familyName}, this is a reminder that you have an appointment with Dr. ${doctor.givenName} ${doctor.familyName} today at ${appointment.endDateTime}. Please get ready 15 minutes prior to your scheduled time.`,
     };
