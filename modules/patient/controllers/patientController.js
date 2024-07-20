@@ -95,6 +95,36 @@ const getPatientById = async (req, res) => {
   }
 };
 
+const getPatientByIDFaceAuth = async (req, res) => {
+  const patientId = parseInt(req.params.id);
+  try {
+    const patient = await Patient.getPatientById(patientId);
+    if (!patient) {
+      return res.status(404).send("Patient not found");
+    }
+
+    const payload = {
+      PatientID: patient.PatientID,
+      email: patient.Email,
+    };
+
+    const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+      expiresIn: "3600s",
+    });
+
+    console.log(`JWT Token: ${jwtToken}`);
+
+    res.status(200).json({
+      user: patient,
+      token: jwtToken,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving patient");
+  }
+};
+
 const getGuestPatient = async (req, res) => {
   try {
     const patient = await Patient.getGuestPatient();
@@ -398,5 +428,6 @@ module.exports = {
   getGuestPatient,
   getEWalletAmount,
   updateEWalletAmount,
-  processMedicinePayment, // Add this line
+  processMedicinePayment,
+  getPatientByIDFaceAuth,
 };

@@ -82,43 +82,118 @@
           <!-- INSERT CONTENT HERE -->
 
           <div
-            class="container d-flex justify-content-center align-items-center"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              background-color: #f8f9fa;
+              position: relative;
+            "
           >
-            <div class="login-card col-md-6">
-              <h2 class="text-center mb-4">Patient Login</h2>
-              <div class="text-center mb-3">
-                <!-- Google Button -->
-                <div class="d-flex justify-content-center align-items-center">
-                  <div
-                    id="g_id_onload"
-                    data-client_id="669052276058-vlo56v1ae21jida2o982ams3rgfimajd.apps.googleusercontent.com"
-                    data-context="signin"
-                    data-ux_mode="popup"
-                    data-callback="handleCredentialResponse"
-                    data-auto_prompt="false"
-                  ></div>
-                  <div
-                    class="g_id_signin"
-                    data-type="standard"
-                    data-theme="outline"
-                    data-text="continue_with"
-                    data-size="large"
-                    data-logo_alignment="left"
-                  ></div>
-                </div>
-                <!-- Google Button -->
-                <!-- Proceed as Guest Button -->
-                <div class="text-center mt-3">
-                  <button
-                    id="guestLoginButton"
-                    class="btn btn-primary btn-dark-blue"
-                    onclick="proceedAsGuest()"
-                  >
-                    Proceed as Guest
-                  </button>
-                </div>
-                <!-- Proceed as Guest Button -->
+            <img
+              src="https://avatars.githubusercontent.com/u/122350750"
+              alt="SyncHealth logo"
+              style="width: 96px; height: 96px; margin-top: 32px"
+            />
+            <h1 style="font-size: 1.5rem; font-weight: bold; margin-top: 24px">
+              Sign in to SyncHealth
+            </h1>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                background-color: white;
+                padding: 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-top: 24px;
+                width: 100%;
+                max-width: 400px;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <!-- Google Button -->
+              <div class="d-flex justify-content-center align-items-center">
+                <div
+                  id="g_id_onload"
+                  data-client_id="669052276058-vlo56v1ae21jida2o982ams3rgfimajd.apps.googleusercontent.com"
+                  data-context="signin"
+                  data-ux_mode="popup"
+                  data-callback="handleCredentialResponse"
+                  data-auto_prompt="false"
+                ></div>
+                <div
+                  class="g_id_signin"
+                  data-type="standard"
+                  data-theme="outline"
+                  data-text="continue_with"
+                  data-size="large"
+                  data-logo_alignment="left"
+                  style="width: 100%"
+                ></div>
               </div>
+              <!-- Google Button -->
+              <button
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: left;
+                  gap: 8px;
+                  border: 1px solid #e2e8f0;
+                  padding: 8px 16px;
+                  border-radius: 4px;
+                  background: none;
+                  cursor: pointer;
+                  width: 100%;
+                  height: 40px;
+                  max-width: 188.87px;
+                  font-size: 0.9rem;
+                "
+                onclick="faceAuth()"
+              >
+                <i
+                  class="fas fa-user-check"
+                  style="width: 20px; height: 20px"
+                ></i>
+                FaceAuth
+              </button>
+              <!-- Proceed as Guest Button -->
+              <div class="text-center mt-3">
+                <button
+                  id="guestLoginButton"
+                  class="btn btn-dark"
+                  onclick="proceedAsGuest()"
+                  style="width: 188.87px; height: 40px; font-size: 0.9rem"
+                >
+                  Proceed as Guest
+                </button>
+              </div>
+              <div style="margin-top: 24px; text-align: center">
+                <p style="font-size: 0.875rem; color: #6c757d">
+                  Facial recognition is for registered users only. New users,
+                  please proceed with Google sign-in.
+                </p>
+              </div>
+              <!-- Proceed as Guest Button -->
+            </div>
+
+            <div style="margin-top: 24px; text-align: center; max-width: 320px">
+              <p style="font-size: 0.875rem; color: #6c757d">
+                Trouble signing in? Contact our support team at
+              </p>
+              <a
+                href="#"
+                style="
+                  color: #007bff;
+                  font-size: 0.875rem;
+                  font-weight: 500;
+                  text-decoration: none;
+                "
+                >jeffreyleeprg2@gmail.com</a
+              >
             </div>
           </div>
 

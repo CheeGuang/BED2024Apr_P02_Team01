@@ -13,6 +13,9 @@
     height: 150px;
     margin: 10px;
   }
+  #appointment-btn {
+    width: 98%;
+  }
 }
 .btn-block {
   display: flex;

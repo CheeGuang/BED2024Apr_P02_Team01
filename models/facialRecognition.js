@@ -19,13 +19,33 @@ class FacialRecognition {
 
   /**
    * Add a new descriptor to the labeledDescriptors array and save to file.
-   * @param {Object} param - An object containing the name and descriptor.
+   * @param {Object} param - An object containing the PatientID, DoctorID, name, and descriptor.
    */
-  addDescriptor({ name, descriptor }) {
-    this.labeledDescriptors.push({ name, descriptor });
+  addDescriptor({ PatientID, DoctorID, name, descriptor }) {
+    this.labeledDescriptors.push({ PatientID, DoctorID, name, descriptor });
     fs.writeFileSync(this.dataPath, JSON.stringify(this.labeledDescriptors));
   }
-
+  /**
+   * Update an existing descriptor and save to file.
+   * @param {Object} param - An object containing the PatientID, DoctorID, name, and descriptor.
+   * @returns {boolean} True if the descriptor was updated, false if not found.
+   */
+  updateDescriptor({ PatientID, DoctorID, name, descriptor }) {
+    const index = this.labeledDescriptors.findIndex(
+      (ld) => ld.PatientID === PatientID
+    );
+    if (index !== -1) {
+      this.labeledDescriptors[index] = {
+        PatientID,
+        DoctorID,
+        name,
+        descriptor,
+      };
+      fs.writeFileSync(this.dataPath, JSON.stringify(this.labeledDescriptors));
+      return true;
+    }
+    return false;
+  }
   /**
    * Get all descriptors.
    * @returns {Array} An array of labeled descriptors.

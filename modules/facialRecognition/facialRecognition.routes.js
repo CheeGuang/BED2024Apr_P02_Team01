@@ -15,6 +15,12 @@ const facialRecognitionRoutes = express.Router();
 facialRecognitionRoutes.post("/register", facialRecognitionController.register);
 
 // Route to get all face descriptors
+facialRecognitionRoutes.put(
+  "/update",
+  facialRecognitionController.updateDescriptor
+);
+
+// Route to get all face descriptors
 facialRecognitionRoutes.get(
   "/descriptors",
   facialRecognitionController.getDescriptors

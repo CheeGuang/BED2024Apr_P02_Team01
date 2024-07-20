@@ -38,6 +38,10 @@ doctorRoutes.put(
   authorizeUser,
   doctorController.updateDocAccountProfession
 );
+
+// Google login for FaceAuth
+doctorRoutes.get("/faceAuth/:id", doctorController.getDoctorByIDFaceAuth);
+
 doctorRoutes.delete("/:id", authorizeUser, doctorController.deleteDoctor); // DELETE for deleting doctors
 // ========== Export ==========
 module.exports = doctorRoutes;
