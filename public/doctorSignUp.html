@@ -75,57 +75,169 @@
     <div class="row" style="height: 70px; width: 100vw"></div>
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div
+          class="col-md-12"
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          "
+        >
           <!-- INSERT CONTENT HERE -->
-          <div class="signup-card">
-            <h2 id="welcomeMessage" class="text-center mb-4">Welcome!</h2>
+          <h2
+            id="welcomeMessage"
+            style="
+              font-size: 2.25rem;
+              font-weight: 800;
+              text-align: center;
+              margin-bottom: 3rem;
+              color: #007bff;
+            "
+          >
+            New Doctor Registration
+          </h2>
+          <div class="signup-card col-8">
             <form id="signUpForm">
               <div class="form-group">
-                <label for="contactNumber">Contact Number*:</label>
+                <!-- <label for="contactNumber">Contact Number*:</label> -->
                 <input
                   type="text"
                   class="form-control"
                   id="contactNumber"
                   name="contactNumber"
+                  placeholder="Contact Number"
                   required
+                  style="
+                    border: none;
+                    border-radius: 0;
+                    border-bottom: 2px solid #333;
+                    padding: 0;
+                    margin-bottom: 10px;
+                    height: 3rem;
+                    color: #888;
+                    background: transparent;
+                    outline: none;
+                    transition: border-color 0.3s;
+                  "
+                  onfocus="this.style.borderColor='#007bff';"
+                  onblur="this.style.borderColor='#333';"
                 />
                 <small class="form-text text-muted"
                   >8 digit number starting with 8 or 9.
                 </small>
               </div>
-              <div class="form-group">
-                <label for="dob">Date of Birth*:</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="dob"
-                  name="dob"
-                  required
-                />
-                <small class="form-text text-muted"
-                  >Any day before today.
-                </small>
+
+              <div
+                class="dobGender"
+                style="
+                  display: flex;
+                  margin-top: 40px;
+                  flex-direction: row;
+                  flex-wrap: wrap;
+                  justify-content: space-between;
+                "
+              >
+                <div class="form-group col-md-5">
+                  <label for="dob">Date of Birth*:</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="dob"
+                    name="dob"
+                    required
+                    style="
+                      border: none;
+                      border-radius: 0;
+                      border-bottom: 2px solid #333;
+                      padding: 0;
+                      margin-bottom: 10px;
+                      height: 3rem;
+                      color: #888;
+                      background: transparent;
+                      outline: none;
+                      transition: border-color 0.3s;
+                    "
+                    onfocus="this.style.borderColor='#007bff';"
+                    onblur="this.style.borderColor='#333';"
+                  />
+                  <small class="form-text text-muted"
+                    >Any day before today.
+                  </small>
+                </div>
+                <div class="form-group col-md-5">
+                  <label for="gender">Gender*:</label>
+                  <select
+                    class="form-control"
+                    id="gender"
+                    name="gender"
+                    style="
+                      border: none;
+                      border-radius: 0;
+                      border-bottom: 2px solid #333;
+                      padding: 0;
+                      height: 3rem;
+                      color: #888;
+                      background: transparent;
+                      outline: none;
+                      transition: border-color 0.3s;
+                    "
+                    onfocus="this.style.borderColor='#007bff';"
+                    onblur="this.style.borderColor='#333';"
+                    required
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
               </div>
               <div class="form-group">
-                <label for="gender">Gender*:</label>
-                <select class="form-control" id="gender" name="gender" required>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="address">Address*:</label>
+                <!-- <label for="address">Address*:</label> -->
                 <input
                   type="text"
                   class="form-control"
                   id="address"
                   name="address"
+                  placeholder="Address *"
+                  style="
+                    border: none;
+                    border-radius: 0;
+                    border-bottom: 2px solid #333;
+                    padding: 0;
+                    margin-top: 10px;
+                    height: 3rem;
+                    color: #888;
+                    background: transparent;
+                    outline: none;
+                    transition: border-color 0.3s;
+                  "
+                  onfocus="this.style.borderColor='#007bff';"
+                  onblur="this.style.borderColor='#333';"
                   required
                 />
               </div>
               <div id="errorMessage" class="alert alert-danger d-none"></div>
-              <button type="submit" class="btn btn-primary w-100">
-                Sign Up
+              <button
+                type="submit"
+                class="btn btn-primary w-100"
+                style="
+                  display: block;
+                  width: 100%;
+                  padding: 1rem;
+                  margin-top: 3rem;
+                  background-color: #007bff;
+                  color: white;
+                  border: none;
+                  border-radius: 0.375rem;
+                  cursor: pointer;
+                  text-align: center;
+                  font-weight: 600;
+                  transition: background-color 0.3s, color 0.3s;
+                "
+                onmouseover="this.style.backgroundColor='white'; this.style.color='#007bff';"
+                onmouseout="this.style.backgroundColor='#007bff'; this.style.color='white';"
+              >
+                Register
               </button>
             </form>
           </div>
