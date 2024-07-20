@@ -100,15 +100,20 @@ const createAppointment = async (req, res) => {
       );
       // Create a confirmation Email
 
+      // Convert endDateTime to local time by adding 7 hours
+      const appointmentEndDateTime = new Date(newAppointmentData.endDateTime);
+      appointmentEndDateTime.setHours(appointmentEndDateTime.getHours() + 7);
+
+      // Format the new local time as a string
+      const localEndDateTime = appointmentEndDateTime
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
+
       const emailData = {
-        receipients: patient.Email,
+        recipients: patient.Email,
         subject: "Appointment Confirmation",
-        text: `Dear ${patient.givenName} ${
-          patient.familyName
-        },\n\nYou have booked an appointment on ${newAppointmentData.endDateTime.add(
-          7,
-          "hours"
-        )} successfully.\n\nBest regards,\nSyncHealth Team`,
+        text: `Dear ${patient.givenName} ${patient.familyName},\n\nYou have booked an appointment on ${localEndDateTime} successfully.\n\nBest regards,\nSyncHealth Team`,
       };
       await sendEmail(emailData)
         .then((result) => {
