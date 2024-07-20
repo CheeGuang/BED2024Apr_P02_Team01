@@ -95,7 +95,7 @@ const createAppointment = async (req, res) => {
       );
 
       // Get Patient Name
-      const patient = await Patient.getPatientById(PatientID);
+      const patient = Patient.getPatientById(PatientID);
 
       // Create a confirmation Email
       const emailData = {
