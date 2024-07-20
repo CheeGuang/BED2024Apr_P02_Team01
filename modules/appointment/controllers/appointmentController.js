@@ -99,7 +99,7 @@ const createAppointment = async (req, res) => {
 
       // Create a confirmation Email
       const emailData = {
-        recipients: patient.Email,
+        receipients: patient.Email,
         subject: "Appointment Confirmation",
         text: `Dear ${patient.givenName} ${
           patient.familyName
