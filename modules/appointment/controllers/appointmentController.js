@@ -453,25 +453,7 @@ const generateMedicalCertificate = async (req, res) => {
  * @param {object} res - The response object.
  */
 const emailMedicalCertificate = async (req, res) => {
-  // Generate the MC
-  const appointmentId = parseInt(req.params.id);
-  try {
-    const pdfBuffer = await Appointment.generateMedicalCertificate(
-      appointmentId
-    );
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=SyncHealth-Medical-Certificate.pdf`
-    );
-    await composeEmail(appointmentId, pdfBuffer);
-    res.setHeader("Content-Type", "application/pdf");
-    res.send(pdfBuffer);
-  } catch (error) {
-    console.error("Error generating medical certificate PDF:", error);
-    res.status(500).send("Error generating medical certificate");
-  }
-
-  // Send an Email
+  // Function to send an Email
   const composeEmail = async (appointmentId, pdfBuffer) => {
     try {
       // Get the appointmentInfo
@@ -498,6 +480,24 @@ const emailMedicalCertificate = async (req, res) => {
       console.error("Error sending medical certificate PDF:", error);
     }
   };
+
+  // Generate the MC
+  const appointmentId = parseInt(req.params.id);
+  try {
+    const pdfBuffer = await Appointment.generateMedicalCertificate(
+      appointmentId
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=SyncHealth-Medical-Certificate.pdf`
+    );
+    await composeEmail(appointmentId, pdfBuffer);
+    res.setHeader("Content-Type", "application/pdf");
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error("Error generating medical certificate PDF:", error);
+    res.status(500).send("Error generating medical certificate");
+  }
 };
 
 module.exports = {
