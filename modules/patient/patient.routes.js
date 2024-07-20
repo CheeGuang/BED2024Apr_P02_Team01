@@ -39,7 +39,7 @@ patientRoutes.put(
 patientRoutes.get("/:id", patientController.getPatientById);
 
 // Update a specific patient by ID
-patientRoutes.put("/:id", authorizeUser, patientController.updatePatient);
+patientRoutes.put("/:id", patientController.updatePatient);
 
 //Update name of a specific patient by ID
 patientRoutes.put(

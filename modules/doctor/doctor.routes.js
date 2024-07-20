@@ -21,7 +21,7 @@ doctorRoutes.post("/", authorizeUser, doctorController.createDoctor); // POST fo
 doctorRoutes.post("/googleLogin", doctorController.googleLogin);
 doctorRoutes.get("/guest", doctorController.getGuestDoctor);
 doctorRoutes.get("/:id", doctorController.getDoctorById);
-doctorRoutes.put("/:id", authorizeUser, doctorController.updateDoctor); // PUT for updating doctors
+doctorRoutes.put("/:id", doctorController.updateDoctor); // PUT for updating doctors
 doctorRoutes.put(
   "/updateName/:id",
   authorizeUser,
