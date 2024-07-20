@@ -131,7 +131,7 @@ app.listen(port, async () => {
 });
 
 // ========== Schedule Daily Appointment Reminder Script ==========
-appointmentReminderScript.schedule();
+//appointmentReminderScript.schedule();
 
 // Close the connection pool on SIGINT signal
 process.on("SIGINT", async () => {
