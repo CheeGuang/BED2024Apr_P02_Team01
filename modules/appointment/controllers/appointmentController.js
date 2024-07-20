@@ -95,14 +95,16 @@ const createAppointment = async (req, res) => {
         newAppointmentData
       );
       // Get Patient Name
-      const patient = Patient.getPatientById(newAppointmentData.PatientID);
+      const patient = await Patient.getPatientById(
+        newAppointmentData.PatientID
+      );
       // Create a confirmation Email
       const emailData = {
         receipients: patient.Email,
         subject: "SyncHealth: Appointment Confirmation",
         text: `Dear ${patient.givenName} ${patient.familyName},\n\nYou have booked an appointment on ${newAppointmentData.endDateTime} successfully.\n\nBest regards,\nSyncHealth Team`,
       };
-      sendEmail(emailData)
+      await sendEmail(emailData)
         .then((result) => {
           console.log("Booking Confirmation Email sent!");
         })
