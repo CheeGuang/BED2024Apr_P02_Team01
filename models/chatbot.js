@@ -1,6 +1,8 @@
 require("dotenv").config();
 const OpenAI = require("openai");
 const sql = require("mssql");
+const fs = require("fs");
+const path = require("path");
 const dbConfig = require("../dbConfig");
 const EventEmitter = require("events");
 const { v4: uuidv4 } = require("uuid");
@@ -115,6 +117,117 @@ class Chatbot {
     connection.close();
     return result.recordset;
   }
-}
 
+  async saveRecognitionHistory(promptID, patientID, medicineName, mainPurpose, sideEffects, recommendedDosage, otherRemarks) {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `
+      INSERT INTO MedicineRecognitionHistory (PromptID, PatientID, MedicineName, MainPurpose, SideEffects, RecommendedDosage, OtherRemarks, Timestamp)
+      VALUES (@PromptID, @PatientID, @MedicineName, @MainPurpose, @SideEffects, @RecommendedDosage, @OtherRemarks, GETDATE())
+    `;
+    const request = connection.request();
+    request.input("PromptID", promptID);
+    request.input("PatientID", patientID);
+    request.input("MedicineName", sql.NVarChar, medicineName);
+    request.input("MainPurpose", sql.NVarChar, mainPurpose);
+    request.input("SideEffects", sql.NVarChar, sideEffects);
+    request.input("RecommendedDosage", sql.NVarChar, recommendedDosage);
+    request.input("OtherRemarks", sql.NVarChar, otherRemarks);
+    await request.query(sqlQuery);
+    connection.close();
+  }
+
+  async analyzeText(patientID, text) {
+    try {
+      const promptID = uuidv4();
+      const prompt = `
+        You are a medicine expert.
+        This is a medicine package or label recognition task. 
+
+        Analyze the image or text from the image and generate the following details if it is a medicine package or label:
+        - If information is not given on the image or label, generate it from your own knowledge.
+        - Do not mention that information is not found on the package.
+        - Ensure the response follows the format strictly with each key-value pair on a new line.
+        - You must generate a response for each column given below.
+        - If the text does not contain information about a medicine package or label, respond with:
+        "Image uploaded does not seem to contain a medicine package or label. Please try again"
+
+        Response format:
+        Medicine Name: <value>
+        Main Purpose: <value>
+        Side Effects: <value>
+        Recommended Dosage: <value>
+        Other Remarks: <value>
+
+        For recommended dosage: mention amount(pills/mg) per day
+
+        For other remarks, mention
+        -when is the best time to eat (example: after meal)
+        -who should not eat this medicine if they have certain condition.
+
+        Always start with "The image is a medicine product called [MEDICINE NAME]."
+      `;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [
+          { role: "system", content: prompt },
+          { role: "user", content: text }
+        ],
+      });
+
+      const botMessage = response.choices[0].message.content.trim();
+      if (botMessage.startsWith("Image uploaded does not seem to contain a medicine package or label.")) {
+        return botMessage;
+      }
+
+      const lines = botMessage.split('\n');
+      const details = {
+        MedicineName: "",
+        MainPurpose: "",
+        SideEffects: "",
+        RecommendedDosage: "",
+        OtherRemarks: ""
+      };
+
+      lines.forEach(line => {
+        const [key, ...valueParts] = line.split(':');
+        const value = valueParts.join(':').trim();
+        switch (key.trim()) {
+          case 'Medicine Name':
+            details.MedicineName = value;
+            break;
+          case 'Main Purpose':
+            details.MainPurpose = value;
+            break;
+          case 'Side Effects':
+            details.SideEffects = value;
+            break;
+          case 'Recommended Dosage':
+            details.RecommendedDosage = value;
+            break;
+          case 'Other Remarks':
+            details.OtherRemarks = value;
+            break;
+        }
+      });
+
+      await this.saveRecognitionHistory(
+        promptID,
+        patientID,
+        details.MedicineName,
+        details.MainPurpose,
+        details.SideEffects,
+        details.RecommendedDosage,
+        details.OtherRemarks
+      );
+
+      return botMessage;
+    } catch (error) {
+      console.error(`Error analyzing text with OpenAI: ${error.message}`);
+      throw new Error("Failed to analyze text with OpenAI");
+    }
+  }
+
+  
+}
 module.exports = { Chatbot, chatbotEmitter };
