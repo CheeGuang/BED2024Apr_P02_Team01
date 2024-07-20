@@ -31,3 +31,9 @@ VALUES (1, 1), (1, 2), (1, 3);
 -- Insert dummy data into AppointmentMedicine table
 INSERT INTO AppointmentMedicine (AppointmentID, MedicineID)
 VALUES (1, 1), (1, 2), (1, 3);
+
+-- Insert dummy data into Voucher table
+INSERT INTO Voucher (Code, Discount)
+VALUES 
+('SYNC2024', 5.00),
+('HEALTH24', 5.00);
