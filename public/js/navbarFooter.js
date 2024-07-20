@@ -3,7 +3,11 @@ const pageName = window.location.pathname.split("/").pop();
 
 // Fetch and insert the appropriate navbar HTML using JavaScript
 let navbarFile;
-if (pageName.includes("Login") || pageName.includes("SignUp")) {
+if (
+  pageName.includes("Login") ||
+  pageName.includes("SignUp") ||
+  pageName.includes("patientFacialRecognition")
+) {
   navbarFile = "navbar.html";
 } else if (pageName.includes("patient")) {
   navbarFile = "patientNavbar.html";
