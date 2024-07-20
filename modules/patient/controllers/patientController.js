@@ -392,7 +392,7 @@ const processMedicinePayment = async (req, res) => {
 
     // Format text for medicine purchased - this is for email
     let purchaseString = "";
-    const cart = patientData.Cart || {};
+    const cart = patient.Cart || {};
     if (cart && Object.keys(cart).length > 0) {
       for (const item in cart) {
         purchaseString += `\n${item} \t ${cart[item].Quantity} \t ${cart[item].Price}`;
