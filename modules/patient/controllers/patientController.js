@@ -63,8 +63,8 @@ const googleLogin = async (req, res) => {
     // Call the sendEmailFunction
     const emailData = {
       receipients: user.Email,
-      subject: "Singhealth: Sign In",
-      text: "You've been signed in successfully",
+      subject: "SyncHealth: Security Alert",
+      text: "You have signed in to SyncHealth successfully. If this was you, you don't need to do anything. If not, please contact us. \n\nBest regards,\nSyncHealth Team",
     };
     sendEmail(emailData)
       .then((result) => {

@@ -24,7 +24,8 @@ const dailyReminder = async () => {
     const emailData = {
       receipients: patient.Email, // Send email to patient
       subject: "Synchealth Appointment Reminder",
-      text: `Hello ${patient.givenName} ${patient.familyName}, this is a reminder that you have an appointment with Dr. ${doctor.familyName} today at ${appointment.endDateTime}. Please get ready 15 minutes prior to your scheduled time.`,
+      text: `Dear ${patient.givenName} ${patient.familyName},\n\nPlease be reminded that you have an appointment with Dr. ${doctor.familyName} 
+      today at ${appointment.endDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`,
     };
 
     sendEmail(emailData);
