@@ -97,11 +97,7 @@ patientRoutes.put(
 patientRoutes.delete("/:id", authorizeUser, patientController.deletePatient);
 
 // Get e-wallet amount for a specific patient by ID
-patientRoutes.get(
-  "/:id/eWalletAmount",
-  authorizeUser,
-  patientController.getEWalletAmount
-);
+patientRoutes.get("/:id/eWalletAmount", patientController.getEWalletAmount);
 
 // Update the cart for a specific patient by ID
 patientRoutes.put(
