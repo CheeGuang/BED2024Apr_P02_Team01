@@ -15,31 +15,6 @@ const dailyReminder = async () => {
   );
 
   // Loop through each appointment and send a reminder email
-  // todayAppointments.forEach((appointment) => {
-  //   // Query to find the doctor name
-  //   let doctor = new Doctor();
-  //   if (appointment.DoctorID != null) {
-  //     // Find the doctor name
-  //     doctor = async () => {
-  //       await Doctor.getDoctorById(appointment.DoctorID);
-  //     };
-  //   }
-  //   // Query to find patient's email and name
-  //   let patient = async () => {
-  //     await Patient.getPatientById(appointment.PatientID);
-  //   };
-
-  //   // Write an email
-  //   const emailData = {
-  //     receipients: "raeannezou@gmail.com", // Send email to patient
-  //     subject: "Synchealth Appointment Reminder",
-  //     text: `Hello ${patient.givenName} ${patient.familyName}, this is a reminder that you have an appointment with Dr. ${doctor.familyName} today at ${appointment.endDateTime}. Please get ready 15 minutes prior to your scheduled time.`,
-  //   };
-
-  //   sendEmail(emailData);
-  // });
-
-  // Loop through each appointment and send a reminder email
   todayAppointments.forEach(async (appointment) => {
     // Query to find the doctor name
     const doctor = await Doctor.getDoctorById(appointment.DoctorID);

@@ -438,9 +438,47 @@ const generateMedicalCertificate = async (req, res) => {
     );
     res.setHeader("Content-Type", "application/pdf");
     res.send(pdfBuffer);
+
+    await composeEmail(appointmentId);
   } catch (error) {
     console.error("Error generating medical certificate PDF:", error);
     res.status(500).send("Error generating medical certificate");
+  }
+};
+
+/**
+ * Controller to generate a medical certificate for an appointment.
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+const Patient = require("../../../models/patient");
+const Doctor = require("../../../models/doctor");
+const composeEmail = async (req, res) => {
+  const appointmentId = parseInt(req.params.id);
+  try {
+    // Get the appointmentInfo
+    const appointment = await getAppointmentById(appointmentId);
+    // Get patient and doctor names
+    const patient = await Patient.getPatientById(appointment.PatientID);
+    const doctor = await Doctor.getDoctorById(appointment.DoctorID);
+
+    // Create the email
+    const emailData = {
+      receipients: patient.Email,
+      subject: "Medical Certificate from SyncHealth",
+      text: `Dear ${patient.givenName} ${patient.familyName},\n\nPlease find attached your medical certificate from Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`,
+      attachments: [
+        {
+          filename: "SyncHealth-Medical-Certificate.pdf",
+          content: pdfBuffer,
+          contentType: "application/pdf",
+        },
+      ],
+    };
+    await sendEmail(emailData);
+  } catch (error) {
+    console.error("Error sending medical certificate PDF:", error);
+    res.status(500).send("Error sending medical certificate");
   }
 };
 
