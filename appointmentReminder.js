@@ -2,7 +2,7 @@ const { scheduleJob } = require("node-schedule");
 const { Appointment } = require("./models/appointment"); // Import the Appointment model
 const Doctor = require("./models/doctor"); // Import the Doctor model
 const Patient = require("./models/patient");
-const { sendEmailFunction } = require("./models/email"); // Import the email middleware
+const { sendEmail } = require("./models/email"); // Import the email middleware
 
 // Schedule a daily task to run at 8am every day "0 8 * * *"
 const dailyReminder = async () => {
@@ -36,7 +36,7 @@ const dailyReminder = async () => {
       text: `Hello ${patient.givenName} ${patient.familyName}, this is a reminder that you have an appointment with Dr. ${doctor.givenName} ${doctor.familyName} today at ${appointment.endDateTime}. Please get ready 15 minutes prior to your scheduled time.`,
     };
 
-    sendEmailFunction(emailData);
+    sendEmail(emailData);
   });
 
   console.log("Daily appointment reminder task completed");

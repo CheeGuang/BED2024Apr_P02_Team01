@@ -25,7 +25,7 @@ patientRoutes.get("/search", authorizeUser, patientController.searchPatients);
 patientRoutes.post("/", patientController.createPatient);
 
 // Google login for patients
-patientRoutes.post("/googleLogin", sendEmail, patientController.googleLogin);
+patientRoutes.post("/googleLogin", patientController.googleLogin);
 
 // Get guest patient
 patientRoutes.get("/guest", patientController.getGuestPatient);
