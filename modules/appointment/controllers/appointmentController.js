@@ -455,7 +455,7 @@ const Doctor = require("../../../models/doctor");
 const composeEmail = async (appointmentId, pdfBuffer) => {
   try {
     // Get the appointmentInfo
-    const appointment = await getAppointmentById(appointmentId);
+    const appointment = await Appointment.getAppointmentById(appointmentId);
     // Get patient and doctor names
     const patient = await Patient.getPatientById(appointment.PatientID);
     const doctor = await Doctor.getDoctorById(appointment.DoctorID);
