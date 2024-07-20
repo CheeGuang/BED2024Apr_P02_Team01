@@ -118,7 +118,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="address"
+                  id="autocomplete"
                   name="address"
                   required
                 />
@@ -143,6 +143,38 @@
               </button>
             </form>
           </div>
+
+          <script>
+            let autocomplete;
+
+            // Initialize Google Places Autocomplete
+            function initAutocomplete() {
+              autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('autocomplete'),
+                  { types: ['address'] }
+              );
+              autocomplete.addListener('place_changed', onPlaceChanged);
+            }
+
+            // Function to handle place changed event
+            function onPlaceChanged() {
+              const place = autocomplete.getPlace();
+    
+              if (!place.geometry) {
+                // User entered the name of a Place that was not suggested and pressed Enter
+                console.error("No details available for input: '" + place.name + "'");
+                return;
+              }
+
+            // Extract the address components from the place object
+            let address = place.formatted_address;
+
+            // Update the input field placeholder
+            document.getElementById('autocomplete').placeholder = address;
+            }
+          </script>
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfODrfyamagW_DLjezjgVJRZ8XsXSkUCQ&loading=async&libraries=places&callback=initAutocomplete" async defer>
+          </script>
           <!-- END OF CONTENT -->
         </div>
       </div>

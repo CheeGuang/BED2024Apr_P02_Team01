@@ -20,6 +20,9 @@ IF OBJECT_ID('dbo.AppointmentMedicine', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.ChatHistory', 'U') IS NOT NULL
     DROP TABLE dbo.ChatHistory;
 
+IF OBJECT_ID('dbo.Voucher', 'U') IS NOT NULL
+    DROP TABLE dbo.Voucher;
+
 -- Create Patient table
 CREATE TABLE Patient (
     PatientID INT IDENTITY(1,1) PRIMARY KEY,
@@ -108,6 +111,13 @@ CREATE TABLE ChatHistory (
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID)
 );
 
+-- Create Voucher table
+CREATE TABLE Voucher (
+    VoucherID INT IDENTITY(1,1) PRIMARY KEY,
+    Code VARCHAR(8),
+    Discount DECIMAL(10, 2)
+);
+
 -- Insert dummy data into Patient table
 INSERT INTO Patient (Email, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI, googleId, givenName, familyName, profilePicture, Cart)
 VALUES ('john.doe@example.com', '1234567890', '1980-01-01', 'Male', '123 Main St', 100.00, 'resetCode123', 1000.00, 'googleId123', 'John', 'Doe', './images/LoginIconLight.png', NULL);
@@ -141,6 +151,12 @@ VALUES (1, 1), (1, 2), (1, 3);
 -- Insert dummy data into AppointmentMedicine table
 INSERT INTO AppointmentMedicine (AppointmentID, MedicineID)
 VALUES (1, 1), (1, 2), (1, 3);
+
+-- Insert dummy data into Voucher table
+INSERT INTO Voucher (Code, Discount)
+VALUES 
+('SYNC2024', 5.00),
+('HEALTH24', 5.00);
 
 -- Select all data from Patient table
 SELECT * FROM Patient;

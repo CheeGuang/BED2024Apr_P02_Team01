@@ -20,6 +20,9 @@ IF OBJECT_ID('dbo.AppointmentMedicine', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.ChatHistory', 'U') IS NOT NULL
     DROP TABLE dbo.ChatHistory;
 
+IF OBJECT_ID('dbo.Voucher', 'U') IS NOT NULL
+    DROP TABLE dbo.Voucher;
+
 -- Create Patient table
 CREATE TABLE Patient (
     PatientID INT IDENTITY(1,1) PRIMARY KEY,
@@ -106,4 +109,11 @@ CREATE TABLE ChatHistory (
     Message NVARCHAR(MAX),
     Timestamp DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID)
+);
+
+-- Create Voucher table
+CREATE TABLE Voucher (
+    VoucherID INT IDENTITY(1,1) PRIMARY KEY,
+    Code VARCHAR(8),
+    Discount DECIMAL(10, 2)
 );

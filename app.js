@@ -21,6 +21,8 @@ const appointmentRoutes = require("./modules/appointment/appointment.routes");
 const chatbotRoutes = require("./modules/chatbot/chatbot.routes");
 // Initialising chasClinicRoutes
 const chasClinicRoutes = require("./modules/chasClinic/chasClinic.routes");
+// Initialising voucherRoutes
+const voucherRoutes = require('./modules/voucher/voucher.routes');
 // Initialising SQL
 const sql = require("mssql");
 // Initialising dbConfig file
@@ -80,6 +82,9 @@ app.use("/api/chatbot", chatbotRoutes);
 
 // chasClinicRoutes Routes Route
 app.use("/api/chasClinic", chasClinicRoutes);
+
+// voucherRoutes Route
+app.use("/api/voucher", voucherRoutes);
 
 // Check Auth Endpoint
 app.get("/api/checkAuth", authMiddleware, (req, res) => {

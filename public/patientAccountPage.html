@@ -209,20 +209,25 @@
                   <i
                     id="address-icon"
                     class="fa fa-pencil-square-o fa-lg"
-                    onclick="ToggleEditableMode('address-icon', 'address')"
+                    onclick="ToggleEditableMode('address-icon', 'autocomplete')"
                   ></i>
                 </div>
 
-                <textarea
+                <input
                   type="text"
                   class="form-control mt-3"
-                  id="address"
+                  id="autocomplete"
                   placeholder="Address"
                   disabled
-                ></textarea>
+                ></input>
               </div>
             </div>
           </section>
+
+
+        
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfODrfyamagW_DLjezjgVJRZ8XsXSkUCQ&loading=async&libraries=places&callback=initAutocomplete" async defer>
+          </script>
           <!-- END OF CONTENT -->
         </div>
       </div>
