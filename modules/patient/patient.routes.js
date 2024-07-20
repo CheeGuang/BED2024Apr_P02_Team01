@@ -20,7 +20,7 @@ const patientRoutes = express.Router();
 patientRoutes.get("/search", authorizeUser, patientController.searchPatients);
 
 // Create a new patient
-patientRoutes.post("/", authorizeUser, patientController.createPatient);
+patientRoutes.post("/", patientController.createPatient);
 
 // Google login for patients
 patientRoutes.post("/googleLogin", patientController.googleLogin);

@@ -17,7 +17,7 @@ const doctorRoutes = express.Router();
 // ========== Routes ==========
 // Define routes for the doctor
 doctorRoutes.get("/", authorizeUser, doctorController.getAllDoctors);
-doctorRoutes.post("/", authorizeUser, doctorController.createDoctor); // POST for creating doctors (can handle JSON data)
+doctorRoutes.post("/", doctorController.createDoctor); // POST for creating doctors (can handle JSON data)
 doctorRoutes.post("/googleLogin", doctorController.googleLogin);
 doctorRoutes.get("/guest", doctorController.getGuestDoctor);
 doctorRoutes.get("/:id", doctorController.getDoctorById);
