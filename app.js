@@ -39,7 +39,7 @@ const authMiddleware = require("./middlewares/authMiddleware"); // Adjust the pa
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger-output.json"); // Import generated spec
 // Importing the scheduler
-const appointmentReminderScript = require("./models/appointmentReminder");
+const appointmentReminderScript = require("./appointmentReminder");
 
 // ========== Set-Up ==========
 // Initiating app
