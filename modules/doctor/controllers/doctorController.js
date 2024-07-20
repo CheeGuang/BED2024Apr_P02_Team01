@@ -79,7 +79,22 @@ const updateDoctor = async (req, res) => {
       return res.status(404).send("Doctor not found");
     }
 
-    res.json(updatedDoctor);
+    const payload = {
+      DoctorID: updatedPatient.DoctorID,
+      email: updatedPatient.Email,
+    };
+
+    const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+      expiresIn: "3600s", // This should be inside the options object
+    });
+
+    console.log(`JWT Token: ${jwtToken}`);
+
+    res.status(200).json({
+      user,
+      token: jwtToken,
+    });
     console.log("Response sent successfully");
   } catch (error) {
     console.error("Error updating doctor:", error);

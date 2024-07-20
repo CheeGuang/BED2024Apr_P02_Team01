@@ -136,7 +136,24 @@ const updatePatient = async (req, res) => {
     if (!updatedPatient) {
       return res.status(404).send("Patient not found");
     }
-    res.json(updatedPatient);
+
+    const payload = {
+      PatientID: updatedPatient.PatientID,
+      email: updatedPatient.Email,
+    };
+
+    const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+      expiresIn: "3600s", // This should be inside the options object
+    });
+
+    console.log(`JWT Token: ${jwtToken}`);
+
+    res.status(200).json({
+      user,
+      token: jwtToken,
+    });
+    console.log("Response sent successfully");
   } catch (error) {
     console.error(error);
     res.status(500).send("Error updating patient");
