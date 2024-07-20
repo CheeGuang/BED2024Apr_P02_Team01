@@ -38,6 +38,8 @@ const authMiddleware = require("./middlewares/authMiddleware"); // Adjust the pa
 // Initialising Swagger API Packages
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+// Importing the scheduler
+const appointmentReminderScript = require("./appointmentReminder");
 
 // ========== Set-Up ==========
 // Initiating app
@@ -106,6 +108,8 @@ app.all("*", (req, res, next) => {
     message: "Not found!",
   });
 });
+
+appointmentReminderScript.schedule();
 
 // ========== Error Handler ==========
 // Async Error Handler
