@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     '"><i class="fas fa-download"></i> Download MC</button>' +
                     '<button class="btn btn-dark btn-custom btn-email-mc" data-id="' +
                     appointment.AppointmentID +
-                    '"><i class="fas fa-eye"></i> Email MC</button>'
+                    '"><i class="fa-solid fa-envelope"></i> Email MC</button>'
                   : ""
               }
             </div>
@@ -297,6 +297,52 @@ document.addEventListener("DOMContentLoaded", function () {
               console.error("Error downloading medical certificate:", error);
             });
         });
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching appointments:", error);
+    });
+
+  // Add event listeners for Email MC Button
+  document
+    .querySelectorAll(".btn-email-mc")
+    .forEach((button) => {
+      button.addEventListener("click", function () {
+        const appointmentID = this.getAttribute("data-id");
+        console.log(
+          "Email MC button clicked for appointmentID:",
+          appointmentID
+        );
+        const mcUrl = `${baseUrl}/api/appointment/${appointmentID}/emailMedicalCertificate`;
+
+        fetch(mcUrl, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "PatientJWTAuthToken"
+            )}`,
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            //return response.blob();
+          })
+          // .then((blob) => {
+          //   const url = window.URL.createObjectURL(blob);
+          //   const a = document.createElement("a");
+          //   a.style.display = "none";
+          //   a.href = url;
+          //   a.download = "SyncHealth-MedicalCertificate.pdf"; // you can specify a custom file name here
+          //   document.body.appendChild(a);
+          //   a.click();
+          //   window.URL.revokeObjectURL(url);
+          // })
+          .catch((error) => {
+            console.error("Error downloading medical certificate:", error);
+          });
       });
     })
     .catch((error) => {
