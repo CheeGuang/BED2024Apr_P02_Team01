@@ -93,6 +93,9 @@ patientRoutes.put(
   patientController.updateAccountAddress
 );
 
+// Google login for FaceAuth
+patientRoutes.get("/faceAuth/:id", patientController.getPatientByIDFaceAuth);
+
 // Delete a specific patient by ID
 patientRoutes.delete("/:id", authorizeUser, patientController.deletePatient);
 

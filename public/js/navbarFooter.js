@@ -6,7 +6,8 @@ let navbarFile;
 if (
   pageName.includes("Login") ||
   pageName.includes("SignUp") ||
-  pageName.includes("patientFacialRecognition")
+  pageName.includes("patientFacialRecognition") ||
+  pageName.includes("doctorFacialRecognition")
 ) {
   navbarFile = "navbar.html";
 } else if (pageName.includes("patient")) {

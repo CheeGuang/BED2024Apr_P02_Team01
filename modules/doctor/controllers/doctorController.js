@@ -27,6 +27,36 @@ const getDoctorById = async (req, res) => {
   }
 };
 
+const getDoctorByIDFaceAuth = async (req, res) => {
+  const doctorId = parseInt(req.params.id);
+  try {
+    const doctor = await Doctor.getDoctorById(doctorId);
+    if (!doctor) {
+      return res.status(404).send("Doctor not found");
+    }
+
+    const payload = {
+      DoctorID: doctor.DoctorID,
+      email: doctor.Email,
+    };
+
+    const jwtToken = jwt.sign(payload, process.env.JWT_SECRET, {
+      algorithm: "HS256",
+      expiresIn: "3600s",
+    });
+
+    console.log(`JWT Token: ${jwtToken}`);
+
+    res.status(200).json({
+      user: doctor,
+      token: jwtToken,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving doctor");
+  }
+};
+
 const getGuestDoctor = async (req, res) => {
   try {
     const user = await Doctor.getGuestDoctor();
@@ -280,4 +310,5 @@ module.exports = {
   deleteDoctor,
   googleLogin,
   getGuestDoctor,
+  getDoctorByIDFaceAuth,
 };

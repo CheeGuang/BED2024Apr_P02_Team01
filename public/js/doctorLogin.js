@@ -74,3 +74,6 @@ async function proceedAsGuest() {
     console.error("There was a problem with the fetch operation:", error);
   }
 }
+async function faceAuth() {
+  window.location.href = "../doctorFacialRecognition.html";
+}

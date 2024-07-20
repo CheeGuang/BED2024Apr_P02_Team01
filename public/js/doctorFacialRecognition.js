@@ -27,7 +27,7 @@ async function recognizeFaces() {
       .then((response) => response.json())
       .then((data) => {
         return data
-          .filter((d) => d.PatientID !== null) // Filter out entries with PatientID null
+          .filter((d) => d.DoctorID !== null) // Filter out entries with DoctorID null
           .map((d) => {
             const descriptors = new Float32Array(Object.values(d.descriptor));
             return {
@@ -35,7 +35,7 @@ async function recognizeFaces() {
                 d.name,
                 [descriptors]
               ),
-              patientID: d.PatientID, // Assume that your data contains PatientID
+              doctorID: d.DoctorID, // Assume that your data contains DoctorID
             };
           });
       });
@@ -72,7 +72,7 @@ async function recognizeFaces() {
           );
 
           let isUnknown = false;
-          let matchedPatientID = null;
+          let matchedDoctorID = null;
 
           results.forEach((result, i) => {
             console.log(`${result.toString()}`);
@@ -91,7 +91,7 @@ async function recognizeFaces() {
                 (ld) => ld.labeledFaceDescriptors.label === result.label
               );
               if (matchedDescriptor) {
-                matchedPatientID = matchedDescriptor.patientID;
+                matchedDoctorID = matchedDescriptor.doctorID;
               }
             }
           });
@@ -99,7 +99,7 @@ async function recognizeFaces() {
           // Disable or enable the sign-in button based on face recognition result
           try {
             signInButton.disabled = isUnknown;
-            signInButton.dataset.patientId = matchedPatientID; // Store the patient ID in a data attribute
+            signInButton.dataset.doctorId = matchedDoctorID; // Store the doctor ID in a data attribute
           } catch {
             console.log("No Sign-In Button");
           }
@@ -123,20 +123,17 @@ try {
       if (detections) {
         const descriptor = detections.descriptor;
         const name = prompt("Enter your name");
-        const patientDetails = JSON.parse(
-          localStorage.getItem("patientDetails")
-        );
-        const PatientID = patientDetails ? patientDetails.PatientID : null;
-        const DoctorID = null; // Set DoctorID to null for patients
+        const doctorDetails = JSON.parse(localStorage.getItem("doctorDetails"));
+        const DoctorID = doctorDetails ? doctorDetails.DoctorID : null;
 
-        if (name && PatientID) {
-          // Fetch existing descriptors to check if PatientID exists
+        if (name && DoctorID) {
+          // Fetch existing descriptors to check if DoctorID exists
           const labeledDescriptors = await fetch(
             "api/facialRecognition/descriptors"
           ).then((response) => response.json());
 
           const existingDescriptor = labeledDescriptors.find(
-            (d) => d.PatientID === PatientID
+            (d) => d.DoctorID === DoctorID
           );
 
           if (existingDescriptor) {
@@ -146,7 +143,7 @@ try {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ name, descriptor, PatientID, DoctorID }),
+              body: JSON.stringify({ name, descriptor, DoctorID }),
             });
 
             if (response.ok) {
@@ -162,7 +159,7 @@ try {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ name, descriptor, PatientID, DoctorID }),
+              body: JSON.stringify({ name, descriptor, DoctorID }),
             });
 
             if (response.ok) {
@@ -173,7 +170,7 @@ try {
             }
           }
         } else {
-          alert("Patient ID not found or name not provided.");
+          alert("Doctor ID not found or name not provided.");
         }
       } else {
         alert("No face detected. Please try again.");
@@ -186,9 +183,9 @@ try {
   console.log("Not at Register FaceAuth");
 }
 async function signIn() {
-  const PatientID = signInButton.dataset.patientId;
-  if (PatientID) {
-    fetch(`/api/patient/faceAuth/${PatientID}`, {
+  const DoctorID = signInButton.dataset.doctorId;
+  if (DoctorID) {
+    fetch(`/api/doctor/faceAuth/${DoctorID}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -197,22 +194,22 @@ async function signIn() {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          console.error("Error updating patient", data.error);
+          console.error("Error updating doctor", data.error);
         } else {
           console.log(data);
 
-          localStorage.setItem("patientDetails", JSON.stringify(data.user));
+          localStorage.setItem("doctorDetails", JSON.stringify(data.user));
 
-          localStorage.setItem("PatientJWTAuthToken", data.token);
+          localStorage.setItem("DoctorJWTAuthToken", data.token);
 
-          localStorage.setItem("PatientID", data.user.PatientID);
-          window.location.href = "../patientHomePage.html"; // Redirect to home page or another page after sign-in
+          localStorage.setItem("DoctorID", data.user.DoctorID);
+          window.location.href = "../doctorHomePage.html"; // Redirect to home page or another page after sign-in
         }
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   } else {
-    alert("No patient ID found. Please try again.");
+    alert("No doctor ID found. Please try again.");
   }
 }
