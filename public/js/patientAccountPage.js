@@ -12,7 +12,7 @@ const username = document.getElementById("username");
 const email = document.getElementById("email");
 const contact = document.getElementById("contact");
 const dob = document.getElementById("dob");
-const address = document.getElementById("address");
+const address = document.getElementById("autocomplete");
 const gender = document.getElementById("gender");
 
 const errorMessage = document.getElementById("errorMessage");
@@ -291,43 +291,70 @@ async function UpdateDOBRecord() {
   }
 }
 
-async function UpdateAddressRecord() {
-  // Make the PUT request to the API
-  console.log("Patient ID: " + patientDetails.PatientID);
-  try {
-    const response = await fetch(
-      `${window.location.origin}/api/patient/updateAddress/${patientDetails.PatientID}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem(
-            "PatientJWTAuthToken"
-          )}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ address: address.value }),
-      }
+let autocomplete;
+
+// Initialize Google Places Autocomplete
+function initAutocomplete() {
+    autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('autocomplete'),
+        { types: ['address'] }
     );
+    autocomplete.addListener('place_changed', onPlaceChanged);
+}
 
-    const result = await response.json();
-
-    // Write to local storage
-    if (response.ok) {
-      // Update UI
-      address.placeholder = `S$${result.Address}`;
-      // Update local storage
-      patientDetails.Address = result.Address;
-      localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
-      // Show notification
-      showNotification("Address updated successfully", "success");
-    } else {
-      console.error("Error updating patient address", result.error);
-      showNotification("An error occurred while updating address", "error");
+// Function to handle place changed event
+function onPlaceChanged() {
+    const place = autocomplete.getPlace();
+    
+    if (!place.geometry) {
+        // User entered the name of a Place that was not suggested and pressed Enter
+        console.error("No details available for input: '" + place.name + "'");
+        return;
     }
-  } catch (error) {
-    console.error("Error:", error);
-    showNotification("An error occurred while updating address", "error");
-  }
+
+    // Extract the address components from the place object
+    let address = place.formatted_address;
+
+    // Update the input field placeholder
+    document.getElementById('autocomplete').placeholder = address;
+
+    // Update the address in the database
+    UpdateAddressRecord(address);
+}
+
+// Function to update the address record in the database
+async function UpdateAddressRecord(address) {
+    console.log("Updating address for Patient ID: " + patientDetails.PatientID);
+    try {
+        const response = await fetch(
+            `${window.location.origin}/api/patient/updateAddress/${patientDetails.PatientID}`,
+            {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("PatientJWTAuthToken")}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ address: address }),
+            }
+        );
+
+        const result = await response.json();
+        console.log("Response received:", result);
+
+        if (response.ok) {
+            document.getElementById('autocomplete').placeholder = result.Address;
+            patientDetails.Address = result.Address;
+            localStorage.setItem("patientDetails", JSON.stringify(patientDetails));
+
+            showNotification("Address updated successfully", "success");
+        } else {
+            console.error("Error updating patient address", result.error);
+            showNotification("An error occurred while updating address", "error");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        showNotification("An error occurred while updating address", "error");
+    }
 }
 
 function showNotification(message, type) {

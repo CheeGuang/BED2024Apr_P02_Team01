@@ -1,0 +1,15 @@
+.back-button {
+    background-color: transparent;
+    border: none;
+    margin-top: 20px;
+  }
+  
+  .fa-arrow-left {
+    color: #1a252f;
+  }
+  
+  .fa-arrow-left {
+    margin-bottom: 20px;
+    color: var(--font-color);
+  }
+  

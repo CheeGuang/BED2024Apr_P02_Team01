@@ -14,7 +14,7 @@ document
     const contactNumber = document.getElementById("contactNumber").value;
     const dob = document.getElementById("dob").value;
     const gender = document.getElementById("gender").value;
-    const address = document.getElementById("address").value;
+    const address = document.getElementById("autocomplete").value;
     const pchi = document.getElementById("pchi").value;
     const errorMessage = document.getElementById("errorMessage");
 

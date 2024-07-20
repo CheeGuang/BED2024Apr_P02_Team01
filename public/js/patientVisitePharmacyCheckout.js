@@ -285,3 +285,63 @@ async function loadBalance() {
     alert("An error occurred while loading e-wallet amount.");
   }
 }
+
+
+async function applyVoucherCode() {
+  const voucherCodeInput = document.getElementById("code");
+  const voucherCode = voucherCodeInput.value.trim();
+
+  // Check if voucher code is not empty
+  if (voucherCode !== "") {
+    try {
+      const response = await fetch(
+        `${window.location.origin}/api/voucher/${voucherCode}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("PatientJWTAuthToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Voucher code not found");
+      }
+
+      const voucherData = await response.json();
+      const discountAmount = voucherData.Discount;
+
+      const totalAmount = parseFloat(
+        document.getElementById("total-price").textContent.replace("$", "")
+      );
+
+      // Check if total amount is more than $10 before applying voucher
+      if (totalAmount <= 10) {
+        showNotification("Total amount must be more than $10 to use voucher", "error");
+        return;
+      }
+
+      // Calculate discounted total
+      const discountedTotal = totalAmount - discountAmount;
+      if (discountedTotal < 0) {
+        showNotification("Discount amount exceeds total price", "error");
+        return;
+      }
+
+      // Update total price display
+      totalPriceElement.textContent = `$${discountedTotal.toFixed(2)}`;
+      showNotification("Voucher applied successfully", "success");
+
+    } catch (error) {
+      console.error("Error applying voucher code:", error.message);
+      showNotification("Failed to apply voucher code", "error");
+    }
+  } else {
+    // Voucher code is empty, no action needed
+    showNotification("No voucher code entered", "info");
+  }
+}
+
+// Event listener for applying voucher code
+document.getElementById("apply-voucher-button").addEventListener("click", applyVoucherCode);

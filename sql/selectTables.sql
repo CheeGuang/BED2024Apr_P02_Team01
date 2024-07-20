@@ -18,3 +18,6 @@ SELECT * FROM AppointmentMedicine;
 
 -- Select all data from ChatHistory table
 SELECT * FROM ChatHistory;
+
+-- Select all data from Voucher table
+SELECT * FROM Voucher;
