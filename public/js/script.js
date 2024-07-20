@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "doctorSignUp.html",
       "patientLogin.html",
       "patientSignUp.html",
+      "patienteWalletTopUp.html",
     ];
 
     // Get the current page name
