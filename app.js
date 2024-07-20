@@ -22,7 +22,7 @@ const chatbotRoutes = require("./modules/chatbot/chatbot.routes");
 // Initialising chasClinicRoutes
 const chasClinicRoutes = require("./modules/chasClinic/chasClinic.routes");
 // Initialising voucherRoutes
-const voucherRoutes = require('./modules/voucher/voucher.routes');
+const voucherRoutes = require("./modules/voucher/voucher.routes");
 // Initialising SQL
 const sql = require("mssql");
 // Initialising dbConfig file
@@ -62,11 +62,6 @@ app.use(passport.session());
 // Return index.html at default endpoint
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, ".", "public", "index.html"));
-});
-
-// Route for the results page
-app.get("/results", (req, res) => {
-  res.sendFile(path.join(__dirname, ".","public", "patientMedRecognitionResults.html"));
 });
 
 // ========== Routes ==========
