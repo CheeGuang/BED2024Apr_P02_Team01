@@ -322,9 +322,9 @@ const updateEWalletAmount = async (req, res) => {
 
     // Call the sendEmailFunction
     const emailData = {
-      receipients: user.Email,
+      receipients: updatedPatient.Email,
       subject: "SyncHealth: Security Alert",
-      text: `Dear ${user.givenName} ${user.familyName},\n\nYour e-wallet top-up of ${amount} is successful. Your new balance is ${updatedPatient.eWalletAmount} 
+      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet top-up of ${amount} is successful. Your new balance is ${updatedPatient.eWalletAmount} 
       \n**Please refresh browser to see updated balance. \n\nBest regards,\nSyncHealth Team`,
     };
     sendEmail(emailData)
