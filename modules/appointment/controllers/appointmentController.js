@@ -1,9 +1,11 @@
+const { sendEmail } = require("../../../models/email");
 const moment = require("moment-timezone");
 const {
   Appointment,
   appointmentEmitter,
 } = require("../../../models/appointment");
 const API_KEY = process.env.appointmentAPIKey;
+const Patient = require("../../../models/patient");
 
 /**
  * Controller to create a new appointment.
@@ -91,6 +93,35 @@ const createAppointment = async (req, res) => {
       const createdAppointment = await Appointment.createAppointment(
         newAppointmentData
       );
+
+      // Get Patient Name
+      const patient = await Patient.getPatientById(PatientID);
+
+      // Create a confirmation Email
+      const emailData = {
+        receipients: patient.Email,
+        subject: "Appointment Confirmation",
+        text: `Dear ${patient.givenName} ${
+          patient.familyName
+        },\n\nYou have booked an appointment on ${startDateTime
+          .tz("Asia/Singapore")
+          .format(
+            "YYYY-MM-DD HH:mm"
+          )} successfully.\n\nBest regards,\nSyncHealth Team`,
+      };
+
+      try {
+        await sendEmail(emailData)
+          .then((result) => {
+            console.log("Booking Confirmation Email sent!");
+          })
+          .catch((error) => {
+            console.error("Error sending booking confirmation email: " + error);
+          });
+      } catch {
+        console.log("Unable to send email");
+      }
+
       // Handling Response
       res.status(200).json({
         status: "Success",

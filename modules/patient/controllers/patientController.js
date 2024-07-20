@@ -1,3 +1,4 @@
+const { sendEmail } = require("../../../models/email");
 const Patient = require("../../../models/patient.js");
 const jwt = require("jsonwebtoken");
 
@@ -58,6 +59,25 @@ const googleLogin = async (req, res) => {
     });
 
     console.log(`JWT Token: ${jwtToken}`);
+
+    // Call the sendEmailFunction
+    const emailData = {
+      receipients: user.Email,
+      subject: "Security Alert",
+      text: "You have signed in to SyncHealth successfully. If this was you, you don't need to do anything. If not, please contact us. \n\nBest regards,\nSyncHealth Team",
+    };
+
+    try {
+      await sendEmail(emailData)
+        .then((result) => {
+          console.log("Login Email sent!");
+        })
+        .catch((error) => {
+          console.error("Error sending login email: " + error);
+        });
+    } catch {
+      console.log("Unable to send email");
+    }
 
     res.status(200).json({
       user,
@@ -334,6 +354,28 @@ const updateEWalletAmount = async (req, res) => {
     if (!updatedPatient) {
       return res.status(404).send("Patient not found");
     }
+
+    // Call the sendEmailFunction
+    const emailData = {
+      receipients: updatedPatient.Email,
+      subject: "E-wallet Top Up",
+      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet top-up of $${amount} is successful. Your new balance is $${updatedPatient.eWalletAmount} 
+      \n\nBest regards,\nSyncHealth Team  \n\n**Please refresh browser to see updated balance. `,
+    };
+    try {
+      await sendEmail(emailData)
+        .then((result) => {
+          console.log("E-Wallet Top-up Confirmation Email sent!");
+        })
+        .catch((error) => {
+          console.error(
+            "Error sending E-Wallet Top-up Confirmation email: " + error
+          );
+        });
+    } catch {
+      console.log("Unable to send email");
+    }
+
     res.json({
       status: "Success",
       eWalletAmount: updatedPatient.eWalletAmount,
@@ -394,6 +436,27 @@ const processMedicinePayment = async (req, res) => {
 
     // Clear the cart after payment
     await Patient.clearCart(patientId);
+
+    // Call the sendEmailFunction
+    const emailData = {
+      receipients: updatedPatient.Email,
+      subject: "E-wallet Payment",
+      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet payment of $${totalAmount} is successful. Your new balance is $${updatedPatient.eWalletAmount}.
+      \n\nIf you did not make this purchase, please contact us. \n\nBest regards,\nSyncHealth Team `,
+    };
+    try {
+      await sendEmail(emailData)
+        .then((result) => {
+          console.log("E-Wallet Top-up Confirmation Email sent!");
+        })
+        .catch((error) => {
+          console.error(
+            "Error sending E-Wallet Top-up Confirmation email: " + error
+          );
+        });
+    } catch {
+      console.log("Unable to send email");
+    }
 
     res.json({
       status: "Success",
