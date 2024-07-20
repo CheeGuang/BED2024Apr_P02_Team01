@@ -29,11 +29,7 @@ patientRoutes.post("/googleLogin", patientController.googleLogin);
 patientRoutes.get("/guest", patientController.getGuestPatient);
 
 // Top up e-wallet amount for a patient by ID
-patientRoutes.put(
-  "/topup/:id",
-  authorizeUser,
-  patientController.updateEWalletAmount
-);
+patientRoutes.put("/topup/:id", patientController.updateEWalletAmount);
 
 // Get a specific patient by ID
 patientRoutes.get("/:id", patientController.getPatientById);
