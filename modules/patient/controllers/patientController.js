@@ -63,7 +63,7 @@ const googleLogin = async (req, res) => {
     // Call the sendEmailFunction
     const emailData = {
       receipients: user.Email,
-      subject: "SyncHealth: Security Alert",
+      subject: "Security Alert",
       text: "You have signed in to SyncHealth successfully. If this was you, you don't need to do anything. If not, please contact us. \n\nBest regards,\nSyncHealth Team",
     };
     sendEmail(emailData)
@@ -323,7 +323,7 @@ const updateEWalletAmount = async (req, res) => {
     // Call the sendEmailFunction
     const emailData = {
       receipients: updatedPatient.Email,
-      subject: "SyncHealth: E-wallet Top Up",
+      subject: "E-wallet Top Up",
       text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet top-up of $${amount} is successful. Your new balance is $${updatedPatient.eWalletAmount} 
       \n\nBest regards,\nSyncHealth Team  \n\n**Please refresh browser to see updated balance. `,
     };
@@ -403,7 +403,7 @@ const processMedicinePayment = async (req, res) => {
     // Call the sendEmailFunction
     const emailData = {
       receipients: updatedPatient.Email,
-      subject: "SyncHealth: E-wallet Payment",
+      subject: "E-wallet Payment",
       text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet payment of $${totalAmount} is successful. Your new balance is $${updatedPatient.eWalletAmount}.
       \n\nIf you did not make this purchase, please contact us. \n\nBest regards,\nSyncHealth Team `,
     };
