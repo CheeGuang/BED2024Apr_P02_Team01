@@ -319,6 +319,24 @@ const updateEWalletAmount = async (req, res) => {
     if (!updatedPatient) {
       return res.status(404).send("Patient not found");
     }
+
+    // Call the sendEmailFunction
+    const emailData = {
+      receipients: user.Email,
+      subject: "SyncHealth: Security Alert",
+      text: `Dear ${user.givenName} ${user.familyName},\n\nYour e-wallet top-up of ${amount} is successful. Your new balance is ${updatedPatient.eWalletAmount} 
+      \n**Please refresh browser to see updated balance. \n\nBest regards,\nSyncHealth Team`,
+    };
+    sendEmail(emailData)
+      .then((result) => {
+        console.log("E-Wallet Top-up Confirmation Email sent!");
+      })
+      .catch((error) => {
+        console.error(
+          "Error sending E-Wallet Top-up Confirmation email: " + error
+        );
+      });
+
     res.json({
       status: "Success",
       eWalletAmount: updatedPatient.eWalletAmount,
