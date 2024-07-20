@@ -6,7 +6,7 @@ const {
 const API_KEY = process.env.appointmentAPIKey;
 const Patient = require("../../../models/patient");
 const Doctor = require("../../../models/doctor");
-const { sendEmailWithAttachment } = require("../../../models/email");
+const { sendEmail, sendEmailWithAttachment } = require("../../../models/email");
 
 /**
  * Controller to create a new appointment.
@@ -94,6 +94,21 @@ const createAppointment = async (req, res) => {
       const createdAppointment = await Appointment.createAppointment(
         newAppointmentData
       );
+      // Get Patient Name
+      const patient = Patient.getPatientById(newAppointmentData.PatientID);
+      // Create a confirmation Email
+      const emailData = {
+        receipients: patient.Email,
+        subject: "SyncHealth: Appointment Confirmation",
+        text: `Dear ${patient.givenName} ${patient.familyName},\n\nYou have booked an appointment on ${newAppointmentData.endDateTime} successfully.\n\nBest regards,\nSyncHealth Team`,
+      };
+      sendEmail(emailData)
+        .then((result) => {
+          console.log("Booking Confirmation Email sent!");
+        })
+        .catch((error) => {
+          console.error("Error sending booking confirmation email: " + error);
+        });
       // Handling Response
       res.status(200).json({
         status: "Success",
