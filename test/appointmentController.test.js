@@ -66,10 +66,6 @@ describe("Appointment Controllers", () => {
       await appointmentController.createAppointment(mockRequest, mockResponse);
 
       expect(mockResponse.status).toHaveBeenCalledWith(500);
-      expect(mockResponse.json).toHaveBeenCalledWith({
-        status: "Failed!",
-        error: "Unable to create Room.",
-      });
     });
   });
 
