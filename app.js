@@ -23,6 +23,8 @@ const chatbotRoutes = require("./modules/chatbot/chatbot.routes");
 const chasClinicRoutes = require("./modules/chasClinic/chasClinic.routes");
 // Initialising voucherRoutes
 const voucherRoutes = require("./modules/voucher/voucher.routes");
+// Initialising facialRecognitionRoutes
+const facialRecognitionRoutes = require("./modules/facialRecognition/facialRecognition.routes");
 // Initialising SQL
 const sql = require("mssql");
 // Initialising dbConfig file
@@ -85,6 +87,9 @@ app.use("/api/chasClinic", chasClinicRoutes);
 
 // voucherRoutes Route
 app.use("/api/voucher", voucherRoutes);
+
+// Facial Recognition Routes Route
+app.use("/api/facialRecognition", facialRecognitionRoutes);
 
 // Check Auth Endpoint
 app.get("/api/checkAuth", authMiddleware, (req, res) => {
