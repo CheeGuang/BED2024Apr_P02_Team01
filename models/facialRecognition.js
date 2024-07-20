@@ -47,6 +47,30 @@ class FacialRecognition {
     return false;
   }
   /**
+   * Delete a descriptor and save to file.
+   * @param {Object} param - An object containing the PatientID and DoctorID.
+   * @returns {boolean} True if the descriptor was deleted, false if not found.
+   */
+  deleteDescriptor({ PatientID, DoctorID }) {
+    let index;
+    if (PatientID) {
+      index = this.labeledDescriptors.findIndex(
+        (ld) => ld.PatientID === PatientID
+      );
+    } else {
+      index = this.labeledDescriptors.findIndex(
+        (ld) => ld.DoctorID === DoctorID
+      );
+    }
+
+    if (index !== -1) {
+      this.labeledDescriptors.splice(index, 1);
+      fs.writeFileSync(this.dataPath, JSON.stringify(this.labeledDescriptors));
+      return true;
+    }
+    return false;
+  }
+  /**
    * Get all descriptors.
    * @returns {Array} An array of labeled descriptors.
    */

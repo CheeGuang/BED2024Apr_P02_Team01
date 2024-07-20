@@ -21,6 +21,12 @@ facialRecognitionRoutes.put(
 );
 
 // Route to get all face descriptors
+facialRecognitionRoutes.delete(
+  "/delete",
+  facialRecognitionController.deleteDescriptor
+);
+
+// Route to get all face descriptors
 facialRecognitionRoutes.get(
   "/descriptors",
   facialRecognitionController.getDescriptors

@@ -216,3 +216,31 @@ async function signIn() {
     alert("No patient ID found. Please try again.");
   }
 }
+const deleteDescriptor = async () => {
+  try {
+    const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+    const PatientID = patientDetails ? patientDetails.PatientID : null;
+    const DoctorID = null;
+
+    if (PatientID) {
+      const response = await fetch("/api/facialRecognition/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ PatientID, DoctorID }),
+      });
+
+      if (response.ok) {
+        alert("Descriptor deleted successfully!");
+        location.reload(); // Reload the page to fetch the updated descriptors
+      } else {
+        alert("Failed to delete descriptor.");
+      }
+    } else {
+      alert("Patient ID not found.");
+    }
+  } catch (error) {
+    console.error("Error during descriptor deletion:", error);
+  }
+};

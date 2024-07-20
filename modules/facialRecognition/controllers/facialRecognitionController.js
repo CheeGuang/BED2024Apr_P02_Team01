@@ -29,6 +29,22 @@ exports.updateDescriptor = (req, res) => {
     res.status(404).send("Descriptor not found");
   }
 };
+
+/**
+ * Controller to delete a face descriptor.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+exports.deleteDescriptor = (req, res) => {
+  const { PatientID, DoctorID } = req.body;
+  const deleted = FacialRecognition.deleteDescriptor({ PatientID, DoctorID });
+  if (deleted) {
+    res.sendStatus(200);
+  } else {
+    res.status(404).send("Descriptor not found");
+  }
+};
+
 /**
  * Controller to get all face descriptors.
  * @param {Object} req - The request object.
