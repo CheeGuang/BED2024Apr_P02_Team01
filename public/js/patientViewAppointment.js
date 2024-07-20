@@ -98,10 +98,10 @@ document.addEventListener("DOMContentLoaded", function () {
               }
               ${
                 category === "history"
-                  ? '<button class="btn btn-dark btn-custom btn-download col-6" data-id="' +
+                  ? '<button class="btn btn-dark btn-custom btn-download" data-id="' +
                     appointment.AppointmentID +
                     '"><i class="fas fa-download"></i> Download MC</button>' +
-                    '<button class="btn btn-dark btn-custom btn-email-mc col-6" data-id="' +
+                    '<button class="btn btn-dark btn-custom btn-email-mc" data-id="' +
                     appointment.AppointmentID +
                     '"><i class="fas fa-eye"></i> Email MC</button>'
                   : ""
