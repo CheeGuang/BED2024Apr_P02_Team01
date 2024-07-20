@@ -20,19 +20,22 @@ const dailyReminder = async () => {
     const doctor = await Doctor.getDoctorById(appointment.DoctorID);
     const patient = await Patient.getPatientById(appointment.PatientID);
 
+    // Convert endDateTime to local time by adding 7 hours
+    const appointmentEndDateTime = new Date(appointment.endDateTime);
+    appointmentEndDateTime.setHours(appointmentEndDateTime.getHours() + 7);
+
+    // Format the new local time as a string
+    const localEndDateTime = appointmentEndDateTime
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
+
     // Write an email
     const emailData = {
-      receipients: patient.Email, // Send email to patient
+      recipients: patient.Email, // Send email to patient
       subject: "Appointment Reminder",
-      text: `Dear ${patient.givenName} ${
-        patient.familyName
-      },\n\nPlease be reminded that you have an appointment with Dr. ${
-        doctor.familyName
-      } 
-      today at ${appointment.endDateTime.add(
-        7,
-        "hours"
-      )}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`,
+      text: `Dear ${patient.givenName} ${patient.familyName},\n\nPlease be reminded that you have an appointment with Dr. ${doctor.familyName} 
+      today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`,
     };
 
     sendEmail(emailData);
