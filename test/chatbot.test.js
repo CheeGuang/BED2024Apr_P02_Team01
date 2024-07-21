@@ -30,7 +30,7 @@ describe("Chatbot Controller", () => {
       expect(res.json).toHaveBeenCalledWith({
         status: "Success",
         message: "Chat session initialized successfully",
-        chatSessionId: undefined,
+        chatSessionId: undefined, // Update to match the mock return value
       });
     });
 
@@ -95,14 +95,15 @@ describe("Chatbot Controller", () => {
           ChatSessionID: "36833E81-3B49-4BDB-A538-82A1994C0D10",
           PatientID: 1,
           Sender: "user",
-          Message: "Hi i have a cold. what should i do",
+          Message: "Hi I have a cold. What should I do?",
           Timestamp: "2024-06-28 16:23:18.783",
         },
         {
           ChatSessionID: "36833E81-3B49-4BDB-A538-82A1994C0D10",
           PatientID: 1,
           Sender: "bot",
-          Message: "I'm sorry to hear that you are feeling unwell. H...",
+          Message:
+            "I'm sorry to hear that you are feeling unwell. Here are some suggestions...",
           Timestamp: "2024-06-28 16:23:23.567",
         },
       ];
@@ -110,7 +111,9 @@ describe("Chatbot Controller", () => {
         .fn()
         .mockResolvedValue(mockChatHistory);
 
-      const req = { params: { chatSessionId: "mockChatSessionId" } };
+      const req = {
+        params: { chatSessionId: "36833E81-3B49-4BDB-A538-82A1994C0D10" },
+      };
       const res = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
@@ -121,7 +124,7 @@ describe("Chatbot Controller", () => {
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         status: "Success",
-        chatHistory: undefined,
+        chatHistory: undefined, // Update to match the mock return value
       });
     });
 

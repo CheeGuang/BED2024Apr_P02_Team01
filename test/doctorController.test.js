@@ -171,7 +171,9 @@ describe("Doctor Controller", () => {
   describe("updateDoctor", () => {
     it("should update a doctor's details successfully", async () => {
       const updatedDoctor = { DoctorID: 1, Email: "updated.email@example.com" };
+      const updatedResponse = { token: "mockToken", user: updatedDoctor };
       Doctor.updateDoctor = jest.fn().mockResolvedValue(updatedDoctor);
+      generateToken = jest.fn().mockReturnValue("mockToken");
 
       const req = {
         params: { id: "1" },
@@ -184,7 +186,7 @@ describe("Doctor Controller", () => {
 
       await doctorController.updateDoctor(req, res);
 
-      expect(res.json).toHaveBeenCalledWith(updatedDoctor);
+      expect(res.json).toHaveBeenCalledWith(updatedResponse);
     });
 
     it("should handle doctor not found during update", async () => {

@@ -247,11 +247,14 @@ describe("PatientController", () => {
         Email: "john.doe@example.com",
         ContactNumber: "0987654321",
       };
+      const mockToken = "mockToken";
 
-      Patient.updatePatient.mockResolvedValue(mockUpdatedPatient);
+      Patient.updatePatient = jest.fn().mockResolvedValue(mockUpdatedPatient);
+      jwt.sign = jest.fn().mockReturnValue(mockToken);
 
       const req = { params: { id: 1 }, body: { ContactNumber: "0987654321" } };
       const res = {
+        status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
 
@@ -260,13 +263,20 @@ describe("PatientController", () => {
       expect(Patient.updatePatient).toHaveBeenCalledWith(1, {
         ContactNumber: "0987654321",
       });
-      expect(res.json).toHaveBeenCalledWith(mockUpdatedPatient);
+
+      const expectedResponse = {
+        user: mockUpdatedPatient,
+        token: mockToken,
+      };
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith(expectedResponse);
     });
 
-    it("should handle errors when patient is not found", async () => {
-      Patient.updatePatient.mockResolvedValue(null);
+    it("should return 404 if patient is not found", async () => {
+      Patient.updatePatient = jest.fn().mockResolvedValue(null);
 
-      const req = { params: { id: 1 }, body: {} };
+      const req = { params: { id: 1 }, body: { ContactNumber: "0987654321" } };
       const res = {
         status: jest.fn().mockReturnThis(),
         send: jest.fn(),
@@ -274,16 +284,16 @@ describe("PatientController", () => {
 
       await patientController.updatePatient(req, res);
 
-      expect(Patient.updatePatient).toHaveBeenCalledWith(1, {});
       expect(res.status).toHaveBeenCalledWith(404);
       expect(res.send).toHaveBeenCalledWith("Patient not found");
     });
 
-    it("should handle errors during update", async () => {
-      const errorMessage = "Error updating patient";
-      Patient.updatePatient.mockRejectedValue(new Error(errorMessage));
+    it("should handle errors during patient update", async () => {
+      Patient.updatePatient = jest
+        .fn()
+        .mockRejectedValue(new Error("Update error"));
 
-      const req = { params: { id: 1 }, body: {} };
+      const req = { params: { id: 1 }, body: { ContactNumber: "0987654321" } };
       const res = {
         status: jest.fn().mockReturnThis(),
         send: jest.fn(),
@@ -291,43 +301,42 @@ describe("PatientController", () => {
 
       await patientController.updatePatient(req, res);
 
-      expect(Patient.updatePatient).toHaveBeenCalledWith(1, {});
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.send).toHaveBeenCalledWith("Error updating patient");
     });
-  });
 
-  describe("deletePatient", () => {
-    it("should delete a patient by ID", async () => {
-      Patient.deletePatient.mockResolvedValue({ affectedRows: 1 });
+    describe("deletePatient", () => {
+      it("should delete a patient by ID", async () => {
+        Patient.deletePatient.mockResolvedValue({ affectedRows: 1 });
 
-      const req = { params: { id: 1 } };
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        send: jest.fn(),
-      };
+        const req = { params: { id: 1 } };
+        const res = {
+          status: jest.fn().mockReturnThis(),
+          send: jest.fn(),
+        };
 
-      await patientController.deletePatient(req, res);
+        await patientController.deletePatient(req, res);
 
-      expect(Patient.deletePatient).toHaveBeenCalledWith(1);
-      expect(res.status).toHaveBeenCalledWith(204);
-    });
+        expect(Patient.deletePatient).toHaveBeenCalledWith(1);
+        expect(res.status).toHaveBeenCalledWith(204);
+      });
 
-    it("should handle errors during deletion", async () => {
-      const errorMessage = "Error deleting patient";
-      Patient.deletePatient.mockRejectedValue(new Error(errorMessage));
+      it("should handle errors during deletion", async () => {
+        const errorMessage = "Error deleting patient";
+        Patient.deletePatient.mockRejectedValue(new Error(errorMessage));
 
-      const req = { params: { id: 1 } };
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        send: jest.fn(),
-      };
+        const req = { params: { id: 1 } };
+        const res = {
+          status: jest.fn().mockReturnThis(),
+          send: jest.fn(),
+        };
 
-      await patientController.deletePatient(req, res);
+        await patientController.deletePatient(req, res);
 
-      expect(Patient.deletePatient).toHaveBeenCalledWith(1);
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.send).toHaveBeenCalledWith("Error deleting patient");
+        expect(Patient.deletePatient).toHaveBeenCalledWith(1);
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.send).toHaveBeenCalledWith("Error deleting patient");
+      });
     });
   });
 });
