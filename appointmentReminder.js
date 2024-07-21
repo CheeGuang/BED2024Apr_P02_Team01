@@ -51,5 +51,5 @@ const dailyReminder = async () => {
 };
 
 module.exports.schedule = () => {
-  scheduleJob("*/8 * * * *", dailyReminder);
+  scheduleJob("0 0 8 * * *", dailyReminder); //"*/8 * * * *" for every 8 minutes
 };
