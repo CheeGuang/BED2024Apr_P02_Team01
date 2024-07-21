@@ -5,28 +5,27 @@ const signInButton = document.getElementById("sign-in");
 Promise.all([
   faceapi.nets.faceRecognitionNet.loadFromUri("../facialRecognitionModels"),
   faceapi.nets.faceLandmark68Net.loadFromUri("../facialRecognitionModels"),
-  faceapi.nets.ssdMobilenetv1.loadFromUri("../facialRecognitionModels"), // Heavier/accurate version of tiny face detector
-  faceapi.nets.tinyFaceDetector.loadFromUri("../facialRecognitionModels"), // Load TinyFaceDetector model
+  faceapi.nets.ssdMobilenetv1.loadFromUri("../facialRecognitionModels"),
+  faceapi.nets.tinyFaceDetector.loadFromUri("../facialRecognitionModels"),
 ]).then(start);
 
 function start() {
-  document.body.append("Models Loaded");
+  console.log("Models Loaded");
 
   navigator.mediaDevices
-    .getUserMedia({ video: true })
-    .then((stream) => {
-      const video = document.querySelector("video");
-      if ("srcObject" in video) {
-        video.srcObject = stream;
-      } else {
-        // Fallback for older browsers
-        video.src = window.URL.createObjectURL(stream);
-      }
-      video.play();
+    .getUserMedia({
+      video: { facingMode: "user" },
+      audio: false,
     })
-    .catch((err) => console.log(err));
-
-  recognizeFaces();
+    .then((stream) => {
+      video.srcObject = stream;
+      console.log("Camera stream started");
+      recognizeFaces();
+    })
+    .catch((err) => {
+      console.error("Error accessing the camera:", err);
+      alert("Error accessing the camera: " + err.message);
+    });
 }
 
 async function recognizeFaces() {
@@ -35,7 +34,7 @@ async function recognizeFaces() {
       .then((response) => response.json())
       .then((data) => {
         return data
-          .filter((d) => d.PatientID !== null) // Filter out entries with PatientID null
+          .filter((d) => d.PatientID !== null)
           .map((d) => {
             const descriptors = new Float32Array(Object.values(d.descriptor));
             return {
@@ -43,19 +42,19 @@ async function recognizeFaces() {
                 d.name,
                 [descriptors]
               ),
-              patientID: d.PatientID, // Assume that your data contains PatientID
+              patientID: d.PatientID,
             };
           });
       });
 
-    console.log(labeledDescriptors);
+    console.log("Labeled descriptors loaded:", labeledDescriptors);
     const faceMatcher = new faceapi.FaceMatcher(
       labeledDescriptors.map((ld) => ld.labeledFaceDescriptors),
       0.4
     );
 
     video.addEventListener("play", async () => {
-      console.log("Playing");
+      console.log("Video is playing");
       const canvas = faceapi.createCanvasFromMedia(video);
       document.getElementById("face-container").append(canvas);
 
@@ -83,7 +82,7 @@ async function recognizeFaces() {
           let matchedPatientID = null;
 
           results.forEach((result, i) => {
-            console.log(`${result.toString()}`);
+            console.log(`Match result: ${result.toString()}`);
 
             const box = resizedDetections[i].detection.box;
             const drawBox = new faceapi.draw.DrawBox(box, {
@@ -93,7 +92,7 @@ async function recognizeFaces() {
 
             if (result.label === "unknown") {
               isUnknown = true;
-              console.log(isUnknown);
+              console.log("Unknown face detected");
             } else {
               const matchedDescriptor = labeledDescriptors.find(
                 (ld) => ld.labeledFaceDescriptors.label === result.label
@@ -108,8 +107,8 @@ async function recognizeFaces() {
           try {
             signInButton.disabled = isUnknown;
             signInButton.dataset.patientId = matchedPatientID; // Store the patient ID in a data attribute
-          } catch {
-            console.log("No Sign-In Button");
+          } catch (error) {
+            console.log("No Sign-In Button", error);
           }
         } catch (error) {
           console.error("Error during face detection:", error);
@@ -190,9 +189,10 @@ try {
       console.error("Error during user registration:", error);
     }
   });
-} catch {
-  console.log("Not at Register FaceAuth");
+} catch (error) {
+  console.log("Not at Register FaceAuth", error);
 }
+
 async function signIn() {
   const PatientID = signInButton.dataset.patientId;
   if (PatientID) {
@@ -224,6 +224,7 @@ async function signIn() {
     alert("No patient ID found. Please try again.");
   }
 }
+
 const deleteDescriptor = async () => {
   try {
     const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
