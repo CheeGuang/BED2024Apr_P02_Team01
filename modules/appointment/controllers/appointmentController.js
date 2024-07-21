@@ -496,7 +496,7 @@ const emailMedicalCertificate = async (req, res) => {
       const appointmentEndDateTime = new Date(appointment.endDateTime);
       const apptDate = appointmentEndDateTime
         .toISOString()
-        .slice(0, 19)
+        .slice(0, 10)
         .replace("T", " ");
 
       if (doctor != null) {
