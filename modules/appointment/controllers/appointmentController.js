@@ -1,4 +1,4 @@
-const { sendEmail } = require("../../../models/email");
+const { sendEmail, sendEmailWithAttachment } = require("../../../models/email");
 const moment = require("moment-timezone");
 const {
   Appointment,
