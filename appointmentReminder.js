@@ -30,14 +30,19 @@ const dailyReminder = async () => {
       .slice(0, 19)
       .replace("T", " ");
 
+    let msg = "";
     // Write an email
-    console.log("Patient ID: " + appointment.PatientID);
-    console.log("Patient Email: " + patient.Email);
+    if (doctor != null) {
+      msg = `Dear ${patient.givenName},\n\nPlease be reminded that you have an appointment with Dr. ${doctor.familyName} 
+      today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`;
+    } else {
+      msg = `Dear ${patient.givenName},\n\nPlease be reminded that you have an appointment
+      today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`;
+    }
     const emailData = {
       receipients: patient.Email, // Send email to patient
       subject: "Appointment Reminder",
-      text: `Dear ${patient.givenName},\n\nPlease be reminded that you have an appointment with Dr. ${doctor.familyName} 
-      today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`,
+      text: msg,
     };
 
     sendEmail(emailData);
