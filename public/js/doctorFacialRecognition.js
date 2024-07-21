@@ -73,6 +73,7 @@ async function recognizeFaces() {
 
           let isUnknown = false;
           let matchedDoctorID = null;
+          let isKnownFace = false;
 
           results.forEach((result, i) => {
             console.log(`${result.toString()}`);
@@ -92,13 +93,14 @@ async function recognizeFaces() {
               );
               if (matchedDescriptor) {
                 matchedDoctorID = matchedDescriptor.doctorID;
+                isKnownFace = true;
               }
             }
           });
 
           // Disable or enable the sign-in button based on face recognition result
           try {
-            signInButton.disabled = isUnknown;
+            signInButton.disabled = !isKnownFace;
             signInButton.dataset.doctorId = matchedDoctorID; // Store the doctor ID in a data attribute
           } catch {
             console.log("No Sign-In Button");
@@ -183,6 +185,7 @@ try {
 } catch {
   console.log("Not at Register FaceAuth");
 }
+
 async function signIn() {
   const DoctorID = signInButton.dataset.doctorId;
   if (DoctorID) {
@@ -214,6 +217,7 @@ async function signIn() {
     alert("No doctor ID found. Please try again.");
   }
 }
+
 const deleteDescriptor = async () => {
   try {
     const doctorDetails = JSON.parse(localStorage.getItem("doctorDetails"));

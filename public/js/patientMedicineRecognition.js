@@ -1,244 +1,116 @@
-const video = document.getElementById("videoInput");
-const signInButton = document.getElementById("sign-in");
+document.getElementById("uploadButton").addEventListener("click", function () {
+  document.getElementById("imageUpload").click();
+});
 
-Promise.all([
-  faceapi.nets.faceRecognitionNet.loadFromUri("../facialRecognitionModels"),
-  faceapi.nets.faceLandmark68Net.loadFromUri("../facialRecognitionModels"),
-  faceapi.nets.ssdMobilenetv1.loadFromUri("../facialRecognitionModels"),
-  faceapi.nets.tinyFaceDetector.loadFromUri("../facialRecognitionModels"),
-]).then(start);
+document.getElementById("imageUpload").addEventListener("change", function () {
+  if (this.files && this.files[0]) {
+    document.getElementById("sendButton").style.display = "block";
+    previewImage(this.files[0]);
+  }
+});
 
-function start() {
-  console.log("Models Loaded");
+document.getElementById("cameraButton").addEventListener("click", function () {
+  const cameraContainer = document.getElementById("camera-container");
+  const video = document.getElementById("camera-stream");
+  const constraints = {
+    video: {
+      facingMode: "environment", // Use back camera
+    },
+  };
 
   navigator.mediaDevices
-    .getUserMedia({
-      video: { facingMode: "user" }, // Use front camera
-      audio: false,
-    })
+    .getUserMedia(constraints)
     .then((stream) => {
       video.srcObject = stream;
       video.play();
-      video.classList.remove("d-none");
-      console.log("Camera stream started");
-      recognizeFaces();
+      cameraContainer.classList.remove("d-none");
     })
-    .catch((err) => {
-      console.error("Error accessing the camera:", err);
-      alert("Error accessing the camera: " + err.message);
+    .catch((error) => {
+      console.error("Error accessing the camera:", error);
     });
-}
-
-async function recognizeFaces() {
-  try {
-    const labeledDescriptors = await fetch("api/facialRecognition/descriptors")
-      .then((response) => response.json())
-      .then((data) => {
-        return data
-          .filter((d) => d.PatientID !== null)
-          .map((d) => {
-            const descriptors = new Float32Array(Object.values(d.descriptor));
-            return {
-              labeledFaceDescriptors: new faceapi.LabeledFaceDescriptors(
-                d.name,
-                [descriptors]
-              ),
-              patientID: d.PatientID,
-            };
-          });
-      });
-
-    console.log("Labeled descriptors loaded:", labeledDescriptors);
-    const faceMatcher = new faceapi.FaceMatcher(
-      labeledDescriptors.map((ld) => ld.labeledFaceDescriptors),
-      0.4
-    );
-
-    video.addEventListener("play", async () => {
-      console.log("Video playing, starting face recognition");
-      const canvas = faceapi.createCanvasFromMedia(video);
-      document.getElementById("face-container").append(canvas);
-
-      const displaySize = { width: video.width, height: video.height };
-      faceapi.matchDimensions(canvas, displaySize);
-
-      setInterval(async () => {
-        try {
-          const detections = await faceapi
-            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-            .withFaceLandmarks()
-            .withFaceDescriptors();
-          const resizedDetections = faceapi.resizeResults(
-            detections,
-            displaySize
-          );
-
-          canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-
-          const results = resizedDetections.map((d) =>
-            faceMatcher.findBestMatch(d.descriptor)
-          );
-
-          let isUnknown = false;
-          let matchedPatientID = null;
-
-          results.forEach((result, i) => {
-            console.log(`Result: ${result.toString()}`);
-
-            const box = resizedDetections[i].detection.box;
-            const drawBox = new faceapi.draw.DrawBox(box, {
-              label: result.toString(),
-            });
-            drawBox.draw(canvas);
-
-            if (result.label === "unknown") {
-              isUnknown = true;
-              console.log("Unknown face detected");
-            } else {
-              const matchedDescriptor = labeledDescriptors.find(
-                (ld) => ld.labeledFaceDescriptors.label === result.label
-              );
-              if (matchedDescriptor) {
-                matchedPatientID = matchedDescriptor.patientID;
-              }
-            }
-          });
-
-          try {
-            signInButton.disabled = isUnknown;
-            signInButton.dataset.patientId = matchedPatientID;
-          } catch (error) {
-            console.log("Sign-In button handling error:", error);
-          }
-        } catch (error) {
-          console.error("Error during face detection:", error);
-        }
-      }, 100);
-    });
-  } catch (error) {
-    console.error("Error during face recognition initialization:", error);
-  }
-}
-
-registerButton?.addEventListener("click", async () => {
-  try {
-    const detections = await faceapi
-      .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
-      .withFaceLandmarks()
-      .withFaceDescriptor();
-    if (detections) {
-      const descriptor = detections.descriptor;
-      const name = prompt("Enter your name");
-      const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
-      const PatientID = patientDetails ? patientDetails.PatientID : null;
-      const DoctorID = null; // Set DoctorID to null for patients
-
-      if (name && PatientID) {
-        const labeledDescriptors = await fetch(
-          "api/facialRecognition/descriptors"
-        ).then((response) => response.json());
-
-        const existingDescriptor = labeledDescriptors.find(
-          (d) => d.PatientID === PatientID
-        );
-
-        if (existingDescriptor) {
-          const response = await fetch("api/facialRecognition/update", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name, descriptor, PatientID, DoctorID }),
-          });
-
-          if (response.ok) {
-            alert("User updated successfully!");
-            location.reload();
-          } else {
-            alert("Failed to update user.");
-          }
-        } else {
-          const response = await fetch("api/facialRecognition/register", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name, descriptor, PatientID, DoctorID }),
-          });
-
-          if (response.ok) {
-            alert("User registered successfully!");
-            location.reload();
-          } else {
-            alert("Failed to register user.");
-          }
-        }
-      } else {
-        alert("Patient ID not found or name not provided.");
-      }
-    } else {
-      alert("No face detected. Please try again.");
-    }
-  } catch (error) {
-    console.error("Error during user registration:", error);
-  }
 });
 
-signInButton?.addEventListener("click", async () => {
-  const PatientID = signInButton.dataset.patientId;
-  if (PatientID) {
-    fetch(`/api/patient/faceAuth/${PatientID}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+document
+  .getElementById("takePhotoButton")
+  .addEventListener("click", function () {
+    const video = document.getElementById("camera-stream");
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    video.pause();
+    video.srcObject.getTracks().forEach((track) => track.stop());
+    document.getElementById("camera-container").classList.add("d-none");
+
+    canvas.toBlob((blob) => {
+      const fileInput = new File([blob], "camera_image.jpg", {
+        type: "image/jpeg",
+      });
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(fileInput);
+      document.getElementById("imageUpload").files = dataTransfer.files;
+
+      document.getElementById("sendButton").style.display = "block";
+      previewImage(fileInput);
+    }, "image/jpeg");
+  });
+
+document.getElementById("sendButton").addEventListener("click", function () {
+  const fileInput = document.getElementById("imageUpload");
+  const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
+  const patientID = patientDetails.PatientID;
+
+  if (!patientID) {
+    displayErrorMessage("Patient ID not found");
+    return;
+  }
+
+  if (fileInput.files && fileInput.files[0]) {
+    const formData = new FormData();
+    formData.append("image", fileInput.files[0]);
+    formData.append("patientDetails", JSON.stringify(patientDetails));
+
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("sendButton").disabled = true;
+
+    fetch("/api/chatbot/upload", {
+      method: "POST",
+      body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.error) {
-          console.error("Error updating patient", data.error);
-        } else {
-          console.log("Sign-In successful:", data);
+        if (data.status === "Success") {
+          // Store the analysis result in localStorage
+          localStorage.setItem("analysisResult", data.response);
 
-          localStorage.setItem("patientDetails", JSON.stringify(data.user));
-          localStorage.setItem("PatientJWTAuthToken", data.token);
-          localStorage.setItem("PatientID", data.user.PatientID);
-          window.location.href = "../patientHomePage.html";
+          // Redirect to the results page
+          window.location.href = "../patientMedRecognitionResults.html";
+        } else {
+          displayErrorMessage("Failed to analyze the image.");
         }
       })
       .catch((error) => {
-        console.error("Error during sign-in:", error);
+        console.error("Error:", error);
+        displayErrorMessage("An error occurred while analyzing the image.");
       });
-  } else {
-    alert("No patient ID found. Please try again.");
   }
 });
 
-const deleteDescriptor = async () => {
-  try {
-    const patientDetails = JSON.parse(localStorage.getItem("patientDetails"));
-    const PatientID = patientDetails ? patientDetails.PatientID : null;
-    const DoctorID = null;
+function previewImage(file) {
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    document.getElementById("image-preview").style.display = "block";
+    document.getElementById("preview-img").src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 
-    if (PatientID) {
-      const response = await fetch("/api/facialRecognition/delete", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ PatientID, DoctorID }),
-      });
-
-      if (response.ok) {
-        alert("Descriptor deleted successfully!");
-        location.reload();
-      } else {
-        alert("Failed to delete descriptor.");
-      }
-    } else {
-      alert("Patient ID not found.");
-    }
-  } catch (error) {
-    console.error("Error during descriptor deletion:", error);
-  }
-};
+function displayErrorMessage(message) {
+  document.getElementById("error-message").textContent = message;
+  document.getElementById("error-message").style.display = "block";
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("sendButton").disabled = false;
+}
