@@ -11,9 +11,11 @@ const chatbotController = require("./controllers/chatbotController");
 // Initializing chatbotRoutes
 const chatbotRoutes = express.Router();
 
-chatbotRoutes.use(fileUpload({
-    createParentPath: true // Ensure parent paths are created if they do not exist
-  }));
+chatbotRoutes.use(
+  fileUpload({
+    createParentPath: true, // Ensure parent paths are created if they do not exist
+  })
+);
 
 // ========== Routes ==========
 // Initialize a new chat session for a patient
@@ -26,16 +28,25 @@ chatbotRoutes.post("/send-message", chatbotController.sendMessageToChatbot);
 chatbotRoutes.get("/history/:chatSessionId", chatbotController.getChatHistory);
 
 // Endpoint to listen for updates (SSE)
-chatbotRoutes.get("/updates/:chatSessionId", chatbotController.handleChatSSEUpdates);
+chatbotRoutes.get(
+  "/updates/:chatSessionId",
+  chatbotController.handleChatSSEUpdates
+);
 
 // Route to handle image upload and analysis
-chatbotRoutes.post('/upload', chatbotController.analyzeImage);
+chatbotRoutes.post("/upload", chatbotController.analyzeImage);
 
 // Route for saving recognition history
-chatbotRoutes.post('/save-recognition-history', chatbotController.saveRecognitionHistory);
+chatbotRoutes.post(
+  "/save-recognition-history",
+  chatbotController.saveRecognitionHistory
+);
 
 //Route to get recognition history from DataBase
-chatbotRoutes.get('/recognition-history/:patientID', chatbotController.getRecognitionHistory); 
+chatbotRoutes.get(
+  "/recognition-history/:patientID",
+  chatbotController.getRecognitionHistory
+);
 
 // ========== Export Route ==========
 // Export the chatbot routes to be used in other parts of the application

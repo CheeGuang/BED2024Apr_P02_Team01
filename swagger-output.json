@@ -1,13 +1,65 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "My API",
-    "description": "Description of your API",
+    "title": "SyncHealth API",
+    "description": "API documentation for SyncHealth, providing a wide range of telemedicine services designed to enhance patient care and accessibility. The API offers functionality for managing appointments, patient records, and healthcare services, ensuring seamless integration and user experience.",
     "version": "1.0.0"
   },
   "host": "localhost:8000",
   "basePath": "/",
-  "schemes": ["http"],
+  "tags": [
+    {
+      "name": "Appointments",
+      "description": "Endpoints related to appointment operations"
+    },
+    {
+      "name": "Patients",
+      "description": "Endpoints related to patient operations"
+    },
+    {
+      "name": "Doctors",
+      "description": "Endpoints related to doctor operations"
+    },
+    {
+      "name": "Medicines",
+      "description": "Endpoints related to medicine operations"
+    },
+    {
+      "name": "Chatbots",
+      "description": "Endpoints related to chatbot operations"
+    },
+    {
+      "name": "CHAS Clinics",
+      "description": "Endpoints related to CHAS clinics operations"
+    },
+    {
+      "name": "Vouchers",
+      "description": "Endpoints related to voucher operations"
+    },
+    {
+      "name": "Facial Recognition",
+      "description": "Endpoints related to facial recognition operations"
+    },
+    {
+      "name": "Healthcare Icons",
+      "description": "Endpoints related to healthcare icons operations"
+    },
+    {
+      "name": "Others",
+      "description": "Other miscellaneous endpoints"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "API key for authentication"
+    }
+  },
   "paths": {
     "/": {
       "get": {
@@ -485,10 +537,44 @@
         }
       }
     },
+    "/api/appointment/{id}/emailMedicalCertificate": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/appointment/{id}/updates": {
       "get": {
         "description": "",
-        "produces": ["text/event-stream"],
+        "produces": [
+          "text/event-stream"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -538,22 +624,9 @@
     "/api/patient/": {
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -615,11 +688,6 @@
             "type": "string"
           },
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
             "schema": {
@@ -635,12 +703,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -660,22 +722,11 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -693,22 +744,11 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -752,8 +792,8 @@
         }
       }
     },
-    "/api/patient/{id}/eWalletAmount": {
-      "get": {
+    "/api/patient/updateName/{id}": {
+      "put": {
         "description": "",
         "parameters": [
           {
@@ -766,6 +806,21 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fname": {
+                  "example": "any"
+                },
+                "lname": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -777,6 +832,195 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/patient/updateContact/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "contact": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/patient/updateDOB/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dob": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/patient/updateAddress/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/patient/faceAuth/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/patient/{id}/eWalletAmount": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "404": {
             "description": "Not Found"
@@ -862,11 +1106,6 @@
             "type": "string"
           },
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
             "schema": {
@@ -885,12 +1124,6 @@
           },
           "400": {
             "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -928,22 +1161,9 @@
       },
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1003,22 +1223,11 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -1036,22 +1245,11 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -1085,6 +1283,210 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/doctor/updateName/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fname": {
+                  "example": "any"
+                },
+                "lname": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/doctor/updateContact/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "contact": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/doctor/updateDOB/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dob": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/doctor/updateProfession/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "profession": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/doctor/faceAuth/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "404": {
             "description": "Not Found"
@@ -1410,7 +1812,9 @@
     "/api/chatbot/updates/{chatSessionId}": {
       "get": {
         "description": "",
-        "produces": ["text/event-stream"],
+        "produces": [
+          "text/event-stream"
+        ],
         "parameters": [
           {
             "name": "chatSessionId",
@@ -1425,6 +1829,840 @@
           }
         }
       }
+    },
+    "/api/chatbot/upload": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "patientDetails": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/chatbot/save-recognition-history": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "patientID": {
+                  "example": "any"
+                },
+                "medicineName": {
+                  "example": "any"
+                },
+                "mainPurpose": {
+                  "example": "any"
+                },
+                "sideEffects": {
+                  "example": "any"
+                },
+                "recommendedDosage": {
+                  "example": "any"
+                },
+                "otherRemarks": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/chatbot/recognition-history/{patientID}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "patientID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/chasClinic/key": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/api/chasClinic/download": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/chasClinic/random": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/chasClinic/nearest": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/chasClinic/bounds": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "north",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "south",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "east",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "west",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "centerLat",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "centerLng",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/voucher/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/voucher/{code}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/facialRecognition/register": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "descriptor": {
+                  "example": "any"
+                },
+                "PatientID": {
+                  "example": "any"
+                },
+                "DoctorID": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/facialRecognition/update": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "descriptor": {
+                  "example": "any"
+                },
+                "PatientID": {
+                  "example": "any"
+                },
+                "DoctorID": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/facialRecognition/delete": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "PatientID": {
+                  "example": "any"
+                },
+                "DoctorID": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/facialRecognition/descriptors": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/healthCareIcon/randomIcon": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Appointment": {
+      "type": "object",
+      "properties": {
+        "AppointmentID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "PatientID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "DoctorID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "endDateTime": {
+          "type": "string",
+          "example": "datetime"
+        },
+        "PatientURL": {
+          "type": "string",
+          "example": "string"
+        },
+        "HostRoomURL": {
+          "type": "string",
+          "example": "string"
+        },
+        "IllnessDescription": {
+          "type": "string",
+          "example": "string"
+        },
+        "Diagnosis": {
+          "type": "string",
+          "example": "string"
+        },
+        "MCStartDate": {
+          "type": "string",
+          "example": "date"
+        },
+        "MCEndDate": {
+          "type": "string",
+          "example": "date"
+        },
+        "DoctorNotes": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "Patient": {
+      "type": "object",
+      "properties": {
+        "PatientID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "Email": {
+          "type": "string",
+          "example": "string"
+        },
+        "ContactNumber": {
+          "type": "string",
+          "example": "string"
+        },
+        "DOB": {
+          "type": "string",
+          "example": "date"
+        },
+        "Gender": {
+          "type": "string",
+          "example": "string"
+        },
+        "Address": {
+          "type": "string",
+          "example": "string"
+        },
+        "eWalletAmount": {
+          "type": "string",
+          "example": "number"
+        },
+        "resetPasswordCode": {
+          "type": "string",
+          "example": "string"
+        },
+        "PCHI": {
+          "type": "string",
+          "example": "number"
+        },
+        "googleId": {
+          "type": "string",
+          "example": "string"
+        },
+        "givenName": {
+          "type": "string",
+          "example": "string"
+        },
+        "familyName": {
+          "type": "string",
+          "example": "string"
+        },
+        "profilePicture": {
+          "type": "string",
+          "example": "string"
+        },
+        "Cart": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "Doctor": {
+      "type": "object",
+      "properties": {
+        "DoctorID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "Email": {
+          "type": "string",
+          "example": "string"
+        },
+        "ContactNumber": {
+          "type": "string",
+          "example": "string"
+        },
+        "DOB": {
+          "type": "string",
+          "example": "date"
+        },
+        "Gender": {
+          "type": "string",
+          "example": "string"
+        },
+        "Profession": {
+          "type": "string",
+          "example": "string"
+        },
+        "resetPasswordCode": {
+          "type": "string",
+          "example": "string"
+        },
+        "googleId": {
+          "type": "string",
+          "example": "string"
+        },
+        "givenName": {
+          "type": "string",
+          "example": "string"
+        },
+        "familyName": {
+          "type": "string",
+          "example": "string"
+        },
+        "profilePicture": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "Medicine": {
+      "type": "object",
+      "properties": {
+        "MedicineID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "Name": {
+          "type": "string",
+          "example": "string"
+        },
+        "Description": {
+          "type": "string",
+          "example": "string"
+        },
+        "Price": {
+          "type": "string",
+          "example": "number"
+        },
+        "RecommendedDosage": {
+          "type": "string",
+          "example": "string"
+        },
+        "Image": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "PatientMedicine": {
+      "type": "object",
+      "properties": {
+        "PatientMedicineID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "PatientID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "MedicineID": {
+          "type": "string",
+          "example": "integer"
+        }
+      }
+    },
+    "AppointmentMedicine": {
+      "type": "object",
+      "properties": {
+        "AppointmentMedicineID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "AppointmentID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "MedicineID": {
+          "type": "string",
+          "example": "integer"
+        }
+      }
+    },
+    "ChatHistory": {
+      "type": "object",
+      "properties": {
+        "ChatSessionID": {
+          "type": "string",
+          "example": "string"
+        },
+        "PatientID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "Sender": {
+          "type": "string",
+          "example": "string"
+        },
+        "Message": {
+          "type": "string",
+          "example": "string"
+        },
+        "Timestamp": {
+          "type": "string",
+          "example": "datetime"
+        }
+      }
+    },
+    "MedicineRecognitionHistory": {
+      "type": "object",
+      "properties": {
+        "PromptID": {
+          "type": "string",
+          "example": "string"
+        },
+        "PatientID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "MedicineName": {
+          "type": "string",
+          "example": "string"
+        },
+        "MainPurpose": {
+          "type": "string",
+          "example": "string"
+        },
+        "SideEffects": {
+          "type": "string",
+          "example": "string"
+        },
+        "RecommendedDosage": {
+          "type": "string",
+          "example": "string"
+        },
+        "OtherRemarks": {
+          "type": "string",
+          "example": "string"
+        },
+        "Timestamp": {
+          "type": "string",
+          "example": "datetime"
+        }
+      }
+    },
+    "Voucher": {
+      "type": "object",
+      "properties": {
+        "VoucherID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "Code": {
+          "type": "string",
+          "example": "string"
+        },
+        "Discount": {
+          "type": "string",
+          "example": "number"
+        }
+      }
+    },
+    "HealthcareIcon": {
+      "type": "object",
+      "properties": {
+        "IconID": {
+          "type": "string",
+          "example": "integer"
+        },
+        "IconName": {
+          "type": "string",
+          "example": "string"
+        },
+        "IconClass": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "ResponseSuccess": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "string"
+        },
+        "data": {
+          "type": "string",
+          "example": "object"
+        }
+      }
+    },
+    "ResponseError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "string"
+        },
+        "error": {
+          "type": "string",
+          "example": "object"
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "Successful operation",
+      "schema": {
+        "$ref": "#/definitions/ResponseSuccess"
+      }
+    },
+    "400": {
+      "description": "Bad Request",
+      "schema": {
+        "$ref": "#/definitions/ResponseError"
+      }
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "Not Found"
+    },
+    "500": {
+      "description": "Internal Server Error"
     }
   }
 }
