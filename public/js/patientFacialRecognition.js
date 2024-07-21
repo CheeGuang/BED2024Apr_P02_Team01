@@ -12,15 +12,19 @@ Promise.all([
 function start() {
   document.body.append("Models Loaded");
 
-  navigator.getUserMedia(
-    {
-      video: {},
-    },
-    (stream) => {
-      video.srcObject = stream;
-    },
-    (err) => console.log(err)
-  );
+  navigator.mediaDevices
+    .getUserMedia({ video: true })
+    .then((stream) => {
+      const video = document.querySelector("video");
+      if ("srcObject" in video) {
+        video.srcObject = stream;
+      } else {
+        // Fallback for older browsers
+        video.src = window.URL.createObjectURL(stream);
+      }
+      video.play();
+    })
+    .catch((err) => console.log(err));
 
   recognizeFaces();
 }
