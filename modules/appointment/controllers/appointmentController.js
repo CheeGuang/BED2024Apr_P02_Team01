@@ -504,7 +504,7 @@ const emailMedicalCertificate = async (req, res) => {
       const emailData = {
         receipients: patient.Email,
         subject: "Medical Certificate",
-        text: `Dear ${patient.givenName},\n\nPlease find attached your medical certificate from Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`,
+        text: msg,
         attachments: [
           {
             filename: "SyncHealth-Medical-Certificate.pdf",
