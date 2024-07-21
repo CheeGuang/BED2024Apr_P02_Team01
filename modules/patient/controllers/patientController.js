@@ -359,7 +359,7 @@ const updateEWalletAmount = async (req, res) => {
     const emailData = {
       receipients: updatedPatient.Email,
       subject: "E-wallet Top Up",
-      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet top-up of $${amount} is successful. Your new balance is $${updatedPatient.eWalletAmount} 
+      text: `Dear ${updatedPatient.givenName},\n\nYour e-wallet top-up of $${amount} is successful. Your new balance is $${updatedPatient.eWalletAmount} 
       \n\nBest regards,\nSyncHealth Team  \n\n**Please refresh browser to see updated balance. `,
     };
     try {
@@ -441,7 +441,7 @@ const processMedicinePayment = async (req, res) => {
     const emailData = {
       receipients: updatedPatient.Email,
       subject: "E-wallet Payment",
-      text: `Dear ${updatedPatient.givenName} ${updatedPatient.familyName},\n\nYour e-wallet payment of $${totalAmount} is successful. Your new balance is $${updatedPatient.eWalletAmount}.
+      text: `Dear ${updatedPatient.givenName},\n\nYour e-wallet payment of $${totalAmount} is successful. Your new balance is $${updatedPatient.eWalletAmount}.
       \n\nIf you did not make this purchase, please contact us. \n\nBest regards,\nSyncHealth Team `,
     };
     try {

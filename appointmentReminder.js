@@ -15,7 +15,7 @@ const dailyReminder = async () => {
   );
 
   // Loop through each appointment and send a reminder email
-  todayAppointments.forEach(async (appointment) => {
+  for (const appointment of todayAppointments) {
     // Query to find the doctor name
     const doctor = await Doctor.getDoctorById(appointment.DoctorID);
     const patient = await Patient.getPatientById(appointment.PatientID);
@@ -30,20 +30,26 @@ const dailyReminder = async () => {
       .slice(0, 19)
       .replace("T", " ");
 
+    let msg = "";
     // Write an email
+    if (doctor != null) {
+      msg = `Dear ${patient.givenName},\n\nPlease be reminded that you have an appointment with Dr. ${doctor.familyName} 
+      today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`;
+    } else {
+      msg = `Dear ${patient.givenName},\n\nPlease be reminded that you have an appointment today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`;
+    }
     const emailData = {
-      recipients: patient.Email, // Send email to patient
+      receipients: patient.Email, // Send email to patient
       subject: "Appointment Reminder",
-      text: `Dear ${patient.givenName} ${patient.familyName},\n\nPlease be reminded that you have an appointment with Dr. ${doctor.familyName} 
-      today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`,
+      text: msg,
     };
 
     sendEmail(emailData);
-  });
+  }
 
   console.log("Daily appointment reminder task completed");
 };
 
 module.exports.schedule = () => {
-  scheduleJob("*/30 * * * *", dailyReminder);
+  scheduleJob("0 0 8 * * *", dailyReminder); //"*/8 * * * *" for every 8 minutes
 };
