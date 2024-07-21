@@ -36,8 +36,7 @@ const dailyReminder = async () => {
       msg = `Dear ${patient.givenName},\n\nPlease be reminded that you have an appointment with Dr. ${doctor.familyName} 
       today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`;
     } else {
-      msg = `Dear ${patient.givenName},\n\nPlease be reminded that you have an appointment
-      today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`;
+      msg = `Dear ${patient.givenName},\n\nPlease be reminded that you have an appointment today at ${localEndDateTime}. Please get ready 15 minutes prior to your scheduled time.\n\nBest regards,\nSyncHealth Team`;
     }
     const emailData = {
       receipients: patient.Email, // Send email to patient
@@ -52,5 +51,5 @@ const dailyReminder = async () => {
 };
 
 module.exports.schedule = () => {
-  scheduleJob("*/2 * * * *", dailyReminder);
+  scheduleJob("*/8 * * * *", dailyReminder);
 };
