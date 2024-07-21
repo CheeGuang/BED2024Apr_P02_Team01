@@ -20,6 +20,10 @@ IF OBJECT_ID('dbo.AppointmentMedicine', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.ChatHistory', 'U') IS NOT NULL
     DROP TABLE dbo.ChatHistory;
 
+-- Drop MedicineRecognitionHistory table if it exists
+IF OBJECT_ID('dbo.MedicineRecognitionHistory', 'U') IS NOT NULL
+    DROP TABLE dbo.MedicineRecognitionHistory;
+
 IF OBJECT_ID('dbo.Voucher', 'U') IS NOT NULL
     DROP TABLE dbo.Voucher;
 
@@ -112,6 +116,7 @@ CREATE TABLE ChatHistory (
 );
 
 
+-- Create MedicineRecognitionHistory table
 CREATE TABLE MedicineRecognitionHistory (
     PromptID UNIQUEIDENTIFIER PRIMARY KEY,
     PatientID INT,

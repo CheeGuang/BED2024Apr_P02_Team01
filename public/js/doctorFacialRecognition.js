@@ -139,6 +139,7 @@ try {
             (d) => d.DoctorID === DoctorID
           );
 
+          console.log(existingDescriptor);
           if (existingDescriptor) {
             // Update existing descriptor
             const response = await fetch("api/facialRecognition/update", {
@@ -162,7 +163,7 @@ try {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ name, descriptor, DoctorID }),
+              body: JSON.stringify({ name, descriptor, DoctorID, PatientID }),
             });
 
             if (response.ok) {
@@ -237,7 +238,7 @@ const deleteDescriptor = async () => {
         alert("Descriptor deleted successfully!");
         location.reload(); // Reload the page to fetch the updated descriptors
       } else {
-        alert("Failed to delete descriptor.");
+        alert("No active descriptor.");
       }
     } else {
       alert("Doctor ID not found.");

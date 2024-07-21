@@ -239,7 +239,7 @@ const deleteDescriptor = async () => {
         alert("Descriptor deleted successfully!");
         location.reload(); // Reload the page to fetch the updated descriptors
       } else {
-        alert("Failed to delete descriptor.");
+        alert("No active descriptor.");
       }
     } else {
       alert("Patient ID not found.");
