@@ -49,9 +49,7 @@
       "description": "Other miscellaneous endpoints"
     }
   ],
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "securityDefinitions": {
     "apiKeyAuth": {
       "type": "apiKey",
@@ -63,6 +61,7 @@
   "paths": {
     "/": {
       "get": {
+        "tags": ["Others"],
         "description": "",
         "responses": {
           "200": {
@@ -73,6 +72,7 @@
     },
     "/api/checkAuth": {
       "get": {
+        "tags": ["Others"],
         "description": "",
         "parameters": [
           {
@@ -96,6 +96,7 @@
     },
     "/api/appointment/": {
       "get": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -122,6 +123,7 @@
     },
     "/api/appointment/create": {
       "post": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -169,6 +171,7 @@
     },
     "/api/appointment/unassigned": {
       "get": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -195,6 +198,7 @@
     },
     "/api/appointment/{id}": {
       "get": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -228,6 +232,7 @@
         }
       },
       "put": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -261,6 +266,7 @@
         }
       },
       "delete": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -296,6 +302,7 @@
     },
     "/api/appointment/getByPatientID/{id}": {
       "get": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -331,6 +338,7 @@
     },
     "/api/appointment/getByDoctorID/{id}": {
       "get": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -366,6 +374,7 @@
     },
     "/api/appointment/{id}/updateDoctorId": {
       "put": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -413,6 +422,7 @@
     },
     "/api/appointment/{id}/updateWithMedicines": {
       "put": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -472,6 +482,7 @@
     },
     "/api/appointment/{id}/details": {
       "get": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -507,6 +518,7 @@
     },
     "/api/appointment/{id}/medicalCertificate": {
       "get": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -539,6 +551,7 @@
     },
     "/api/appointment/{id}/emailMedicalCertificate": {
       "get": {
+        "tags": ["Appointments"],
         "description": "",
         "parameters": [
           {
@@ -571,10 +584,9 @@
     },
     "/api/appointment/{id}/updates": {
       "get": {
+        "tags": ["Appointments"],
         "description": "",
-        "produces": [
-          "text/event-stream"
-        ],
+        "produces": ["text/event-stream"],
         "parameters": [
           {
             "name": "id",
@@ -592,6 +604,7 @@
     },
     "/api/patient/search": {
       "get": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -623,6 +636,7 @@
     },
     "/api/patient/": {
       "post": {
+        "tags": ["Patients"],
         "description": "",
         "responses": {
           "201": {
@@ -636,6 +650,7 @@
     },
     "/api/patient/googleLogin": {
       "post": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -663,6 +678,7 @@
     },
     "/api/patient/guest": {
       "get": {
+        "tags": ["Patients"],
         "description": "",
         "responses": {
           "200": {
@@ -679,6 +695,7 @@
     },
     "/api/patient/topup/{id}": {
       "put": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -715,6 +732,7 @@
     },
     "/api/patient/{id}": {
       "get": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -737,6 +755,7 @@
         }
       },
       "put": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -759,6 +778,7 @@
         }
       },
       "delete": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -794,6 +814,7 @@
     },
     "/api/patient/updateName/{id}": {
       "put": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -844,6 +865,7 @@
     },
     "/api/patient/updateContact/{id}": {
       "put": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -891,6 +913,7 @@
     },
     "/api/patient/updateDOB/{id}": {
       "put": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -938,6 +961,7 @@
     },
     "/api/patient/updateAddress/{id}": {
       "put": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -985,6 +1009,7 @@
     },
     "/api/patient/faceAuth/{id}": {
       "get": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -1009,6 +1034,7 @@
     },
     "/api/patient/{id}/eWalletAmount": {
       "get": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -1033,6 +1059,7 @@
     },
     "/api/patient/{patientId}/cart": {
       "put": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -1065,6 +1092,7 @@
     },
     "/api/patient/{patientId}/clear-cart": {
       "put": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -1097,6 +1125,7 @@
     },
     "/api/patient/{id}/processPayment": {
       "post": {
+        "tags": ["Patients"],
         "description": "",
         "parameters": [
           {
@@ -1136,6 +1165,7 @@
     },
     "/api/doctor/": {
       "get": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1160,6 +1190,7 @@
         }
       },
       "post": {
+        "tags": ["Doctors"],
         "description": "",
         "responses": {
           "201": {
@@ -1173,6 +1204,7 @@
     },
     "/api/doctor/googleLogin": {
       "post": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1200,6 +1232,7 @@
     },
     "/api/doctor/guest": {
       "get": {
+        "tags": ["Doctors"],
         "description": "",
         "responses": {
           "200": {
@@ -1216,6 +1249,7 @@
     },
     "/api/doctor/{id}": {
       "get": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1238,6 +1272,7 @@
         }
       },
       "put": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1260,6 +1295,7 @@
         }
       },
       "delete": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1295,6 +1331,7 @@
     },
     "/api/doctor/updateName/{id}": {
       "put": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1345,6 +1382,7 @@
     },
     "/api/doctor/updateContact/{id}": {
       "put": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1392,6 +1430,7 @@
     },
     "/api/doctor/updateDOB/{id}": {
       "put": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1428,6 +1467,7 @@
     },
     "/api/doctor/updateProfession/{id}": {
       "put": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1475,6 +1515,7 @@
     },
     "/api/doctor/faceAuth/{id}": {
       "get": {
+        "tags": ["Doctors"],
         "description": "",
         "parameters": [
           {
@@ -1499,6 +1540,7 @@
     },
     "/api/medicine/": {
       "get": {
+        "tags": ["Medicines"],
         "description": "",
         "parameters": [
           {
@@ -1523,6 +1565,7 @@
         }
       },
       "post": {
+        "tags": ["Medicines"],
         "description": "",
         "parameters": [
           {
@@ -1549,6 +1592,7 @@
     },
     "/api/medicine/{id}": {
       "get": {
+        "tags": ["Medicines"],
         "description": "",
         "parameters": [
           {
@@ -1582,6 +1626,7 @@
         }
       },
       "put": {
+        "tags": ["Medicines"],
         "description": "",
         "parameters": [
           {
@@ -1615,6 +1660,7 @@
         }
       },
       "delete": {
+        "tags": ["Medicines"],
         "description": "",
         "parameters": [
           {
@@ -1650,6 +1696,7 @@
     },
     "/api/medicine/patient/{patientId}": {
       "get": {
+        "tags": ["Medicines"],
         "description": "",
         "parameters": [
           {
@@ -1683,6 +1730,7 @@
         }
       },
       "put": {
+        "tags": ["Medicines"],
         "description": "",
         "parameters": [
           {
@@ -1730,6 +1778,7 @@
     },
     "/api/chatbot/initialize": {
       "post": {
+        "tags": ["Chatbots"],
         "description": "",
         "parameters": [
           {
@@ -1757,6 +1806,7 @@
     },
     "/api/chatbot/send-message": {
       "post": {
+        "tags": ["Chatbots"],
         "description": "",
         "parameters": [
           {
@@ -1790,6 +1840,7 @@
     },
     "/api/chatbot/history/{chatSessionId}": {
       "get": {
+        "tags": ["Chatbots"],
         "description": "",
         "parameters": [
           {
@@ -1811,10 +1862,9 @@
     },
     "/api/chatbot/updates/{chatSessionId}": {
       "get": {
+        "tags": ["Chatbots"],
         "description": "",
-        "produces": [
-          "text/event-stream"
-        ],
+        "produces": ["text/event-stream"],
         "parameters": [
           {
             "name": "chatSessionId",
@@ -1832,6 +1882,7 @@
     },
     "/api/chatbot/upload": {
       "post": {
+        "tags": ["Chatbots"],
         "description": "",
         "parameters": [
           {
@@ -1862,8 +1913,14 @@
     },
     "/api/chatbot/save-recognition-history": {
       "post": {
+        "tags": ["Chatbots"],
         "description": "",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -1896,6 +1953,12 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -1904,6 +1967,7 @@
     },
     "/api/chatbot/recognition-history/{patientID}": {
       "get": {
+        "tags": ["Chatbots"],
         "description": "",
         "parameters": [
           {
@@ -1911,11 +1975,22 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1925,6 +2000,7 @@
     },
     "/api/chasClinic/key": {
       "get": {
+        "tags": ["CHAS Clinics"],
         "description": "",
         "parameters": [
           {
@@ -1948,6 +2024,7 @@
     },
     "/api/chasClinic/download": {
       "get": {
+        "tags": ["CHAS Clinics"],
         "description": "",
         "parameters": [
           {
@@ -1974,6 +2051,7 @@
     },
     "/api/chasClinic/random": {
       "get": {
+        "tags": ["CHAS Clinics"],
         "description": "",
         "parameters": [
           {
@@ -2000,6 +2078,7 @@
     },
     "/api/chasClinic/nearest": {
       "get": {
+        "tags": ["CHAS Clinics"],
         "description": "",
         "parameters": [
           {
@@ -2036,6 +2115,7 @@
     },
     "/api/chasClinic/bounds": {
       "get": {
+        "tags": ["CHAS Clinics"],
         "description": "",
         "parameters": [
           {
@@ -2092,6 +2172,7 @@
     },
     "/api/voucher/": {
       "get": {
+        "tags": ["Vouchers"],
         "description": "",
         "parameters": [
           {
@@ -2118,6 +2199,7 @@
     },
     "/api/voucher/{code}": {
       "get": {
+        "tags": ["Vouchers"],
         "description": "",
         "parameters": [
           {
@@ -2150,8 +2232,14 @@
     },
     "/api/facialRecognition/register": {
       "post": {
+        "tags": ["Facial Recognition"],
         "description": "",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -2178,6 +2266,12 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -2186,8 +2280,14 @@
     },
     "/api/facialRecognition/update": {
       "put": {
+        "tags": ["Facial Recognition"],
         "description": "",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -2213,6 +2313,12 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -2225,8 +2331,14 @@
     },
     "/api/facialRecognition/delete": {
       "delete": {
+        "tags": ["Facial Recognition"],
         "description": "",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -2247,6 +2359,12 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -2258,6 +2376,7 @@
     },
     "/api/facialRecognition/descriptors": {
       "get": {
+        "tags": ["Facial Recognition"],
         "description": "",
         "responses": {
           "200": {
@@ -2271,6 +2390,7 @@
     },
     "/api/healthCareIcon/randomIcon": {
       "get": {
+        "tags": ["Healthcare Icons"],
         "description": "",
         "parameters": [
           {
