@@ -178,6 +178,37 @@ class Appointment {
   }
 
   /**
+   * Get appointments by date.
+   * @param {Date} targetDate - Desired date
+   * @returns {Promise<Appointment[]>} A promise that resolves to an array of Appointment objects.
+   */
+  static async getAppointmentsByDate(targetDate) {
+    const connection = await sql.connect(dbConfig); // Establish a connection to the database
+    const sqlQuery = `SELECT * FROM Appointment WHERE datediff(day, endDateTime, @targetDate) = 0`; // SQL query to select appointments by date
+    const request = connection.request(); // Create a request object
+    request.input("targetDate", targetDate); // Add the input parameter for the query
+    const result = await request.query(sqlQuery); // Execute the query
+    connection.close(); // Close the database connection
+
+    // Map the results to Appointment objects and return them
+    return result.recordset.map((row) => {
+      return new Appointment(
+        row.AppointmentID,
+        row.PatientID,
+        row.DoctorID,
+        row.endDateTime,
+        row.PatientURL,
+        row.HostRoomURL,
+        row.IllnessDescription,
+        row.Diagnosis,
+        row.MCStartDate,
+        row.MCEndDate,
+        row.DoctorNotes
+      );
+    });
+  }
+
+  /**
    * Get unassigned appointments (appointments with no assigned doctor).
    * @returns {Promise<Appointment[]>} A promise that resolves to an array of unassigned Appointment objects.
    */
