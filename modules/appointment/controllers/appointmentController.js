@@ -491,10 +491,20 @@ const emailMedicalCertificate = async (req, res) => {
       const doctor = await Doctor.getDoctorById(appointment.DoctorID);
 
       // Create the email
+      let msg = "";
+      let apptDate = appointment.endDateTime
+        .tz("Asia/Singapore")
+        .format("YYYY-MM-DD");
+
+      if (doctor != null) {
+        msg = `Dear ${patient.givenName},\n\nPlease find attached your medical certificate for consultation on ${apptDate} from Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`;
+      } else {
+        msg = `Dear ${patient.givenName},\n\nPlease find attached your medical certificate for consultation on ${apptDate}. \n\nBest regards,\nSyncHealth Team`;
+      }
       const emailData = {
         receipients: patient.Email,
         subject: "Medical Certificate",
-        text: `Dear ${patient.givenName} ${patient.familyName},\n\nPlease find attached your medical certificate from Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`,
+        text: `Dear ${patient.givenName},\n\nPlease find attached your medical certificate from Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`,
         attachments: [
           {
             filename: "SyncHealth-Medical-Certificate.pdf",
