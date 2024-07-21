@@ -7,6 +7,10 @@ const fileUpload = require("express-fileupload");
 // Initializing chatbotController
 const chatbotController = require("./controllers/chatbotController");
 
+// ========== Middleware ==========
+// Initializing authMiddleware
+const authorizeUser = require("../../middlewares/authMiddleware");
+
 // ========== Set-up ==========
 // Initializing chatbotRoutes
 const chatbotRoutes = express.Router();
@@ -34,17 +38,19 @@ chatbotRoutes.get(
 );
 
 // Route to handle image upload and analysis
-chatbotRoutes.post("/upload", chatbotController.analyzeImage);
+chatbotRoutes.post("/upload", authorizeUser, chatbotController.analyzeImage);
 
 // Route for saving recognition history
 chatbotRoutes.post(
   "/save-recognition-history",
+  authorizeUser,
   chatbotController.saveRecognitionHistory
 );
 
 //Route to get recognition history from DataBase
 chatbotRoutes.get(
   "/recognition-history/:patientID",
+  authorizeUser,
   chatbotController.getRecognitionHistory
 );
 

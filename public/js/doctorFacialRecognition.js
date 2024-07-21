@@ -145,6 +145,9 @@ try {
             const response = await fetch("api/facialRecognition/update", {
               method: "PUT",
               headers: {
+                Authorization: `Bearer ${localStorage.getItem(
+                  "DoctorJWTAuthToken"
+                )}`,
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({ name, descriptor, DoctorID, PatientID }),
@@ -161,6 +164,9 @@ try {
             const response = await fetch("api/facialRecognition/register", {
               method: "POST",
               headers: {
+                Authorization: `Bearer ${localStorage.getItem(
+                  "DoctorJWTAuthToken"
+                )}`,
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({ name, descriptor, DoctorID, PatientID }),
@@ -229,6 +235,9 @@ const deleteDescriptor = async () => {
       const response = await fetch("/api/facialRecognition/delete", {
         method: "DELETE",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "PatientJWTAuthToken"
+          )}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ DoctorID, PatientID }),

@@ -78,6 +78,10 @@ document.getElementById("sendButton").addEventListener("click", function () {
 
     fetch("/api/chatbot/upload", {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("PatientJWTAuthToken")}`,
+        "Content-Type": "application/json",
+      },
       body: formData,
     })
       .then((response) => response.json())
