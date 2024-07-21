@@ -38,7 +38,7 @@ chatbotRoutes.get(
 );
 
 // Route to handle image upload and analysis
-chatbotRoutes.post("/upload", authorizeUser, chatbotController.analyzeImage);
+chatbotRoutes.post("/upload", chatbotController.analyzeImage);
 
 // Route for saving recognition history
 chatbotRoutes.post(
