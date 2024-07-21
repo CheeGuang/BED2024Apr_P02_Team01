@@ -500,7 +500,7 @@ const emailMedicalCertificate = async (req, res) => {
         .replace("T", " ");
 
       if (doctor != null) {
-        msg = `Dear ${patient.givenName},\n\nPlease find attached your medical certificate for consultation on ${apptDate} from Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`;
+        msg = `Dear ${patient.givenName},\n\nPlease find attached your medical certificate for consultation on ${apptDate} with Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`;
       } else {
         msg = `Dear ${patient.givenName},\n\nPlease find attached your medical certificate for consultation on ${apptDate}. \n\nBest regards,\nSyncHealth Team`;
       }
