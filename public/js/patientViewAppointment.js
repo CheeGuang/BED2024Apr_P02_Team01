@@ -100,7 +100,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 category === "history"
                   ? '<button class="btn btn-dark btn-custom btn-download" data-id="' +
                     appointment.AppointmentID +
-                    '"><i class="fas fa-download"></i> Download MC</button>'
+                    '"><i class="fas fa-download"></i> Download MC</button>' +
+                    '<button class="btn btn-dark btn-custom btn-email-mc" data-id="' +
+                    appointment.AppointmentID +
+                    '"><i class="fa-solid fa-envelope"></i> Email MC</button>'
                   : ""
               }
             </div>
@@ -295,6 +298,47 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
       });
+
+      // Email Feature
+      // Add event listeners for Email MC Button
+      document.querySelectorAll(".btn-email-mc").forEach((button) => {
+        // Start
+        // Start
+        button.addEventListener("click", function () {
+          // Button Listener Start
+          // Button Listener Start
+          const appointmentID = this.getAttribute("data-id");
+          console.log(
+            "Email MC button clicked for appointmentID:",
+            appointmentID
+          );
+          const mcUrl = `${baseUrl}/api/appointment/${appointmentID}/emailMedicalCertificate`;
+
+          fetch(mcUrl, {
+            //Fetch Start
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem(
+                "PatientJWTAuthToken"
+              )}`,
+              "Content-Type": "application/json",
+            },
+          }) // Fetch End
+            .then((response) => {
+              // Response Start
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              } else {
+                console.log("MC Email sent successfully!");
+                showNotification("MC successfully sent!", "success");
+              }
+            }) // Response End
+            .catch((error) => {
+              // Catch Start
+              console.error("Error downloading medical certificate:", error);
+            }); // Catch End
+        }); // Button Listener End
+      }); // End of Start
     })
     .catch((error) => {
       console.error("Error fetching appointments:", error);
