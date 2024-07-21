@@ -98,6 +98,12 @@ appointmentRoutes.get(
   appointmentController.generateMedicalCertificate
 );
 
+appointmentRoutes.get(
+  "/:id/emailMedicalCertificate",
+  authorizeUser,
+  appointmentController.emailMedicalCertificate
+);
+
 // Endpoint to listen for updates (SSE)
 appointmentRoutes.get("/:id/updates", appointmentController.handleSSEUpdates);
 

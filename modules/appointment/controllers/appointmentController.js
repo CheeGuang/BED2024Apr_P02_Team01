@@ -475,6 +475,59 @@ const generateMedicalCertificate = async (req, res) => {
   }
 };
 
+/**
+ * Controller to send a medical certificate via email
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+const emailMedicalCertificate = async (req, res) => {
+  // Function to send an Email
+  const composeEmail = async (appointmentId, pdfBuffer) => {
+    try {
+      // Get the appointmentInfo
+      const appointment = await Appointment.getAppointmentById(appointmentId);
+      // Get patient and doctor names
+      const patient = await Patient.getPatientById(appointment.PatientID);
+      const doctor = await Doctor.getDoctorById(appointment.DoctorID);
+
+      // Create the email
+      const emailData = {
+        receipients: patient.Email,
+        subject: "Medical Certificate",
+        text: `Dear ${patient.givenName} ${patient.familyName},\n\nPlease find attached your medical certificate from Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`,
+        attachments: [
+          {
+            filename: "SyncHealth-Medical-Certificate.pdf",
+            content: pdfBuffer,
+            contentType: "application/pdf",
+          },
+        ],
+      };
+      await sendEmailWithAttachment(emailData);
+    } catch (error) {
+      console.error("Error sending medical certificate PDF:", error);
+    }
+  };
+
+  // Generate the MC
+  const appointmentId = parseInt(req.params.id);
+  try {
+    const pdfBuffer = await Appointment.generateMedicalCertificate(
+      appointmentId
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=SyncHealth-Medical-Certificate.pdf`
+    );
+    await composeEmail(appointmentId, pdfBuffer);
+    res.setHeader("Content-Type", "application/pdf");
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error("Error generating medical certificate PDF:", error);
+    res.status(500).send("Error generating medical certificate");
+  }
+};
+
 module.exports = {
   getAllAppointments,
   createAppointment,
@@ -492,4 +545,5 @@ module.exports = {
   getAppointmentDetailsById,
   handleSSEUpdates,
   generateMedicalCertificate,
+  emailMedicalCertificate,
 };
