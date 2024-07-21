@@ -27,6 +27,9 @@ IF OBJECT_ID('dbo.MedicineRecognitionHistory', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.Voucher', 'U') IS NOT NULL
     DROP TABLE dbo.Voucher;
 
+IF OBJECT_ID('dbo.HealthcareIcons', 'U') IS NOT NULL
+    DROP TABLE dbo.HealthcareIcons;
+
 -- Create Patient table
 CREATE TABLE Patient (
     PatientID INT IDENTITY(1,1) PRIMARY KEY,
@@ -134,4 +137,11 @@ CREATE TABLE Voucher (
     VoucherID INT IDENTITY(1,1) PRIMARY KEY,
     Code VARCHAR(8),
     Discount DECIMAL(10, 2)
+);
+
+-- Create HealthcareIcons table
+CREATE TABLE HealthcareIcons (
+    IconID INT IDENTITY(1,1) PRIMARY KEY,
+    IconName NVARCHAR(50) NOT NULL,
+    IconClass NVARCHAR(100) NOT NULL
 );

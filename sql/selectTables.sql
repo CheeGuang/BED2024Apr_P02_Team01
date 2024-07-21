@@ -24,3 +24,6 @@ SELECT * FROM MedicineRecognitionHistory;
 
 -- Select all data from Voucher table
 SELECT * FROM Voucher;
+
+-- Select all data from HealthcareIcons table
+SELECT * FROM HealthcareIcons;

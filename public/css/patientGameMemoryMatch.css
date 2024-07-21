@@ -1,0 +1,106 @@
+.game-container {
+  margin-top: 50px;
+  padding: 0 10px;
+}
+
+.memory-game {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.memory-card {
+  width: 100%;
+  padding-bottom: 100%;
+  position: relative;
+  transform: scale(1);
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 15vw;
+
+  background-color: #fff;
+}
+
+.memory-card.flip {
+  transform: rotateY(180deg);
+}
+
+.memory-card .front,
+.memory-card .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 5px;
+}
+
+.memory-card .front {
+  background: url("../images/SyncHealthLogo-Small.png") center/50% no-repeat;
+}
+
+.memory-card .back {
+  background: #003366;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 70px; /* Increase icon size */
+}
+
+.game-info {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.game-info #timer {
+  font-weight: bold;
+}
+
+.rules {
+  margin-top: 30px;
+}
+
+/* Notification styles */
+.notification {
+  position: fixed;
+  top: 70px; /* Adjust based on your header height */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.notification.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.notification.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+@media (max-width: 768px) {
+  .memory-card .back {
+    font-size: 30px; /* Increase icon size */
+  }
+}
+
+@media (max-width: 480px) {
+  .memory-card .back {
+    font-size: 20px; /* Increase icon size */
+  }
+}

@@ -37,3 +37,27 @@ INSERT INTO Voucher (Code, Discount)
 VALUES 
 ('SYNC2024', 5.00),
 ('HEALTH24', 5.00);
+
+-- Insert dummy data into HealthcareIcons table
+INSERT INTO HealthcareIcons (IconName, IconClass)
+VALUES 
+('heart', 'fas fa-heart'),
+('brain', 'fas fa-brain'),
+('syringe', 'fas fa-syringe'),
+('stethoscope', 'fas fa-stethoscope'),
+('pills', 'fas fa-pills'),
+('hospital', 'fas fa-hospital'),
+('ambulance', 'fas fa-ambulance'),
+('band-aid', 'fas fa-band-aid'),
+('user-md', 'fas fa-user-md'),
+('vials', 'fas fa-vials'),
+('x-ray', 'fas fa-x-ray'),
+('microscope', 'fas fa-microscope'),
+('dna', 'fas fa-dna'),
+('first-aid', 'fas fa-first-aid'),
+('clinic-medical', 'fas fa-clinic-medical'),
+('notes-medical', 'fas fa-notes-medical'),
+('hand-holding-medical', 'fas fa-hand-holding-medical'),
+('lungs', 'fas fa-lungs'),
+('capsules', 'fas fa-capsules'),
+('prescription-bottle', 'fas fa-prescription-bottle');
