@@ -13,9 +13,13 @@ function start() {
   document.body.append("Models Loaded");
 
   navigator.getUserMedia(
-    { video: {} },
-    (stream) => (video.srcObject = stream),
-    (err) => console.error(err)
+    {
+      video: {},
+    },
+    (stream) => {
+      video.srcObject = stream;
+    },
+    (err) => console.log(err)
   );
 
   recognizeFaces();
