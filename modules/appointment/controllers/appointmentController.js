@@ -493,9 +493,7 @@ const emailMedicalCertificate = async (req, res) => {
 
       // Create the email
       let msg = "";
-      let apptDate = appointment.endDateTime
-        .tz("Asia/Singapore")
-        .format("YYYY-MM-DD");
+      let apptDate = appointment.endDateTime.add(7, "hours");
 
       if (doctor != null) {
         msg = `Dear ${patient.givenName},\n\nPlease find attached your medical certificate for consultation on ${apptDate} from Dr. ${doctor.familyName}.\n\nBest regards,\nSyncHealth Team`;
