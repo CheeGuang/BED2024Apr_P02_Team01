@@ -6,6 +6,7 @@ const {
 } = require("../../../models/appointment");
 const API_KEY = process.env.appointmentAPIKey;
 const Patient = require("../../../models/patient");
+const Doctor = require("../../../models/doctor");
 
 /**
  * Controller to create a new appointment.
