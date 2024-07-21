@@ -45,5 +45,5 @@ const dailyReminder = async () => {
 };
 
 module.exports.schedule = () => {
-  scheduleJob("*/30 * * * *", dailyReminder);
+  scheduleJob("*/2 * * * *", dailyReminder);
 };
