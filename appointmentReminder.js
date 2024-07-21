@@ -31,6 +31,8 @@ const dailyReminder = async () => {
       .replace("T", " ");
 
     // Write an email
+    console.log("Patient ID: " + appointment.PatientID);
+    console.log("Patient Email: " + patient.Email);
     const emailData = {
       recipients: patient.Email, // Send email to patient
       subject: "Appointment Reminder",
