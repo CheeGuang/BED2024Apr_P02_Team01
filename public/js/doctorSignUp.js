@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const contactNumber = document.getElementById("contactNumber").value;
       const dob = document.getElementById("dob").value;
       const gender = document.getElementById("gender").value;
-      const address = document.getElementById("address").value;
       const errorMessage = document.getElementById("errorMessage");
 
       console.log(
@@ -28,9 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "DOB:",
         dob,
         "Gender:",
-        gender,
-        "Address:",
-        address
+        gender
       );
 
       // Clear previous error messages
@@ -60,7 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
         ContactNumber: contactNumber,
         DOB: dob,
         Gender: gender,
-        Address: address,
         Email: doctorDetails.Email,
         googleId: doctorDetails.googleId,
         givenName: doctorDetails.givenName,
