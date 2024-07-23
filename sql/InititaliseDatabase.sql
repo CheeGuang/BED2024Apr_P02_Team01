@@ -27,6 +27,9 @@ IF OBJECT_ID('dbo.MedicineRecognitionHistory', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.Voucher', 'U') IS NOT NULL
     DROP TABLE dbo.Voucher;
 
+IF OBJECT_ID('dbo.HealthcareIcons', 'U') IS NOT NULL
+    DROP TABLE dbo.HealthcareIcons;
+
 -- Create Patient table
 CREATE TABLE Patient (
     PatientID INT IDENTITY(1,1) PRIMARY KEY,
@@ -136,6 +139,13 @@ CREATE TABLE Voucher (
     Discount DECIMAL(10, 2)
 );
 
+-- Create HealthcareIcons table
+CREATE TABLE HealthcareIcons (
+    IconID INT IDENTITY(1,1) PRIMARY KEY,
+    IconName NVARCHAR(50) NOT NULL,
+    IconClass NVARCHAR(100) NOT NULL
+);
+
 -- Insert dummy data into Patient table
 INSERT INTO Patient (Email, ContactNumber, DOB, Gender, Address, eWalletAmount, resetPasswordCode, PCHI, googleId, givenName, familyName, profilePicture, Cart)
 VALUES ('john.doe@example.com', '1234567890', '1980-01-01', 'Male', '123 Main St', 100.00, 'resetCode123', 1000.00, 'googleId123', 'John', 'Doe', './images/LoginIconLight.png', NULL);
@@ -176,6 +186,30 @@ VALUES
 ('SYNC2024', 5.00),
 ('HEALTH24', 5.00);
 
+-- Insert dummy data into HealthcareIcons table
+INSERT INTO HealthcareIcons (IconName, IconClass)
+VALUES 
+('heart', 'fas fa-heart'),
+('brain', 'fas fa-brain'),
+('syringe', 'fas fa-syringe'),
+('stethoscope', 'fas fa-stethoscope'),
+('pills', 'fas fa-pills'),
+('hospital', 'fas fa-hospital'),
+('ambulance', 'fas fa-ambulance'),
+('band-aid', 'fas fa-band-aid'),
+('user-md', 'fas fa-user-md'),
+('vials', 'fas fa-vials'),
+('x-ray', 'fas fa-x-ray'),
+('microscope', 'fas fa-microscope'),
+('dna', 'fas fa-dna'),
+('first-aid', 'fas fa-first-aid'),
+('clinic-medical', 'fas fa-clinic-medical'),
+('notes-medical', 'fas fa-notes-medical'),
+('hand-holding-medical', 'fas fa-hand-holding-medical'),
+('lungs', 'fas fa-lungs'),
+('capsules', 'fas fa-capsules'),
+('prescription-bottle', 'fas fa-prescription-bottle');
+
 -- Select all data from Patient table
 SELECT * FROM Patient;
 
@@ -202,3 +236,6 @@ SELECT * FROM MedicineRecognitionHistory;
 
 -- Select all data from Voucher table
 SELECT * FROM Voucher;
+
+-- Select all data from HealthcareIcons table
+SELECT * FROM HealthcareIcons;
